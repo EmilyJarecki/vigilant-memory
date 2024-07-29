@@ -46,7 +46,6 @@ const Auth = (props) => {
 
       // alternative (safer) implementation would be to use jwt decode library - <https://www.npmjs.com/package/jwt-decode>
       // this would also require reconfiguring our backend so we only send tokens with a signup
-
       return parsedUser;
     } catch (err) {
       console.log(err);
@@ -98,7 +97,6 @@ const Auth = (props) => {
   return (
     <div>
       <div>Auth</div>
-      {!token ? (
         <>
           <div>
             <h3>Not a member? Register here:</h3>
@@ -110,7 +108,6 @@ const Auth = (props) => {
             <LoginForm signIn={loginUser} />
           </div>
         </>
-      ) : null}
       <div>
         {token ? (
           <>

@@ -11,7 +11,7 @@ const LoginForm = ({ signIn }) => {
     const createdUserToken = await signIn(input);
 
     if (createdUserToken) {
-      console.log("logged in:)")
+      navigate("/shop");
     } else {
       navigate("/");
     }

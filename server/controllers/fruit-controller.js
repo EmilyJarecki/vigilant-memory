@@ -35,7 +35,7 @@ router.get("/:ownerId", async(req, res, next) => {
 		res.status(200).json(allPosts)
 	} catch (error) {
 		res.status(400).json({error: "error"})
-        return next(err)
+        return next(error)
 	}
 })
 
