@@ -11,9 +11,9 @@ const LoginForm = ({ signIn }) => {
     const createdUserToken = await signIn(input);
 
     if (createdUserToken) {
-      navigate("/shop");
+      navigate("/dashboard");
     } else {
-      navigate("/");
+      // navigate("/auth");
     }
 
     // FORM EMPTIES OUT

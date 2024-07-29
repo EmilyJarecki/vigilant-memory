@@ -91,13 +91,14 @@ const Auth = (props) => {
 
   function logoutUser() {
     clearUserToken();
-    navigate("/auth")
+    navigate("/")
   }
 
   return (
     <div>
       <div>Auth</div>
-        <>
+      {!token ? (
+                <>
           <div>
             <h3>Not a member? Register here:</h3>
             <RegisterForm signUp={registerUser} />
@@ -108,6 +109,8 @@ const Auth = (props) => {
             <LoginForm signIn={loginUser} />
           </div>
         </>
+      ) : null}
+
       <div>
         {token ? (
           <>

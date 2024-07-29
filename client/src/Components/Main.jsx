@@ -7,8 +7,8 @@ const Main = (props) => {
   return (
     <main>
         <Routes>
-          <Route path="/" element={<Fruit />} />
-          <Route path="/auth" element={<Auth />}/>
+          <Route path="/dashboard" element={<Fruit />} />
+          <Route path="/" element={<Auth />}/>
 
         </Routes> 
     </main>
