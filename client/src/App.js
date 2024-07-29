@@ -1,22 +1,30 @@
 import React from "react";
-import './App.css';
-import Fruit from "./Fruit";
+import "./App.css";
+import Main from "./Components/Main";
 
+import { UserContext } from "./data";
+import { useState } from "react";
 
 function App() {
+  const { Provider: UserInfo } = UserContext;
 
-  let emil = "emily"
-  console.log(emil)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
   return (
     <div className="App">
-      Hello World
-      <Fruit />
+      <UserInfo
+        value={{
+          isAuthenticated,
+          currentUser,
+          setAuth: setIsAuthenticated,
+          setUser: setCurrentUser,
+        }}
+      >
+        <Main />
+      </UserInfo>
     </div>
   );
 }
 
 export default App;
-
-
-//rfce is best friend
-// highlight and F2 to rename all variables 

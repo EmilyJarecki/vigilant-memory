@@ -64,9 +64,20 @@ router.post("/login", async (req, res, next) => {
 
 
 
+// all profiles would be /auth/profiles in postman
+router.get('/profiles', async (req, res, next) => {
+  try {
+		const allUsers = await User.find({})
+		res.status(200).json(allUsers)
+		console.log(allUsers)
+	}catch(err){
+		res.status(400).json({error: "error"})
+        return next(err)
+	}
+});
 
 // Route to get the name of the authenticated user
-router.get('/name', requireToken, async (req, res, next) => {
+router.get('/profile', requireToken, async (req, res, next) => {
   try {
     const user = req.user;
     res.json({ name: user.name });

@@ -8,8 +8,7 @@ const Fruit = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-      },
-      // redirect: "follow"
+      }
     };
 
     try {
