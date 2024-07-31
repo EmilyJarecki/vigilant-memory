@@ -8,8 +8,8 @@ const db = require("../models/lib");
 // get all posts wityh correct authorization token
 router.get("/", requireToken, async (req, res, next) => {
   try {
-    const userId = req.user._id;
-    const allFruits = await Fruit.find({ userId });
+    const owner = req.user._id;
+    const allFruits = await Fruit.find({ owner }).populate(['owner']).exec()
     res.status(200).json(allFruits);
     console.log(allFruits);
   } catch (err) {

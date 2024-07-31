@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId
 
 const FruitSchema = new mongoose.Schema({
-    userId: {
+    owner: {
       //ObjectId lets us populate data
       type: mongoose.Types.ObjectId,
       // this is the model
@@ -14,7 +14,12 @@ const FruitSchema = new mongoose.Schema({
     fruit: {type: String, required: true},
     subFruit: {type: String},
     rating: {type: Number},
-    explanation: {type: String}
+    season: {type: String},
+    explanation: {type: String},
+    image: {type: String}
+  },
+  {
+    timestamps: true,
   });
 
 const Fruit = mongoose.model("Fruit", FruitSchema)
