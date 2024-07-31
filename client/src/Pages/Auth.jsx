@@ -2,13 +2,12 @@ import React from "react";
 import { getUserToken, setUserToken, clearUserToken } from "../utils/authToken";
 import { useContext, useState } from "react";
 import { UserContext } from "../data";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import RegisterForm from "../Components/RegisterForm";
 import LoginForm from "../Components/LoginForm";
 
 const Auth = (props) => {
-  const { setAuth, setUser, user } = useContext(UserContext);
+  const { setAuth, setUser, setUserId } = useContext(UserContext);
 
   // import the pieces of context we want
   // invoke useContext hook and provide a context object as an argument
@@ -30,12 +29,12 @@ const Auth = (props) => {
       };
 
       const newUser = await fetch(
-        "http://localhost:3000/auth/register",
+        "http://localhost:4000/auth/register",
         configs
       );
 
       const parsedUser = await newUser.json();
-      console.log(parsedUser);
+      console.log("parsed user", parsedUser);
 
       // sets local storage
       setUserToken(parsedUser.token);
@@ -63,7 +62,7 @@ const Auth = (props) => {
           "Content-Type": "application/json",
         },
       };
-      const response = await fetch("http://localhost:3000/auth/login", configs);
+      const response = await fetch("http://localhost:4000/auth/login", configs);
 
       const currentUser = await response.json();
       setPerson(currentUser);
@@ -74,10 +73,11 @@ const Auth = (props) => {
 
         console.log(currentUser);
         console.log(configs);
-
+        console.log(currentUser._id)
         // put the returned user object in state
         setUser({ ...currentUser });
         setAuth(currentUser.isLoggedIn);
+
         return currentUser;
       } else {
         throw `Server Error: ${currentUser.statusText}`;
@@ -114,6 +114,7 @@ const Auth = (props) => {
       <div>
         {token ? (
           <>
+          <Link to="/dashboard">Dashboard</Link>
             <br />
             <h6 onClick={logoutUser} className="logout-button">
               Log Out

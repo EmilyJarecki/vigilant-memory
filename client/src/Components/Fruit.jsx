@@ -1,40 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { getUserToken } from "../utils/authToken";
 
 const Fruit = () => {
-  const getFruits = async () => {
-    const URL = "http://localhost:3000/";
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+  const [entry, setEntry] = useState([]);
+
+  const token = getUserToken();
+  const URL = "http://localhost:4000/";
+
+  useEffect(() => {
+    const getFruitEntries = async () => {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      };
+
+      try {
+        const response = await fetch(URL, requestOptions);
+        const allEntries = await response.json();
+        setEntry(allEntries);
+      } catch (error) {
+        console.error(error);
       }
     };
+    getFruitEntries();
+  }, [token]);
 
-    try {
-      const res = await fetch(URL, requestOptions);
+  return (
+    <div>
+      {entry?.map((fruitEntry) => {
+        return (
+          <div key={fruitEntry._id} style={{border: "3px solid red"}}>
+            <h1>{fruitEntry.fruit}</h1>
+            <p>{fruitEntry.subFruit}</p>
+            <p>Rating: {fruitEntry.rating}</p>
+            <p>Season: {fruitEntry.season}</p>
+            <p>Explanation: {fruitEntry.explanation}</p>
+            <img style={{width: "100px"}} src={fruitEntry.image} alt={fruitEntry.subFruit}/>
 
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`Error ${res.status}: ${errorText}`);
-      }
-
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const errorText = await res.text();
-        throw new Error(`Expected JSON but got ${contentType}: ${errorText}`);
-      }
-      const allFruits = await res.json();
-      console.log(allFruits);
-      return allFruits;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  getFruits();
-
-  return <div>Fruit</div>;
+          </div>
+          
+          );
+      })}
+    </div>
+  );
 };
 
 export default Fruit;

@@ -13,19 +13,19 @@ const Profile = () => {
       };
 
       const newUser = await fetch(
-        "http://localhost:3000/auth/register",
+        "http://localhost:4000/auth/register",
         configs
       );
 
       const parsedUser = await newUser.json();
-      console.log(parsedUser);
+      console.log("PARSED USER: ", parsedUser);
 
       // sets local storage
       setUserToken(parsedUser.token);
       // put the returned user object in state
-      // setUser({ ...parsedUser.user, name: data.name });
+      setUser({ ...parsedUser.user, name: data.name });
       // adds a boolean cast of the responses isAuthenticated prop
-      // setAuth(parsedUser.isLoggedIn);
+      setAuth(parsedUser.isLoggedIn);
 
       // alternative (safer) implementation would be to use jwt decode library - <https://www.npmjs.com/package/jwt-decode>
       // this would also require reconfiguring our backend so we only send tokens with a signup
@@ -47,7 +47,7 @@ const Profile = () => {
           "Content-Type": "application/json",
         },
       };
-      const response = await fetch("http://localhost:3000/auth/login", configs);
+      const response = await fetch("http://localhost:4000/auth/login", configs);
 
       const currentUser = await response.json();
       console.log(currentUser);
@@ -57,7 +57,7 @@ const Profile = () => {
     }
   };
 
-  // loginUser();
+  loginUser();
 
   return <div>Profile</div>;
 };
