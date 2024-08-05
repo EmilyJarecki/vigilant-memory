@@ -13,6 +13,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const Fruit = () => {
   const [entry, setEntry] = useState([]);
@@ -49,6 +50,7 @@ const Fruit = () => {
           {entry?.map((fruitEntry) => {
             return (
               <Col md="6" lg="4">
+              <Link to={`/entry/${fruitEntry._id}`}>
                 <div key={fruitEntry._id}>
                   <Card
                     outline
@@ -73,6 +75,7 @@ const Fruit = () => {
                     </CardBody>
                   </Card>
                 </div>
+                </Link>
               </Col>
             );
           })}
