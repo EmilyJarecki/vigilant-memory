@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { getUserToken } from "../utils/authToken";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -48,8 +47,18 @@ const CreateEntry = () => {
           <input {...register("lift")} />
         </div>
         <div>
+          <label htmlFor="reps">Reps</label>
+          <input {...register("reps")} />
+        </div>
+        <div>
           <label htmlFor="weight">Weight (lbs)</label>
           <input {...register("weight")} />
+        </div>
+        <div>
+          <label htmlFor="date">Date</label>
+          <input type="date" {...register("date", {
+            valueAsDate: true,
+          })} />
         </div>
         <div>
           <label htmlFor="notes">Notes</label>
