@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Fruit } = require("../models/lib");
+const { Lift } = require("../models/lib");
 const { handleValidateOwnership, requireToken } = require("../middleware/auth");
 
 const db = require("../models/lib");
@@ -9,9 +9,9 @@ const db = require("../models/lib");
 router.get("/", requireToken, async (req, res, next) => {
   try {
     const owner = req.user._id;
-    const allFruits = await Fruit.find({ owner }).populate(['owner']).exec()
-    res.status(200).json(allFruits);
-    console.log(allFruits);
+    const allLifts = await Lift.find({ owner }).populate(['owner']).exec()
+    res.status(200).json(allLifts);
+    console.log(allLifts);
   } catch (err) {
     res.status(400).json({ error: "error" });
     return next(err);
@@ -20,9 +20,9 @@ router.get("/", requireToken, async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
 	try {	
-		const singleFruit = await Fruit.findById(req.params.id).populate(['owner']).exec()
-		res.status(200).json(singleFruit)
-		console.log(singleFruit)
+		const singleLift = await Lift.findById(req.params.id).populate(['owner']).exec()
+		res.status(200).json(singleLift)
+		console.log(singleLift)
 	}catch(error){
 		res.status(400).json({error: "error"})
         return next(err)
@@ -30,15 +30,15 @@ router.get("/:id", async (req, res, next) => {
 });
 
 
-// create a fruit posting
+// create a lift posting
 // require token working
 router.post("/", requireToken, async (req, res, next) => {
   try {
     const owner = req.user._id;
     console.log(owner, req.user);
     req.body.owner = owner;
-    const fruitPost = await Fruit.create(req.body);
-    res.status(201).json(fruitPost);
+    const liftPost = await Lift.create(req.body);
+    res.status(201).json(liftPost);
   } catch (err) {
     res.status(400).json({ error: "error" });
     return next(err);
@@ -49,9 +49,9 @@ router.post("/", requireToken, async (req, res, next) => {
 // require working
 router.put("/:entryId", requireToken, async (req, res, next)=>{
 	try {
-		const updatedEntry = await Fruit.findByIdAndUpdate(req.params.entryId, req.body)
+		const updatedEntry = await Lift.findByIdAndUpdate(req.params.entryId, req.body)
 		console.log(updatedEntry)
-		res.status(200).json({message: "Successfully updated product", updatedEntry})
+		res.status(200).json({message: "Successfully updated lift", updatedEntry})
 	} catch (error) {
 		res.status(400).json({error: "error"})
 		return next(err)
@@ -63,7 +63,7 @@ router.put("/:entryId", requireToken, async (req, res, next)=>{
 router.delete("/:entryId", requireToken, async (req, res, next) => {
 	console.log(req.params)
   try {
-    const deletedEntry = await Fruit.findByIdAndDelete(req.params.entryId);
+    const deletedEntry = await Lift.findByIdAndDelete(req.params.entryId);
     console.log(deletedEntry);
     res
       .status(200)

@@ -1,7 +1,7 @@
 const mongoose = require ('mongoose')
 
 module.exports = {
-    Fruit: require('./Fruit'),
+    Lift: require('./Lift'),
     User: require('./User'),
 };
 

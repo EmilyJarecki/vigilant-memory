@@ -13,14 +13,14 @@ require("./config/db.connection")
 const { PORT, MONGODB_URI } = process.env;
 
 //CONTROLLER IMPORT
-const fruitController = require('./controllers/fruit-controller')
+const liftController = require('./controllers/lift-controller')
 const authController = require('./controllers/auth-controller')
 
 //MIDDLEWARE
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json());
-app.use('/', fruitController)
+app.use('/', liftController)
 app.use('/auth', authController)
 
 

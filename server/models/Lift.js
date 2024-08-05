@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ObjectId = mongoose.Schema.Types.ObjectId
 
-const FruitSchema = new mongoose.Schema({
+const LiftSchema = new mongoose.Schema({
     owner: {
       //ObjectId lets us populate data
       type: mongoose.Types.ObjectId,
@@ -11,17 +11,16 @@ const FruitSchema = new mongoose.Schema({
       // can prove to be buggy if there is data in the database
       required: true,
     },    
-    fruit: {type: String, required: true},
-    subFruit: {type: String},
-    rating: {type: Number},
-    season: {type: String},
-    explanation: {type: String},
-    image: {type: String}
+    lift: {type: String, required: true},
+    weight: {type: Number},
+    difficulty: {type: Number},
+    date: {type: String},
+    notes: {type: String}
   },
   {
     timestamps: true,
   });
 
-const Fruit = mongoose.model("Fruit", FruitSchema)
+const Lift = mongoose.model("Lift", LiftSchema)
 
-module.exports = Fruit
+module.exports = Lift
