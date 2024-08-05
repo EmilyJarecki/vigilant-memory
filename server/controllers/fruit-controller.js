@@ -18,6 +18,18 @@ router.get("/", requireToken, async (req, res, next) => {
   }
 });
 
+router.get("/:id", async (req, res, next) => {
+	try {	
+		const singleFruit = await Fruit.findById(req.params.id).populate(['owner']).exec()
+		res.status(200).json(singleFruit)
+		console.log(singleFruit)
+	}catch(error){
+		res.status(400).json({error: "error"})
+        return next(err)
+	}
+});
+
+
 // create a fruit posting
 // require token working
 router.post("/", requireToken, async (req, res, next) => {
