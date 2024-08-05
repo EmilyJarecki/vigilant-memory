@@ -7,6 +7,8 @@ const SingleEntry = (props) => {
   const { id } = useParams();
   const URL = `http://localhost:4000/${id}`;
 
+
+
   useEffect(() => {
     const getSingleEntry = async () => {
       try {
@@ -18,10 +20,18 @@ const SingleEntry = (props) => {
       }
     };
     getSingleEntry();
-    
+
   }, []);
 
-  return <div>{entry ? <p>{entry.fruit}</p> : null}</div>;
+  return <div>{entry ? (
+    <div>
+    <p><strong>Lift:</strong> {entry.lift}</p>
+</div>
+    ) 
+    : 
+    null
+    }
+    </div>;
 };
 
 export default SingleEntry;

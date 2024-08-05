@@ -44,20 +44,20 @@ const CreateEntry = () => {
       {/* <button onClick={createEntry}>Click me</button> */}
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div>
-          <label htmlFor="fruit">Fruit</label>
-          <input {...register("fruit")} />
+          <label htmlFor="lift">Lift</label>
+          <input {...register("lift")} />
         </div>
         <div>
-          <label htmlFor="subFruit">subFruit</label>
-          <input {...register("subFruit")} />
+          <label htmlFor="weight">Weight (lbs)</label>
+          <input {...register("weight")} />
         </div>
         <div>
-          <label htmlFor="season">Season</label>
-          <input {...register("season")} />
+          <label htmlFor="notes">Notes</label>
+          <input {...register("notes")} />
         </div>
         <div>
-          <label htmlFor="rating">Rating</label>
-          <input {...register("rating")} type="range" min="0" max="5" />
+          <label htmlFor="difficulty">Difficulty</label>
+          <input {...register("difficulty")} type="range" min="0" max="5" />
         </div>
         <button type="submit">Submit</button>
       </form>

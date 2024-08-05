@@ -15,14 +15,14 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const Fruit = () => {
+const Lift = () => {
   const [entry, setEntry] = useState([]);
 
   const token = getUserToken();
   const URL = "http://localhost:4000/";
 
   useEffect(() => {
-    const getFruitEntries = async () => {
+    const getLiftEntries = async () => {
       const requestOptions = {
         method: "GET",
         headers: {
@@ -40,38 +40,30 @@ const Fruit = () => {
         console.error(error);
       }
     };
-    getFruitEntries();
+    getLiftEntries();
   }, [token]);
 
   return (
     <div>
       <Container fluid="sm">
         <Row>
-          {entry?.map((fruitEntry) => {
+          {entry?.map((liftEntry) => {
             return (
-              <Col md="6" lg="4">
-              <Link to={`/entry/${fruitEntry._id}`}>
-                <div key={fruitEntry._id}>
+              <Col key={liftEntry._id} md="6" lg="4">
+              <Link to={`/entry/${liftEntry._id}`}>
+                <div key={liftEntry._id}>
                   <Card
                     outline
                     style={{
                       width: "18rem",
                     }}
                   >
-                    <CardImg
-                      alt={fruitEntry.subFruit}
-                      src={fruitEntry.image}
-                      fluid="true"
-                      roundedcircle="true"
-                      style={{ width: "100%", height: "150px", objectFit: "cover"}}
-                    />
                     <CardBody>
-                      <CardTitle tag="h5">{fruitEntry.fruit}</CardTitle>
+                      <CardTitle tag="h5">{liftEntry.lift}</CardTitle>
                       <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        {fruitEntry.season}
+                        {liftEntry.weight}
                       </CardSubtitle>
-                      <CardText>{fruitEntry.explanation}</CardText>
-                      <Button>Read More</Button>
+                      <CardText>{liftEntry.notes}</CardText>
                     </CardBody>
                   </Card>
                 </div>
@@ -85,4 +77,4 @@ const Fruit = () => {
   );
 };
 
-export default Fruit;
+export default Lift;

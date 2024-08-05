@@ -12,7 +12,7 @@ const Header = () => {
   }
 
   return (
-    <div class="main-header">
+    <div className="main-header">
       <Link to="/dashboard">Dashboard</Link>
       {token ? (
         <div>
