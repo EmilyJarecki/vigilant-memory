@@ -1,6 +1,18 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { getUserToken } from "../utils/authToken";
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  CardText,
+  Button,
+  CardImg,
+  Container,
+  Row,
+  Col,
+} from "reactstrap";
 
 const Fruit = () => {
   const [entry, setEntry] = useState([]);
@@ -32,20 +44,40 @@ const Fruit = () => {
 
   return (
     <div>
-      {entry?.map((fruitEntry) => {
-        return (
-          <div key={fruitEntry._id} style={{border: "3px solid red"}}>
-            <h1>{fruitEntry.fruit}</h1>
-            <p>{fruitEntry.subFruit}</p>
-            <p>Rating: {fruitEntry.rating}</p>
-            <p>Season: {fruitEntry.season}</p>
-            <p>Explanation: {fruitEntry.explanation}</p>
-            <img style={{width: "100px"}} src={fruitEntry.image} alt={fruitEntry.subFruit}/>
-
-          </div>
-          
-          );
-      })}
+      <Container fluid="sm">
+        <Row>
+          {entry?.map((fruitEntry) => {
+            return (
+              <Col md="6" lg="4">
+                <div key={fruitEntry._id}>
+                  <Card
+                    outline
+                    style={{
+                      width: "18rem",
+                    }}
+                  >
+                    <CardImg
+                      alt={fruitEntry.subFruit}
+                      src={fruitEntry.image}
+                      fluid="true"
+                      roundedcircle="true"
+                      style={{ width: "100%", height: "150px", objectFit: "cover"}}
+                    />
+                    <CardBody>
+                      <CardTitle tag="h5">{fruitEntry.fruit}</CardTitle>
+                      <CardSubtitle className="mb-2 text-muted" tag="h6">
+                        {fruitEntry.season}
+                      </CardSubtitle>
+                      <CardText>{fruitEntry.explanation}</CardText>
+                      <Button>Read More</Button>
+                    </CardBody>
+                  </Card>
+                </div>
+              </Col>
+            );
+          })}
+        </Row>
+      </Container>
     </div>
   );
 };
