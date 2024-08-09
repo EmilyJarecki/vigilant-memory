@@ -3,7 +3,7 @@ const router = express.Router()
 const { Movement, Lift } = require("../models/lib");
 
 // get a list of all movements 
-// working
+// http://localhost:4000/movement/list
 router.get("/list", async (req, res, next) => {
     try {
         const allMoves = await Movement.find({})
@@ -17,5 +17,7 @@ router.get("/list", async (req, res, next) => {
         return next(err)
 	}
 });
+
+// get individual movement
 
 module.exports = router;

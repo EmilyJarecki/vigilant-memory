@@ -6,15 +6,14 @@ const { requireToken } = require("../middleware/auth");
 const db = require("../models/lib");
 
 // POST a lift entry and attatch to individual logged in
-// the id is the id of the move
 // http://localhost:4000/66b62b3b00d91bde680e8d2e
-router.post("/:id", requireToken, async (req, res, next) => {
+router.post("/:movementId", requireToken, async (req, res, next) => {
   try {
     const owner = req.user._id;
     // console.log(owner, req.user);
     req.body.owner = owner;
 
-    const move = await Movement.findById(req.params.id)
+    const move = await Movement.findById(req.params.movementId)
     const entryToCreate = req.body
 
     console.log("entryToCreate", entryToCreate)
@@ -55,6 +54,7 @@ router.get('/entries/user/:movementId', requireToken, async (req, res) => {
 });
 
 // GET individual entry
+// http://localhost:4000/entries/66b643d74220f71c58b1fbdc
 router.get('/entries/:entryId', requireToken, async (req, res) => {
   try {
     const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
@@ -88,6 +88,7 @@ router.get('/entries/:entryId', requireToken, async (req, res) => {
 });
 
 // DELETE individual entry
+// http://localhost:4000/entries/66b643d74220f71c58b1fbdc
 router.delete('/entries/:entryId', requireToken, async (req, res) => {
   try {
     const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
@@ -123,6 +124,7 @@ router.delete('/entries/:entryId', requireToken, async (req, res) => {
 });
 
 // GET individual entry
+// http://localhost:4000/entries/66b643d74220f71c58b1fbdc
 router.put('/entries/:entryId', requireToken, async (req, res) => {
   try {
     const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`

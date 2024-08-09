@@ -15,7 +15,10 @@ const { PORT, MONGODB_URI } = process.env;
 //CONTROLLER IMPORT
 const liftController = require('./controllers/lift-controller')
 const authController = require('./controllers/auth-controller')
-const moveController = require('./controllers/move-controller')
+const movementController = require('./controllers/movement-controller')
+const categoryController = require('./controllers/category-controller')
+const entryController = require('./controllers/entry-controller')
+
 
 //MIDDLEWARE
 app.use(cors())
@@ -23,8 +26,9 @@ app.use(morgan('dev'))
 app.use(express.json());
 app.use('/', liftController)
 app.use('/auth', authController)
-app.use('/movement', moveController)
-
+app.use('/movement', movementController)
+app.use('/category', categoryController)
+app.use('/entry', entryController)
 
 // LISTENER
 app.listen(process.env.PORT || 4000, () => console.log(`listening on PORT ${PORT}`));
