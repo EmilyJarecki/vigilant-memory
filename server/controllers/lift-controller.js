@@ -5,9 +5,8 @@ const { requireToken } = require("../middleware/auth");
 
 const db = require("../models/lib");
 
-// create a lift posting
+// POST a lift entry and attatch to individual logged in
 // the id is the id of the move
-// require token WORKING
 // http://localhost:4000/66b62b3b00d91bde680e8d2e
 router.post("/:id", requireToken, async (req, res, next) => {
   try {
@@ -29,8 +28,7 @@ router.post("/:id", requireToken, async (req, res, next) => {
   }
 });
 
-// Route to get entries for a specific movement for only the specific user
-// WORKING
+// Route to GET entries for a specific movement for only the specific user
 // http://localhost:4000/entries/user/66b624fb00d91bde680e8d2c
 router.get('/entries/user/:movementId', requireToken, async (req, res) => {
   try {
@@ -56,8 +54,7 @@ router.get('/entries/user/:movementId', requireToken, async (req, res) => {
   }
 });
 
-// get individual entry
-// WORKING
+// GET individual entry
 router.get('/entries/:entryId', requireToken, async (req, res) => {
   try {
     const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
@@ -90,6 +87,7 @@ router.get('/entries/:entryId', requireToken, async (req, res) => {
   }
 });
 
+// DELETE individual entry
 router.delete('/entries/:entryId', requireToken, async (req, res) => {
   try {
     const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
@@ -119,6 +117,42 @@ router.delete('/entries/:entryId', requireToken, async (req, res) => {
     await movement.save();
 
     res.status(200).json({ message: 'Entry deleted successfully.' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET individual entry
+router.put('/entries/:entryId', requireToken, async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
+    const entryId = req.params.entryId;
+    const updateFields = req.body; // Fields to update
+
+    // Find the movement that contains the entry
+    const movement = await Movement.findOne({
+      'entries._id': entryId,
+      'entries.owner': userId
+    });
+
+    if (!movement) {
+      return res.status(404).json({ message: 'Entry not found or not accessible by this user.' });
+    }
+
+    // Find the entry index
+    const entryIndex = movement.entries.findIndex(entry => entry._id.toString() === entryId);
+
+    if (entryIndex === -1) {
+      return res.status(404).json({ message: 'Entry not found.' });
+    }
+
+    // Update the entry fields
+    Object.assign(movement.entries[entryIndex], updateFields);
+
+    // Save the updated movement
+    await movement.save();
+
+    res.status(200).json({ message: 'Entry updated successfully.', entry: movement.entries[entryIndex] });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
