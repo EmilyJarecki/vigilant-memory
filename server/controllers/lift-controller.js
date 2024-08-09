@@ -1,77 +1,61 @@
 const express = require("express");
 const router = express.Router();
-const { Lift } = require("../models/lib");
-const { handleValidateOwnership, requireToken } = require("../middleware/auth");
+const { Lift, Movement } = require("../models/lib");
+const { requireToken } = require("../middleware/auth");
 
 const db = require("../models/lib");
 
-// get all posts wityh correct authorization token
-router.get("/", requireToken, async (req, res, next) => {
-  try {
-    const owner = req.user._id;
-    const allLifts = await Lift.find({ owner }).populate(['owner']).exec()
-    res.status(200).json(allLifts);
-    console.log(allLifts);
-  } catch (err) {
-    res.status(400).json({ error: "error" });
-    return next(err);
-  }
-});
-
-router.get("/:id", async (req, res, next) => {
-	try {	
-		const singleLift = await Lift.findById(req.params.id).populate(['owner']).exec()
-		res.status(200).json(singleLift)
-		console.log(singleLift)
-	}catch(error){
-		res.status(400).json({error: "error"})
-        return next(error)
-	}
-});
-
-
 // create a lift posting
-// require token working
-router.post("/", requireToken, async (req, res, next) => {
+// the id is the id of the move
+// require token WORKING
+// http://localhost:4000/66b62b3b00d91bde680e8d2e
+router.post("/:id", requireToken, async (req, res, next) => {
   try {
     const owner = req.user._id;
-    console.log(owner, req.user);
+    // console.log(owner, req.user);
     req.body.owner = owner;
-    const liftPost = await Lift.create(req.body);
-    res.status(201).json(liftPost);
+
+    const move = await Movement.findById(req.params.id)
+    const entryToCreate = req.body
+
+    console.log("entryToCreate", entryToCreate)
+    move.entries.push(entryToCreate)
+    await move.save()
+    console.log(move)
+    res.status(200).json({message:"success"})
   } catch (err) {
     res.status(400).json({ error: "error" });
     return next(err);
   }
 });
 
-// updates a post
-// require working
-router.put("/:entryId", requireToken, async (req, res, next)=>{
-	try {
-		const updatedEntry = await Lift.findByIdAndUpdate(req.params.entryId, req.body)
-		console.log(updatedEntry)
-		res.status(200).json({message: "Successfully updated lift", updatedEntry})
-	} catch (error) {
-		res.status(400).json({error: "error"})
-		return next(error)
-	}
-})
-
-// deletes an entry
-// require working
-router.delete("/:entryId", requireToken, async (req, res, next) => {
-	console.log(req.params)
+// Route to get entries for a specific movement for only the specific user
+// WORKING
+// http://localhost:4000/entries/user/66b624fb00d91bde680e8d2c
+router.get('/entries/user/:movementId', requireToken, async (req, res) => {
   try {
-    const deletedEntry = await Lift.findByIdAndDelete(req.params.entryId);
-    console.log(deletedEntry);
-    res
-      .status(200)
-      .json({ message: "Successfully deleted product", deletedEntry });
-  } catch (error) {
-    res.status(400).json({ error: "error" });
-    return next(error);
+    const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
+    const movementId = req.params.movementId;
+
+    const movement = await Movement.findOne({
+      _id: movementId,
+      'entries.owner': userId
+    });
+
+    if (!movement) {
+      return res.status(404).json({ message: 'Movement not found or no entries for this user.' });
+    }
+
+    // Extract only the entries that belong to the specific user
+    const userEntries = movement.entries.filter(entry => entry.owner.toString() === userId.toString());
+
+    res.status(200).json(userEntries);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: err.message });
   }
 });
+
+
 
 module.exports = router;

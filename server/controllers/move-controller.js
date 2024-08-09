@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const { Movement, Lift } = require("../models/lib");
 
+// get a list of all movements 
+// working
 router.get("/list", async (req, res, next) => {
     try {
         const allMoves = await Movement.find({})

@@ -11,7 +11,6 @@ const LiftSchema = new mongoose.Schema({
       required: true,
     },    
     movement: { type: mongoose.Schema.Types.ObjectId, ref: "Movement" },
-    lift: {type: String, required: true},
     weight: {type: Number},
     difficulty: {type: Number},
     date: {type: String},
