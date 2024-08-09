@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const ObjectId = mongoose.Schema.Types.ObjectId
 
 const LiftSchema = new mongoose.Schema({
@@ -11,6 +10,7 @@ const LiftSchema = new mongoose.Schema({
       // can prove to be buggy if there is data in the database
       required: true,
     },    
+    movement: { type: mongoose.Schema.Types.ObjectId, ref: "Movement" },
     lift: {type: String, required: true},
     weight: {type: Number},
     difficulty: {type: Number},

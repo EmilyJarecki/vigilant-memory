@@ -25,7 +25,7 @@ router.get("/:id", async (req, res, next) => {
 		console.log(singleLift)
 	}catch(error){
 		res.status(400).json({error: "error"})
-        return next(err)
+        return next(error)
 	}
 });
 
@@ -54,7 +54,7 @@ router.put("/:entryId", requireToken, async (req, res, next)=>{
 		res.status(200).json({message: "Successfully updated lift", updatedEntry})
 	} catch (error) {
 		res.status(400).json({error: "error"})
-		return next(err)
+		return next(error)
 	}
 })
 
