@@ -7,25 +7,25 @@ const db = require("../models/lib");
 
 // POST a lift entry and attatch to individual logged in
 // http://localhost:4000/66b62b3b00d91bde680e8d2e
-router.post("/:movementId", requireToken, async (req, res, next) => {
-  try {
-    const owner = req.user._id;
-    // console.log(owner, req.user);
-    req.body.owner = owner;
+// router.post("/:movementId", requireToken, async (req, res, next) => {
+//   try {
+//     const owner = req.user._id;
+//     // console.log(owner, req.user);
+//     req.body.owner = owner;
 
-    const move = await Movement.findById(req.params.movementId)
-    const entryToCreate = req.body
+//     const move = await Movement.findById(req.params.movementId)
+//     const entryToCreate = req.body
 
-    console.log("entryToCreate", entryToCreate)
-    move.entries.push(entryToCreate)
-    await move.save()
-    console.log(move)
-    res.status(200).json({message:"success"})
-  } catch (err) {
-    res.status(400).json({ error: "error" });
-    return next(err);
-  }
-});
+//     console.log("entryToCreate", entryToCreate)
+//     move.entries.push(entryToCreate)
+//     await move.save()
+//     console.log(move)
+//     res.status(200).json({message:"success"})
+//   } catch (err) {
+//     res.status(400).json({ error: "error" });
+//     return next(err);
+//   }
+// });
 
 // Route to GET entries for a specific movement for only the specific user
 // http://localhost:4000/entries/user/66b624fb00d91bde680e8d2c
