@@ -57,6 +57,7 @@ router.get('/entries/user/:movementId', requireToken, async (req, res) => {
 });
 
 // get individual entry
+// WORKING
 router.get('/entries/:entryId', requireToken, async (req, res) => {
   try {
     const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
@@ -84,6 +85,40 @@ router.get('/entries/:entryId', requireToken, async (req, res) => {
       title: movement.title, // Assuming the field for the title is `title`
       entry: entry
     });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.delete('/entries/:entryId', requireToken, async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
+    const entryId = req.params.entryId;
+
+    // Find the movement that contains the entry
+    const movement = await Movement.findOne({
+      'entries._id': entryId,
+      'entries.owner': userId
+    });
+
+    if (!movement) {
+      return res.status(404).json({ message: 'Entry not found or not accessible by this user.' });
+    }
+
+    // Find the entry index
+    const entryIndex = movement.entries.findIndex(entry => entry._id.toString() === entryId);
+
+    if (entryIndex === -1) {
+      return res.status(404).json({ message: 'Entry not found.' });
+    }
+
+    // Remove the entry
+    movement.entries.splice(entryIndex, 1);
+
+    // Save the updated movement
+    await movement.save();
+
+    res.status(200).json({ message: 'Entry deleted successfully.' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
