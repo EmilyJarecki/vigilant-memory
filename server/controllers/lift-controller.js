@@ -34,7 +34,7 @@ router.post("/:id", requireToken, async (req, res, next) => {
 // http://localhost:4000/entries/user/66b624fb00d91bde680e8d2c
 router.get('/entries/user/:movementId', requireToken, async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
+    const userId = req.user._id; 
     const movementId = req.params.movementId;
 
     const movement = await Movement.findOne({
@@ -56,6 +56,37 @@ router.get('/entries/user/:movementId', requireToken, async (req, res) => {
   }
 });
 
+// get individual entry
+router.get('/entries/:entryId', requireToken, async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming `req.user` is populated by `requireToken`
+    const entryId = req.params.entryId;
 
+    // Query to find the movement containing the specific entry
+    const movement = await Movement.findOne({
+      'entries._id': entryId,
+      'entries.owner': userId
+    });
+
+    if (!movement) {
+      return res.status(404).json({ message: 'Entry not found or not accessible by this user.' });
+    }
+
+    // Extract the specific entry by ID
+    const entry = movement.entries.find(entry => entry._id.toString() === entryId);
+
+    if (!entry) {
+      return res.status(404).json({ message: 'Entry not found.' });
+    }
+
+    // Return the movement title and the entry details
+    res.status(200).json({
+      title: movement.title, // Assuming the field for the title is `title`
+      entry: entry
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
