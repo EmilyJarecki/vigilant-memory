@@ -1,6 +1,6 @@
 import React from 'react'
 // import CreateEntry from '../components/CreateEntry'
-import Lifts from '../Components/Lifts'
+import Lifts from '../Components/Categories'
 import { Link } from 'react-router-dom'
 
 const Dashboard = () => {

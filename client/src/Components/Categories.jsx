@@ -4,24 +4,20 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardSubtitle,
-  CardText,
-  Button,
-  CardImg,
   Container,
   Row,
   Col,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const Lift = () => {
-  const [entry, setEntry] = useState([]);
+const Categories = () => {
+  const [category, setCategory] = useState([]);
 
   const token = getUserToken();
-  const URL = "http://localhost:4000/";
+  const URL = "http://localhost:4000/category";
 
   useEffect(() => {
-    const getLiftEntries = async () => {
+    const getCategories = async () => {
       const requestOptions = {
         method: "GET",
         headers: {
@@ -33,24 +29,24 @@ const Lift = () => {
 
       try {
         const response = await fetch(URL, requestOptions);
-        const allEntries = await response.json();
-        setEntry(allEntries);
+        const allCategories = await response.json();
+        setCategory(allCategories);
       } catch (error) {
         console.error(error);
       }
     };
-    getLiftEntries();
+    getCategories();
   }, [token]);
 
   return (
     <div>
       <Container fluid="sm">
         <Row>
-          {entry?.map((liftEntry) => {
+          {category?.map((cat) => {
             return (
-              <Col key={liftEntry._id} md="6" lg="4">
-              <Link to={`/entry/${liftEntry._id}`}>
-                <div key={liftEntry._id}>
+              <Col key={cat._id} md="6" lg="4">
+              <Link to={`/entry/${cat._id}`}>
+                <div key={cat._id}>
                   <Card
                     outline
                     style={{
@@ -58,11 +54,7 @@ const Lift = () => {
                     }}
                   >
                     <CardBody>
-                      <CardTitle tag="h5">{liftEntry.lift}</CardTitle>
-                      <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        {liftEntry.weight}
-                      </CardSubtitle>
-                      <CardText>{liftEntry.notes}</CardText>
+                      <CardTitle tag="h5">{cat.name}</CardTitle>
                     </CardBody>
                   </Card>
                 </div>
@@ -76,4 +68,4 @@ const Lift = () => {
   );
 };
 
-export default Lift;
+export default Categories;

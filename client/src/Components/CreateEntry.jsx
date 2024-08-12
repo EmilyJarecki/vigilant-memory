@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { getUserToken } from "../utils/authToken";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {FormGroup, Label, Input, Col} from 'reactstrap'
 
 const CreateEntry = () => {
   const token = getUserToken();
@@ -13,9 +11,8 @@ const CreateEntry = () => {
 
   const onSubmit = async (data, e) => {
     console.log(data)
-    return 
-    const { fruit, subFruit, rating, season } = data;
-    const raw = JSON.stringify({fruit, subFruit, rating, season});
+    const { lift, reps, weight, dates, notes, difficulty } = data;
+    const raw = JSON.stringify({ lift, reps, weight, dates, notes, difficulty });
 
     const requestOptions = {
       method: "POST",

@@ -1,73 +1,50 @@
-import { useParams, useNavigate} from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserToken } from "../utils/authToken";
 
 const SingleEntry = (props) => {
+  const { category_id, notes, date, weight } = props.individualLift || {};
+  const TITLE_URL = `http://localhost:4000/category/${category_id}`;
+  // console.log(props.individualLift.notes)
+  const [title, setTitle] = useState(null)
   const token = getUserToken();
-  const [entry, setEntry] = useState(null);
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const URL = `http://localhost:4000/${id}`;
-
-  const deleteEntry = async (e) => {
-
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      redirect: "follow"
-    };
-
-    try {
-      const response = await fetch(URL, options);
-      const result = await response.json();
-      console.log(result)
-      navigate("/dashboard");
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect(() => {
-    const getSingleEntry = async () => {
+    const categoryTitle = async () => {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        redirect: "follow",
+      };
+  
       try {
-        const response = await fetch(URL);
-        const singleEntry = await response.json();
-        setEntry(singleEntry);
+        const response = await fetch(TITLE_URL, requestOptions);
+        console.log(response);
+        const title = await response.json();
+        console.log("Title:", title.name);
+        setTitle(title.name);
       } catch (error) {
         console.error(error);
       }
     };
-    getSingleEntry();
-  }, [URL]);
+    categoryTitle();
+  }, [TITLE_URL]);
+
+  if (!props.individualLift || !title) {
+    return <div>Loading...</div>; // Or some loading indicator
+  }
+
 
   return (
     <div>
-      {entry ? (
-        <div>
-          <button onClick={deleteEntry}>Delete</button>
-          <p>
-            <strong>Lift:</strong> {entry.lift}
-          </p>
-          <p>
-            <strong>Reps:</strong> {entry.reps}
-          </p>
-          <p>
-            <strong>Weight:</strong> {entry.weight}
-          </p>
-          <p>
-            <strong>Difficulty:</strong> {entry.difficulty}
-          </p>
-          <p>
-            <strong>Date:</strong> {entry.date}
-          </p>
-          <p>
-            <strong>Notes:</strong> {entry.notes}
-          </p>
-        </div>
-      ) : null}
+      <div>
+      <h1>{title}</h1>
+        {notes} <br></br>
+        {date} <br></br>
+        {weight}
+      </div>
     </div>
   );
 };
