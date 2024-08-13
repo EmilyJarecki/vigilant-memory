@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const Dashboard = () => {
   return (
     <>
-    <Link to="/create-entry">Create Entry</Link>
+    <h1>Lifts</h1>
     <Lifts />
     </>
   )
