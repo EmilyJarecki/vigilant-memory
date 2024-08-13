@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { getUserToken } from "../utils/authToken";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-const CreateEntry = () => {
+const CreateEntryForm = (props) => {
+  const URL = `http://localhost:4000/entry`;
   const token = getUserToken();
-  const URL = "http://localhost:4000/";
-
+const navigate = useNavigate()
   const { register, handleSubmit } = useForm();
   const onError = (errors, e) => console.log(errors, e);
 
   const onSubmit = async (data, e) => {
-    console.log(data)
-    const { lift, reps, weight, dates, notes, difficulty } = data;
-    const raw = JSON.stringify({ lift, reps, weight, dates, notes, difficulty });
+
+    const raw = JSON.stringify({
+      category_id: props.categoryId,
+      weight: data.weight,
+      notes: data.notes,
+      date: data.date,
+    });
 
     const requestOptions = {
       method: "POST",
@@ -28,42 +33,25 @@ const CreateEntry = () => {
       const response = await fetch(URL, requestOptions);
       const result = await response.json();
       console.log(result);
+      navigate("/entry/" + props.categoryId)
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {}, [token]);
-
   return (
     <div>
-      {/* <button onClick={createEntry}>Click me</button> */}
       <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <div>
-          <label htmlFor="lift">Lift</label>
-          <input {...register("lift")} />
-        </div>
-        <div>
-          <label htmlFor="reps">Reps</label>
-          <input {...register("reps")} />
-        </div>
         <div>
           <label htmlFor="weight">Weight (lbs)</label>
           <input {...register("weight")} />
         </div>
         <div>
           <label htmlFor="date">Date</label>
-          <input type="date" {...register("date", {
-            valueAsDate: true,
-          })} />
+          <input {...register("date")} />
         </div>
         <div>
           <label htmlFor="notes">Notes</label>
           <input {...register("notes")} />
-        </div>
-        <div>
-          <label htmlFor="difficulty">Difficulty</label>
-          <input {...register("difficulty")} type="range" min="0" max="5" />
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -71,4 +59,4 @@ const CreateEntry = () => {
   );
 };
 
-export default CreateEntry;
+export default CreateEntryForm;

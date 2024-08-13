@@ -11,15 +11,12 @@ import {
 } from "reactstrap";
 
 const CatEntries = (props) => {
-  // console.log("Props: ", props.allEntries)
-console.log(props.title)
  if (!props.allEntries || !props.title) {
     return <div>Loading...</div>; // Or some loading indicator
   }
 
   return (
     <div>
-    <h1>{props.title}</h1>
       <Container fluid="sm">
         <Row>
           {props.allEntries?.map((ent) => {
