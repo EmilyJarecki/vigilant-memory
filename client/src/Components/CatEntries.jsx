@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   CardSubtitle,
+  Button
 } from "reactstrap";
 
 const CatEntries = (props) => {
@@ -33,7 +34,6 @@ const CatEntries = (props) => {
                     <CardBody>
                       <CardTitle tag="h5">{ent.weight} lbs</CardTitle>
                       <CardSubtitle tag="h6">{ent.date}</CardSubtitle>
-                      <p>NOTES: {ent.notes}</p>
                       <p>REPS: {ent.reps}</p>
                     </CardBody>
                   </Card>

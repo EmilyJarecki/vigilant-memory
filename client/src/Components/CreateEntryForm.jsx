@@ -56,7 +56,7 @@ const navigate = useNavigate()
         </div>
         <div>
           <label htmlFor="notes">Notes</label>
-          <input {...register("notes")} />
+          <textarea {...register("notes")} />
         </div>
         <button type="submit">Submit</button>
       </form>

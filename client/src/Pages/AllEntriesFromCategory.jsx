@@ -2,20 +2,17 @@ import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getUserToken } from "../utils/authToken";
 import CatEntries from "../Components/CatEntries";
-import CreateEntryForm from "../Components/CreateEntryForm";
 import { Link } from "react-router-dom";
-
+import { Button } from "reactstrap";
 
 const AllEntriesFromCategory = () => {
   const token = getUserToken();
   const [allEntries, setEntry] = useState(null);
   const [title, setTitle] = useState(null);
-  const [userWantsNewEntry, setUserWantsNewEntry] = useState(false);
   const { id } = useParams();
   const URL = `http://localhost:4000/entry/${id}`;
   const TITLE_URL = `http://localhost:4000/category/${id}`;
-  const catId = {id}
-console.log(catId.id)
+  const catId = { id };
 
   useEffect(() => {
     // get all entries from this category
@@ -53,7 +50,7 @@ console.log(catId.id)
       try {
         const response = await fetch(TITLE_URL, requestOptions);
         const title = await response.json();
-        console.log(title)
+        console.log(title);
         setTitle(title.name);
       } catch (error) {
         console.error(error);
@@ -62,12 +59,20 @@ console.log(catId.id)
     categoryTitle();
   }, [URL, TITLE_URL]);
 
-
   return (
     <div>
       <h1>{title}</h1>
-        <CatEntries allEntries={allEntries} title={title} />
-        <Link to={'/create-entry/' + catId.id} >Create an Entry</Link>
+      <Link to={"/dashboard"}>
+        <Button color="primary" outline className="mb-4 me-2">
+          Back to Dashboard
+        </Button>
+      </Link>
+      <Link to={"/create-entry/" + catId.id}>
+        <Button color="primary" className="mb-4 ms-4">
+          Create an Entry
+        </Button>
+      </Link>
+      <CatEntries allEntries={allEntries} title={title} />
     </div>
   );
 };
