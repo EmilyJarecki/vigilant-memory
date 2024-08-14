@@ -18,7 +18,7 @@ const Header = () => {
         class="navbar bg-dark border-bottom border-body ps-4 pe-4"
         data-bs-theme="dark"
       >
-        <Link to="/dashboard" class="text-white text-decoration-none">Dashboard</Link>
+        <Link to="/dashboard" className="text-white text-decoration-none">Dashboard</Link>
         {token ? (
           <div>
             <Button outline onClick={logoutUser}>Log Out</Button>

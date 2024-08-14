@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getUserToken } from "../utils/authToken";
-import CatEntries from "../Components/CatEntries";
+import CategoryEntries from "../Components/CategoryEntries";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 
@@ -61,7 +61,7 @@ const AllEntriesFromCategory = () => {
 
   return (
     <div>
-      <h1>{title}</h1>
+      <h1 class="text-3xl font-black p-4">{title}</h1>
       <Link to={"/dashboard"}>
         <Button color="primary" outline className="mb-4 me-2">
           Back to Dashboard
@@ -72,7 +72,7 @@ const AllEntriesFromCategory = () => {
           Create an Entry
         </Button>
       </Link>
-      <CatEntries allEntries={allEntries} title={title} />
+      <CategoryEntries allEntries={allEntries} title={title} />
     </div>
   );
 };

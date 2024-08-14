@@ -39,12 +39,12 @@ const Categories = () => {
   }, [token]);
 
   return (
-    <div>
+    <div >
       <Container fluid="sm">
         <Row>
           {category?.map((cat) => {
             return (
-              <Col key={cat._id} md="6" lg="4">
+              <Col key={cat._id} md="6" lg="4" className="mb-4">
               <Link to={`/entry/${cat._id}`}>
                 <div key={cat._id}>
                   <Card
@@ -52,9 +52,10 @@ const Categories = () => {
                     style={{
                       width: "18rem",
                     }}
+                    className="text-dark text-decoration-none"
                   >
                     <CardBody>
-                      <CardTitle tag="h5">{cat.name}</CardTitle>
+                      <CardTitle tag="h5" class="text-3xl font-bold">{cat.name}</CardTitle>
                     </CardBody>
                   </Card>
                 </div>

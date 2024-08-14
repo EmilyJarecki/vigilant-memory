@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import CreateEntryForm from "../Components/CreateEntryForm";
+import CreateEntryForm from "../Components/Entry Forms/CreateEntryForm";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUserToken } from "../utils/authToken";
+import { Button } from "reactstrap";
 
 const CreateEntry = () => {
   const { id } = useParams();
@@ -35,7 +36,7 @@ const CreateEntry = () => {
   }, [URL])
   return (
     <div>
-      <Link to={`/entry/${id}`}>Nevermind</Link>
+      <Link to={`/entry/${id}`}><Button color="primary" outline className="mb-4 me-2">Back</Button></Link>
       <h1>Create Entry for {title}</h1>
       <CreateEntryForm title={title} categoryId={`${id}`} />
     </div>

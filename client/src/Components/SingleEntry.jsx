@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUserToken } from "../utils/authToken";
 import { Link } from "react-router-dom";
-import UpdateForm from "./UpdateForm";
+import UpdateForm from "./Entry Forms/UpdateForm";
 import { useNavigate } from "react-router-dom";
 import {
   Button,

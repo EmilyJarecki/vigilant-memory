@@ -1,5 +1,5 @@
 import React from "react";
-import { getUserToken, setUserToken, clearUserToken } from "../utils/authToken";
+import { getUserToken, setUserToken, clearUserToken } from "../../utils/authToken";
 
 const Profile = () => {
   const registerUser = async (data) => {

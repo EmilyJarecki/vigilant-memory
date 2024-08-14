@@ -1,15 +1,17 @@
-import React from 'react'
-// import CreateEntry from '../components/CreateEntry'
-import Lifts from '../Components/Categories'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import Categories from "../Components/Categories";
+import Button from "@mui/material/Button";
 
 const Dashboard = () => {
   return (
     <>
-    <h1>Lifts</h1>
-    <Lifts />
-    </>
-  )
-}
+      <Button variant="contained">Hello world</Button>
 
-export default Dashboard
+      <h1 class="text-4xl p-6 font-black">Lifts</h1>
+      <Categories />
+    </>
+  );
+};
+
+export default Dashboard;

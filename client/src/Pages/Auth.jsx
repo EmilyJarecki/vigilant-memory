@@ -3,9 +3,9 @@ import { getUserToken, setUserToken, clearUserToken } from "../utils/authToken";
 import { useContext, useState } from "react";
 import { UserContext } from "../data";
 import { useNavigate, Link } from "react-router-dom";
-import RegisterForm from "../Components/RegisterForm";
-import LoginForm from "../Components/LoginForm";
-
+import RegisterForm from "../Components/Auth/RegisterForm";
+import LoginForm from "../Components/Auth/LoginForm";
+import { Button } from "reactstrap";
 const Auth = (props) => {
   const { setAuth, setUser, setUserId } = useContext(UserContext);
 
@@ -73,7 +73,7 @@ const Auth = (props) => {
 
         console.log(currentUser);
         console.log(configs);
-        console.log(currentUser._id)
+        console.log(currentUser._id);
         // put the returned user object in state
         setUser({ ...currentUser });
         setAuth(currentUser.isLoggedIn);
@@ -91,14 +91,13 @@ const Auth = (props) => {
 
   function logoutUser() {
     clearUserToken();
-    navigate("/")
+    navigate("/");
   }
 
   return (
     <div>
-      <div>Auth</div>
       {!token ? (
-                <>
+        <>
           <div>
             <h3>Not a member? Register here:</h3>
             <RegisterForm signUp={registerUser} />
@@ -114,11 +113,14 @@ const Auth = (props) => {
       <div>
         {token ? (
           <>
-          <Link to="/dashboard">Dashboard</Link>
-            <br />
-            <h6 onClick={logoutUser} className="logout-button">
-              Log Out
-            </h6>
+            <div>
+              <Link to="/dashboard">
+                <Button color="primary" className="mt-4 mb-4">
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+            <Button onClick={logoutUser}>Log Out</Button>
           </>
         ) : null}
       </div>

@@ -32,9 +32,9 @@ const CatEntries = (props) => {
                     }}
                   >
                     <CardBody>
-                      <CardTitle tag="h5">{ent.weight} lbs</CardTitle>
-                      <CardSubtitle tag="h6">{ent.date}</CardSubtitle>
-                      <p>REPS: {ent.reps}</p>
+                      <CardTitle class="text-2xl font-bold">{ent.weight} lbs</CardTitle>
+                      <p>{ent.reps} rep</p>
+                      <CardSubtitle>{ent.date}</CardSubtitle>
                     </CardBody>
                   </Card>
                 </div>
