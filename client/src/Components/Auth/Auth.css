@@ -1,0 +1,15 @@
+.create-account-button, .login-button {
+    background: #3f1abb;
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    margin-top: 40px;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    display: block;
+    appearance: none;
+    border-radius: 4px;
+    width: 75%;
+}

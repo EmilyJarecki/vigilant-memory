@@ -13,18 +13,26 @@ const Header = () => {
 
   return (
     <div>
+        {token ? (
       <nav
       className="navigation"
         class="navbar bg-dark border-bottom border-body ps-4 pe-4"
         data-bs-theme="dark"
       >
         <Link to="/dashboard" className="text-white text-decoration-none">Dashboard</Link>
-        {token ? (
           <div>
             <Button outline onClick={logoutUser}>Log Out</Button>
           </div>
-        ) : null}
       </nav>
+        ) : (
+          <nav
+      className="navigation"
+        class="navbar bg-dark border-bottom border-body p-4"
+        data-bs-theme="dark"
+      >
+        <h1 className="text-white text-decoration-none">SugarLift</h1>
+      </nav>
+        )}
     </div>
   );
 };

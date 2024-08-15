@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import "./Auth.css"
 
 const LoginForm = ({ signIn }) => {
   const initialState = { username: "", password: "" };
@@ -72,7 +73,7 @@ const LoginForm = ({ signIn }) => {
             id="standard-basic"
             variant="standard"
             type="password"
-            helperText="Please input weight"
+            helperText="Please input password"
             value={input.password}
             onChange={handleChange}
           />
@@ -82,7 +83,7 @@ const LoginForm = ({ signIn }) => {
         <br />
         {/* <input className="auth-log" type="submit" value="Login User" /> */}
         <div class="flex justify-center mb-4">
-          <button type="submit" className="create-entry-button auth-log">
+          <button type="submit" className="login-button auth-log">
             Log In
           </button>
         </div>

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import "./Auth.css"
 
 const RegisterForm = ({ signUp }) => {
   const initialState = { username: "", password: "", name: "" };
@@ -25,7 +26,7 @@ const RegisterForm = ({ signUp }) => {
   };
 
   return (
-    <div class="border-2 border-indigo-500">
+    <div class="">
       <form onSubmit={handleSubmit}>
         {/* <label htmlFor="username">Username: </label>
         <input
@@ -98,7 +99,7 @@ const RegisterForm = ({ signUp }) => {
         {/* <input className="auth-sub" type="submit" value="Sign Up" /> */}
 
         <div class="flex justify-center mb-4">
-          <button type="submit" className="create-entry-button auth-sub">
+          <button type="submit" className="create-account-button auth-sub">
             Create Account
           </button>
         </div>
