@@ -3,6 +3,7 @@ import { getUserToken } from "../utils/authToken";
 import { Link } from "react-router-dom";
 import UpdateForm from "./Entry Forms/UpdateForm";
 import { useNavigate } from "react-router-dom";
+import "./Entry Forms/UpdateForm.css";
 import {
   Button,
   Card,
@@ -14,8 +15,7 @@ import {
 } from "reactstrap";
 
 const SingleEntry = (props) => {
-  const { _id, category_id, reps, notes, date, weight } =
-    props.individualLift || {};
+  const { _id, category_id, reps, notes, date, weight } = props.individualLift || {};
   const ENTRY_URL = `http://localhost:4000/entry/${_id}`;
   const TITLE_URL = `http://localhost:4000/category/${category_id}`;
   const [title, setTitle] = useState(null);
@@ -118,7 +118,7 @@ const SingleEntry = (props) => {
         </div>
       ) : (
         <div>
-          <h1>Update TIME!</h1>
+          <h1 class="text-indigo-500/50 update-title">Update<span> {title}</span></h1>
           <UpdateForm {...propsObj} />
         </div>
       )}

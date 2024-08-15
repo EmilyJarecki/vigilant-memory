@@ -37,7 +37,8 @@ const CreateEntry = () => {
   return (
     <div>
       <Link to={`/entry/${id}`}><Button color="primary" outline className="mb-4 me-2">Back</Button></Link>
-      <h1>Create Entry for {title}</h1>
+      <h1 class="text-xl font-bold mb-4 update-title-min">Create Entry for </h1>
+      <p class="update-title">{title}</p>
       <CreateEntryForm title={title} categoryId={`${id}`} />
     </div>
   );

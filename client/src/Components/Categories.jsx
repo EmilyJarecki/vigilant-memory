@@ -39,7 +39,7 @@ const Categories = () => {
   }, [token]);
 
   return (
-    <div >
+    <div>
       <Container fluid="sm">
         <Row>
           {category?.map((cat) => {
@@ -55,7 +55,7 @@ const Categories = () => {
                     className="text-dark text-decoration-none"
                   >
                     <CardBody>
-                      <CardTitle tag="h5" class="text-3xl font-bold">{cat.name}</CardTitle>
+                      <CardTitle tag="h5" class="text-2xl uppercase font-bold text-[#3f1abb]">{cat.name}</CardTitle>
                     </CardBody>
                   </Card>
                 </div>
