@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import TextField from "@mui/material/TextField";
 
 const LoginForm = ({ signIn }) => {
   const initialState = { username: "", password: "" };
@@ -20,7 +21,6 @@ const LoginForm = ({ signIn }) => {
     setInput(initialState);
   };
 
-
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -28,7 +28,7 @@ const LoginForm = ({ signIn }) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username: </label>
+        {/* <label htmlFor="username">Username: </label>
         <input
           autoComplete="off"
           className="auth-input"
@@ -36,8 +36,21 @@ const LoginForm = ({ signIn }) => {
           name="username"
           value={input.username}
           onChange={handleChange}
-        />
-        <br />
+        /> */}
+        <div class="m-4">
+          <TextField
+            label="Username"
+            autoComplete="off"
+            className="auth-input"
+            id="standard-basic"
+            variant="standard"
+            name="username"
+            helperText="Please input username"
+            value={input.username}
+            onChange={handleChange}
+          />
+        </div>
+        {/* <br />
         <br />
         <label htmlFor="password">Password: </label>
         <input
@@ -48,10 +61,31 @@ const LoginForm = ({ signIn }) => {
           type="password"
           value={input.password}
           onChange={handleChange}
-        />
+        /> */}
+
+        <div class="m-4">
+          <TextField
+            label="Password"
+            name="password"
+            autoComplete="off"
+            className="auth-input"
+            id="standard-basic"
+            variant="standard"
+            type="password"
+            helperText="Please input weight"
+            value={input.password}
+            onChange={handleChange}
+          />
+        </div>
+
         <br />
         <br />
-        <input className="auth-log" type="submit" value="Login User" />
+        {/* <input className="auth-log" type="submit" value="Login User" /> */}
+        <div class="flex justify-center mb-4">
+          <button type="submit" className="create-entry-button auth-log">
+            Log In
+          </button>
+        </div>
       </form>
     </>
   );
