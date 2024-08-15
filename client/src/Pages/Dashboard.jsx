@@ -1,5 +1,5 @@
 import React from "react";
-import Categories from "../Components/Categories";
+import Categories from "../Components/Dashboard/Categories";
 
 const Dashboard = () => {
   return (

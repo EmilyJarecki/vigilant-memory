@@ -7,8 +7,7 @@ import {
   Container,
   Row,
   Col,
-  CardSubtitle,
-  Button
+  CardSubtitle
 } from "reactstrap";
 
 const CatEntries = (props) => {

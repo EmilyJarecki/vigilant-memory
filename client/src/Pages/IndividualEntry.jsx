@@ -30,7 +30,7 @@ const IndividualEntry = () => {
         }
       };
       lift();
-    }, [URL]);
+    }, [URL, token]);
   return (
 
 

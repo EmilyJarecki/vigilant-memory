@@ -6,8 +6,9 @@ import { useNavigate, Link } from "react-router-dom";
 import RegisterForm from "../Components/Auth/RegisterForm";
 import LoginForm from "../Components/Auth/LoginForm";
 import { Button } from "reactstrap";
+
 const Auth = (props) => {
-  const { setAuth, setUser, setUserId } = useContext(UserContext);
+  const { setAuth, setUser } = useContext(UserContext);
 
   // import the pieces of context we want
   // invoke useContext hook and provide a context object as an argument

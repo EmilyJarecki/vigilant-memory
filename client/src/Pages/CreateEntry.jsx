@@ -33,7 +33,7 @@ const CreateEntry = () => {
         }
       };
       categoryTitle();
-  }, [URL])
+  }, [URL, token])
   return (
     <div>
       <Link to={`/entry/${id}`}><Button color="primary" outline className="mb-4 me-2">Back</Button></Link>
