@@ -10,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import SingleEntryBox from "./SingleEntryBox";
+import TablePagination from "@mui/material/TablePagination";
 
 const CatEntries = (props) => {
   const repOptions = [1, 2, 3, 4, 5, 10];
@@ -24,60 +24,108 @@ const CatEntries = (props) => {
   }, [props.allEntries]);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   const filteredEntries = selectedCategory
     ? props.allEntries.filter((p) => p.reps === selectedCategory)
     : props.allEntries;
 
+  let columns = [
+    { id: "date", label: "Date", minWidth: 100 },
+    { id: "weight", label: "Weight", minWidth: 100 },
+    { id: "reps", label: "Reps", minWidth: 100 },
+    { id: "notes", label: "Notes", minWidth: 170 },
+  ];
   return (
     <div>
-      <h1>Organized</h1>
-      <ul>
+      <ButtonGroup variant="contained" aria-label="Basic button group">
         {repOptions.map((repOpt) => (
-          <li key={repOpt}>
-            <a
-              className="link view-by"
-              href="#"
-              onClick={() => setSelectedCategory(repOpt)}
-            >
-              {repOpt}
-            </a>
-          </li>
+          <a
+            className="link view-by"
+            href="#"
+            onClick={() => setSelectedCategory(repOpt)}
+          >
+            <Button>{repOpt} rep</Button>
+          </a>
         ))}
-      </ul>
+      </ButtonGroup>
+<div class="me-24 ms-24 mt-8">
       {selectedCategory ? (
-        <div>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <TableContainer  sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell align="right">Weight</TableCell>
-                  <TableCell align="right">Reps</TableCell>
-                  <TableCell align="right">Notes</TableCell>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredEntries?.map((row) => (
-                  <TableRow
-                    key={row._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.date}
-                    </TableCell>
-                    <TableCell align="right">{row.weight}</TableCell>
-                    <TableCell align="right">{row.reps}</TableCell>
-                    <TableCell align="right">{row.notes}</TableCell>
-                  </TableRow>
-                ))}
+                {filteredEntries
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row._id}
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              <Link
+                                to={`/single-entry/${row._id}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "inherit",
+                                }}
+                              >
+                                <div>
+                                  {column.format && typeof value === "number"
+                                    ? column.format(value)
+                                    : value}
+                                </div>
+                              </Link>
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={filteredEntries.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
       ) : null}
+      </div>
     </div>
   );
 };
