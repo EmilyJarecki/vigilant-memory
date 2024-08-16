@@ -37,7 +37,7 @@ const RegisterForm = ({ signUp }) => {
           value={input.username}
           onChange={handleChange}
         /> */}
-        <div class="m-4">
+        <div>
           <TextField
             autoComplete="off"
             className="auth-input"
@@ -61,7 +61,7 @@ const RegisterForm = ({ signUp }) => {
           value={input.password}
           onChange={handleChange}
         /> */}
-        <div class="m-4">
+        <div>
           <TextField
             autoComplete="off"
             className="auth-input"
@@ -83,7 +83,7 @@ const RegisterForm = ({ signUp }) => {
           value={input.name}
           onChange={handleChange}
         /> */}
-        <div class="m-4">
+        <div>
           <TextField
             autoComplete="off"
             className="auth-input"

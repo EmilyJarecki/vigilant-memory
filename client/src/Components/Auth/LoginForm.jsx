@@ -38,7 +38,7 @@ const LoginForm = ({ signIn }) => {
           value={input.username}
           onChange={handleChange}
         /> */}
-        <div class="m-4">
+        <div>
           <TextField
             label="Username"
             autoComplete="off"
@@ -64,7 +64,7 @@ const LoginForm = ({ signIn }) => {
           onChange={handleChange}
         /> */}
 
-        <div class="m-4">
+        <div>
           <TextField
             label="Password"
             name="password"
@@ -78,9 +78,6 @@ const LoginForm = ({ signIn }) => {
             onChange={handleChange}
           />
         </div>
-
-        <br />
-        <br />
         {/* <input className="auth-log" type="submit" value="Login User" /> */}
         <div class="flex justify-center mb-4">
           <button type="submit" className="login-button auth-log">
