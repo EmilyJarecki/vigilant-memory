@@ -4,8 +4,9 @@ import { getUserToken } from "../utils/authToken";
 import CategoryEntries from "../Components/CategoryEntries";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
-import EntryLineGraph from "../Components/SingleEntryBox";
-
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const AllEntriesFromCategory = () => {
   const token = getUserToken();
   const [allEntries, setEntry] = useState(null);
@@ -62,16 +63,20 @@ const AllEntriesFromCategory = () => {
 
   return (
     <div>
-      <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">{title}</h1>
-      <Link to={"/dashboard"}>
-        <Button color="primary" outline className="mb-4 me-2">
-          Back to Dashboard
-        </Button>
+      <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
+        {title}
+      </h1>
+      <Link to={"/dashboard"} class="me-4">
+        <Fab variant="extended" size="small">
+          <ArrowBackIcon sx={{ mr: 1 }} />
+          Back
+        </Fab>
       </Link>
-      <Link to={"/create-entry/" + catId.id}>
-        <Button color="primary" className="mb-4 ms-4">
-          Create an Entry
-        </Button>
+      <Link to={"/create-entry/" + catId.id} class="ms-4">
+        <Fab variant="extended" size="small" color="primary">
+          <AddIcon sx={{ mr: 1 }} />
+          Add Entry
+        </Fab>
       </Link>
       <CategoryEntries allEntries={allEntries} title={title} />
     </div>

@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUserToken } from "../utils/authToken";
 import { Button } from "reactstrap";
+import { Fab } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 
 const CreateEntry = () => {
   const { id } = useParams();
@@ -35,8 +38,13 @@ const CreateEntry = () => {
       categoryTitle();
   }, [URL, token])
   return (
-    <div>
-      <Link to={`/entry/${id}`}><Button color="primary" outline className="mb-4 me-2">Back</Button></Link>
+    <div class="mt-8">
+      <Link to={`/entry/${id}`}>
+      <Fab variant="extended" size="small">
+          <ArrowBackIcon sx={{ mr: 1 }} />
+          Back
+        </Fab>
+      </Link>
       <h1 class="text-xl font-bold mb-4 update-title-min">Create Entry for </h1>
       <p class="update-title">{title}</p>
       <CreateEntryForm title={title} categoryId={`${id}`} />

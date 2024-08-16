@@ -13,9 +13,15 @@ import {
   CardText,
   CardHeader,
 } from "reactstrap";
+import { Fab } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import UpdateTwoToneIcon from '@mui/icons-material/UpdateTwoTone';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+
 
 const SingleEntry = (props) => {
-  const { _id, category_id, reps, notes, date, weight } = props.individualLift || {};
+  const { _id, category_id, reps, notes, date, weight } =
+    props.individualLift || {};
   const ENTRY_URL = `http://localhost:4000/entry/${_id}`;
   const TITLE_URL = `http://localhost:4000/category/${category_id}`;
   const [title, setTitle] = useState(null);
@@ -81,11 +87,14 @@ const SingleEntry = (props) => {
 
   return (
     <div>
-      <h1>{title}</h1>
-      <Link  to={`/entry/${props.individualLift.category_id}`}>
-        <Button color="primary" outline className="mb-2">
+      <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
+        {title}
+      </h1>
+      <Link to={`/entry/${props.individualLift.category_id}`}>
+        <Fab variant="extended" size="small">
+          <ArrowBackIcon sx={{ mr: 1 }} />
           Back
-        </Button>
+        </Fab>
       </Link>
       {userWantsToUpdate === false ? (
         <div>
@@ -101,24 +110,34 @@ const SingleEntry = (props) => {
                 <CardSubtitle className="mb-2 text-muted" tag="h6">
                   {reps} rep
                 </CardSubtitle>
-                <CardText className="text-start">
-                  {notes}
-                </CardText>
+                <CardText className="text-start">{notes}</CardText>
               </CardBody>
             </Card>
           </div>
           <div>
-            <Button className="m-2" color="danger" onClick={() => deleteEntry()}>
-              I want to DELETE
-            </Button>
-            <Button className="m-2" color="primary" onClick={() => setUserWantsToUpdate(true)}>
-              I want to UPDATE
-            </Button>
+            <Fab
+              variant="extended"
+              size="small"
+              onClick={() => deleteEntry()}
+             >
+              <RemoveCircleIcon sx={{ mr: 1 }} />
+              Delete
+            </Fab>
+            <Fab
+              variant="extended"
+              size="small"
+              onClick={() => setUserWantsToUpdate(true)}
+            >
+              <UpdateTwoToneIcon sx={{ mr: 1 }} />
+              Update
+            </Fab>
           </div>
         </div>
       ) : (
         <div>
-          <h1 class="text-indigo-500/50 update-title">Update<span> {title}</span></h1>
+          <h1 class="text-indigo-500/50 update-title">
+            Update<span> {title}</span>
+          </h1>
           <UpdateForm {...propsObj} />
         </div>
       )}
