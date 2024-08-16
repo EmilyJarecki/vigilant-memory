@@ -4,6 +4,7 @@ import { getUserToken } from "../utils/authToken";
 import CategoryEntries from "../Components/CategoryEntries";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
+import EntryLineGraph from "../Components/SingleEntryBox";
 
 const AllEntriesFromCategory = () => {
   const token = getUserToken();

@@ -1,14 +1,16 @@
+// THIS IS WORKING
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  Container,
-  Row,
-  Col,
-  CardSubtitle,
-} from "reactstrap";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import SingleEntryBox from "./SingleEntryBox";
 
 const CatEntries = (props) => {
   const repOptions = [1, 2, 3, 4, 5, 10];
@@ -21,7 +23,6 @@ const CatEntries = (props) => {
     loading();
   }, [props.allEntries]);
 
-
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const filteredEntries = selectedCategory
@@ -30,77 +31,53 @@ const CatEntries = (props) => {
 
   return (
     <div>
-      <div>
-        <h1>Organized</h1>
-        <ul>
-          {repOptions.map((repOpt) => (
-            <li key={repOpt}>
-              <a
-                className="link view-by"
-                href="#"
-                onClick={() => setSelectedCategory(repOpt)}
-              >
-                {repOpt}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <h1>Organized</h1>
+      <ul>
+        {repOptions.map((repOpt) => (
+          <li key={repOpt}>
+            <a
+              className="link view-by"
+              href="#"
+              onClick={() => setSelectedCategory(repOpt)}
+            >
+              {repOpt}
+            </a>
+          </li>
+        ))}
+      </ul>
+      {selectedCategory ? (
         <div>
-          {filteredEntries?.map((entry, index) => {
-            return (
-              <Col key={index} md="6" lg="4">
-                <Link to={`/single-entry/${entry._id}`}>
-                  <div key={index}>
-                    <Card
-                      outline
-                      style={{
-                        width: "18rem",
-                      }}
-                    >
-                      <CardBody>
-                        <CardTitle class="text-2xl font-bold">
-                          {entry.weight} lbs
-                        </CardTitle>
-                        <p>{entry.reps} rep</p>
-                        <CardSubtitle>{entry.date}</CardSubtitle>
-                      </CardBody>
-                    </Card>
-                  </div>
-                </Link>
-              </Col>
-            );
-          })} 
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Date</TableCell>
+                  <TableCell align="right">Weight</TableCell>
+                  <TableCell align="right">Reps</TableCell>
+                  <TableCell align="right">Notes</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredEntries?.map((row) => (
+                  <TableRow
+                    key={row._id}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.date}
+                    </TableCell>
+                    <TableCell align="right">{row.weight}</TableCell>
+                    <TableCell align="right">{row.reps}</TableCell>
+                    <TableCell align="right">{row.notes}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
-      </div>
-
-      {/* <Container fluid="sm">
-        <Row>
-          {props.allEntries?.map((ent) => {
-            return (
-              <Col key={ent._id} md="6" lg="4">
-                <Link to={`/single-entry/${ent._id}`}>
-                  <div key={ent._id}>
-                    <Card
-                      outline
-                      style={{
-                        width: "18rem",
-                      }}
-                    >
-                      <CardBody>
-                        <CardTitle class="text-2xl font-bold">
-                          {ent.weight} lbs
-                        </CardTitle>
-                        <p>{ent.reps} rep</p>
-                        <CardSubtitle>{ent.date}</CardSubtitle>
-                      </CardBody>
-                    </Card>
-                  </div>
-                </Link>
-              </Col>
-            );
-          })}
-        </Row>
-      </Container> */}
+      ) : null}
     </div>
   );
 };
