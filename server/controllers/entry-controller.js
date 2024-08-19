@@ -94,4 +94,14 @@ router.get("/:categoryId", requireToken, async (req, res) => {
   }
 });
 
+router.get("/individual/:id", requireToken, async (req, res, next) => {
+    try {
+        const entry = await Entry.findById(req.params.id).populate("owner", "username -_id").exec()
+        console.log(entry)
+        res.status(200).json(entry);
+      } catch (error) {
+        return next(error);
+      }
+  });
+
 module.exports = router;

@@ -14,9 +14,9 @@ const EntrySchema = new mongoose.Schema(
     ref: 'User',
     required: true
   },
-  weight: { type: Number },
-  difficulty: { type: Number },
-  date: { type: String },
+  reps:{ type: Number, required: true },
+  weight: { type: Number, required: true },
+  date: { type: String, required: true },
   notes: { type: String },
 }, {timestamps: true})
 

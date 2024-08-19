@@ -78,6 +78,7 @@ router.get("/profiles", async (req, res, next) => {
 // requires authorization
 router.get("/:userId", requireToken, async (req, res, next) => {
   try {
+    const foundUser = await User.findOne({ username: loggingUser });
     const userId = req.user._id;
     const user = await User.findById(userId).select("name");
 
@@ -90,5 +91,51 @@ router.get("/:userId", requireToken, async (req, res, next) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+// get all users except oneself
+router.get("/filtered/:userId", requireToken, async (req, res, next) => {
+  try {
+        const { userId } = req.params;
+
+        // Find all users
+        const allUsers = await User.find({});
+    
+        // Filter out the user with the specified userId
+        const filteredUsers = allUsers.filter(user => user._id.toString() !== userId);
+    
+        // Send the filtered list of users
+        res.status(200).json(filteredUsers);
+  } catch (err) {
+    res.status(400).json({ error: "error" });
+    return next(err);
+  }
+});
+
+// get all users except oneself
+router.get("/stranger/:userId", async (req, res, next) => {
+  try {
+        const { userId } = req.params;
+
+        // Find all users
+        const allUsers = await User.find({});
+    
+        // Filter out the user with the specified userId
+        const filteredUsers = allUsers.filter(user => user._id.toString() !== userId);
+    
+        // Send the filtered list of users
+        res.status(200).json(filteredUsers);
+  } catch (err) {
+    res.status(400).json({ error: "error" });
+    return next(err);
+  }
+});
+
+
+
+
+
+
+
+
 
 module.exports = router;
