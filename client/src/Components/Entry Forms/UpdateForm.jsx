@@ -28,15 +28,15 @@ const UpdateForm = (props) => {
   const { register, handleSubmit } = useForm();
   const onError = (errors, e) => console.log(errors, e);
 
-  console.log(startDate)
-
   const onSubmit = async (data, e) => {
+    let formattedDate =
+      startDate.$M + 1 + "/" + startDate.$D + "/" + startDate.$y;
     const raw = JSON.stringify({
       category_id: props.category_id,
       reps: data.reps,
       weight: data.weight,
       notes: data.notes,
-      date: data.date,
+      date: formattedDate,
     });
 
     const requestOptions = {
@@ -61,31 +61,34 @@ const UpdateForm = (props) => {
 
   return (
     <div class="flex justify-center">
-      <form onSubmit={handleSubmit(onSubmit, onError)}
-      class="w-1/2 shadow-2xl shadow-indigo-500/100"
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        class="w-1/2 shadow-2xl shadow-indigo-500/100"
       >
-
         <div class="m-4">
-          <LocalizationProvider  {...register("date")} dateAdapter={AdapterDayjs}>
+          <LocalizationProvider
+            {...register("date")}
+            dateAdapter={AdapterDayjs}
+          >
             <DatePicker onChange={(newValue) => setStartDate(newValue)} />
           </LocalizationProvider>
         </div>
 
         <TextField
-            id="standard-select-currency"
-            select
-            label="Reps"
-            defaultValue={props.reps}
-            helperText="Please select the rep amount"
-            variant="standard"
-            {...register("reps")}
-          >
-            {repOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          id="standard-select-currency"
+          select
+          label="Reps"
+          defaultValue={props.reps}
+          helperText="Please select the rep amount"
+          variant="standard"
+          {...register("reps")}
+        >
+          {repOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <div class="m-4">
           <TextField

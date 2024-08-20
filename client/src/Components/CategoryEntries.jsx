@@ -14,6 +14,7 @@ import TablePagination from "@mui/material/TablePagination";
 
 const CatEntries = (props) => {
   const repOptions = [1, 2, 3, 4, 5, 10];
+
   useEffect(() => {
     function loading() {
       if (!props.allEntries || !props.title) {
@@ -23,7 +24,7 @@ const CatEntries = (props) => {
     loading();
   }, [props.allEntries]);
 
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(1);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -36,9 +37,23 @@ const CatEntries = (props) => {
     setPage(0);
   };
 
-  const filteredEntries = selectedCategory
-    ? props.allEntries.filter((p) => p.reps === selectedCategory)
-    : props.allEntries;
+  const filteredEntries = (props.allEntries || []).filter((p) => p.reps === selectedCategory);
+
+
+  console.log("filteredEntries", filteredEntries);
+
+  let maxObj;
+  let maxWeight = 0;
+
+  if (filteredEntries && filteredEntries.length > 0) {
+    for (let i = 0; i < filteredEntries.length; i++) {
+      if (filteredEntries[i].weight > maxWeight) {
+        maxWeight = filteredEntries[i].weight;
+        maxObj = filteredEntries[i];
+      }
+    }
+    console.log("Max WEIGHT: ", maxWeight);
+  }
 
   let columns = [
     { id: "date", label: "Date", minWidth: 100 },
@@ -60,8 +75,22 @@ const CatEntries = (props) => {
         ))}
       </ButtonGroup>
       <div class="me-24 ms-24 mt-8">
-        {selectedCategory ? (
+        {selectedCategory && filteredEntries.length != 0 ? (
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <Link
+              to={`/single-entry/${maxObj._id}`}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              <div class="me-4 mt-4">
+                <h1 class="text-right font-bold text-md">
+                  Current PR: {maxObj.weight}
+                </h1>
+                <p class="text-right text-xs">Set on {maxObj.date}</p>
+              </div>
+            </Link>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -81,6 +110,9 @@ const CatEntries = (props) => {
                   {filteredEntries
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
+                      {
+                        /* console.log("fjrdenmkgwfln: " + row._id + " ------ " + row.weight) */
+                      }
                       return (
                         <TableRow
                           hover
@@ -125,7 +157,9 @@ const CatEntries = (props) => {
             />
           </Paper>
         ) : (
-          <h1>Select a rep!</h1>
+          <div>
+                <h1 class="text-xl font-bold mb-4 update-title-min">No Lifts Recorded</h1>
+          </div>
         )}
       </div>
     </div>

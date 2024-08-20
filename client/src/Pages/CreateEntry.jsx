@@ -3,7 +3,6 @@ import CreateEntryForm from "../Components/Entry Forms/CreateEntryForm";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUserToken } from "../utils/authToken";
-import { Button } from "reactstrap";
 import { Fab } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -40,7 +39,7 @@ const CreateEntry = () => {
   return (
     <div class="mt-8">
       <Link to={`/entry/${id}`}>
-      <Fab variant="extended" size="small">
+      <Fab variant="extended" size="medium">
           <ArrowBackIcon sx={{ mr: 1 }} />
           Back
         </Fab>

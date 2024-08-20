@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { getUserToken } from "../utils/authToken";
 import CategoryEntries from "../Components/CategoryEntries";
 import { Link } from "react-router-dom";
-import { Button } from "reactstrap";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -59,7 +58,7 @@ const AllEntriesFromCategory = () => {
       }
     };
     categoryTitle();
-  }, [URL, TITLE_URL]);
+  }, [URL, TITLE_URL, token]);
 
   return (
     <div>
@@ -67,13 +66,13 @@ const AllEntriesFromCategory = () => {
         {title}
       </h1>
       <Link to={"/dashboard"} class="me-4">
-        <Fab variant="extended" size="small">
+        <Fab variant="extended" size="medium">
           <ArrowBackIcon sx={{ mr: 1 }} />
           Back
         </Fab>
       </Link>
       <Link to={"/create-entry/" + catId.id} class="ms-4">
-        <Fab variant="extended" size="small" color="primary">
+        <Fab variant="extended" size="medium" color="primary">
           <AddIcon sx={{ mr: 1 }} />
           Add Entry
         </Fab>

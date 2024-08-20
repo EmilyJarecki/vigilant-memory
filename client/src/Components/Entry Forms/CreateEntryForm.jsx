@@ -28,12 +28,9 @@ const CreateEntryForm = (props) => {
   const onError = (errors, e) => console.log(errors, e);
   const [startDate, setStartDate] = useState(new Date());
 
-  console.log(startDate);
   const onSubmit = async (data, e) => {
     let formattedDate = startDate.$M + 1 + "/" + startDate.$D + "/" + startDate.$y;
-    console.log(formattedDate);
-console.log("startDate", startDate)
-    console.log("data", data);
+
     const raw = JSON.stringify({
       category_id: props.categoryId,
       reps: data.reps,
