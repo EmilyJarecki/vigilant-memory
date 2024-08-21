@@ -10,7 +10,7 @@ import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const SingleEntry = (props) => {
-  const { _id, category_id, reps, notes, date, weight } =
+  const { _id, category_id, reps, notes, date, weight, milliseconds } =
     props.individualLift || {};
 
   const ENTRY_URL = `http://localhost:4000/entry/${_id}`;
@@ -74,7 +74,9 @@ const SingleEntry = (props) => {
     notes: notes,
     date: date,
     weight: weight,
+    milliseconds: milliseconds
   };
+  console.log("propsObj: ", propsObj)
 
   return (
     <div>

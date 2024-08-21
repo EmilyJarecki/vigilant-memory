@@ -10,7 +10,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-
 const repOptions = [
   { value: 1, label: 1 },
   { value: 2, label: 2 },
@@ -27,17 +26,21 @@ const CreateEntryForm = (props) => {
   const { register, handleSubmit } = useForm();
   const onError = (errors, e) => console.log(errors, e);
   const [startDate, setStartDate] = useState(new Date());
+  console.log("startDate: ", startDate);
+  console.log("new Date(): ", new Date(startDate));
+  console.log("new Date() to mil;li: ", new Date(startDate).getTime());
 
   const onSubmit = async (data, e) => {
     let formattedDate = startDate.$M + 1 + "/" + startDate.$D + "/" + startDate.$y;
-
     const raw = JSON.stringify({
       category_id: props.categoryId,
       reps: data.reps,
       weight: data.weight,
       notes: data.notes,
       date: formattedDate,
+      milliseconds: new Date(startDate).getTime()
     });
+    console.log("raw: ", raw)
 
     const requestOptions = {
       method: "POST",
@@ -65,8 +68,11 @@ const CreateEntryForm = (props) => {
         class="w-1/2 shadow-2xl shadow-indigo-500/100"
       >
         <div class="m-4">
-          <LocalizationProvider {...register("date")} dateAdapter={AdapterDayjs}>
-            <DatePicker  onChange={(newValue) => setStartDate(newValue)} />
+          <LocalizationProvider
+            {...register("date")}
+            dateAdapter={AdapterDayjs}
+          >
+            <DatePicker onChange={(newValue) => setStartDate(newValue)} />
           </LocalizationProvider>
         </div>
         <div>

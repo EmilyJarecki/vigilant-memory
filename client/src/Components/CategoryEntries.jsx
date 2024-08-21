@@ -15,6 +15,13 @@ import TablePagination from "@mui/material/TablePagination";
 const CatEntries = (props) => {
   const repOptions = [1, 2, 3, 4, 5, 10];
 
+  let columns = [
+    { id: "date", label: "Date", minWidth: 100 },
+    { id: "weight", label: "Weight", minWidth: 100 },
+    { id: "reps", label: "Reps", minWidth: 100 },
+    { id: "notes", label: "Notes", minWidth: 170 },
+  ];
+  
   useEffect(() => {
     function loading() {
       if (!props.allEntries || !props.title) {
@@ -37,30 +44,31 @@ const CatEntries = (props) => {
     setPage(0);
   };
 
+
+
+  // get all entries relevant to reps chosen 
   const filteredEntries = (props.allEntries || []).filter((p) => p.reps === selectedCategory);
 
-
-  console.log("filteredEntries", filteredEntries);
-
+  // Find the MAX lift pr
   let maxObj;
-  let maxWeight = 0;
+  let maxWeight = 0 
 
+  // sorts the date from descending
+  
   if (filteredEntries && filteredEntries.length > 0) {
+
+
+
     for (let i = 0; i < filteredEntries.length; i++) {
       if (filteredEntries[i].weight > maxWeight) {
         maxWeight = filteredEntries[i].weight;
         maxObj = filteredEntries[i];
       }
     }
-    console.log("Max WEIGHT: ", maxWeight);
+    filteredEntries.sort((a, b)=>b.milliseconds - a.milliseconds)
   }
+  console.log(filteredEntries)
 
-  let columns = [
-    { id: "date", label: "Date", minWidth: 100 },
-    { id: "weight", label: "Weight", minWidth: 100 },
-    { id: "reps", label: "Reps", minWidth: 100 },
-    { id: "notes", label: "Notes", minWidth: 170 },
-  ];
   return (
     <div class="mt-12">
       <ButtonGroup variant="contained" aria-label="Basic button group">
@@ -110,9 +118,6 @@ const CatEntries = (props) => {
                   {filteredEntries
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      {
-                        /* console.log("fjrdenmkgwfln: " + row._id + " ------ " + row.weight) */
-                      }
                       return (
                         <TableRow
                           hover

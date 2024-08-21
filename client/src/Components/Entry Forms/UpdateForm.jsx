@@ -37,6 +37,7 @@ const UpdateForm = (props) => {
       weight: data.weight,
       notes: data.notes,
       date: formattedDate,
+      milliseconds: new Date(startDate).getTime()
     });
 
     const requestOptions = {
