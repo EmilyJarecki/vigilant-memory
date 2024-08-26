@@ -83,7 +83,7 @@ const CatEntries = (props) => {
         ))}
       </ButtonGroup>
       <div class="me-24 ms-24 mt-8">
-        {selectedCategory && filteredEntries.length != 0 ? (
+        {selectedCategory && filteredEntries.length !== 0 ? (
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <Link
               to={`/single-entry/${maxObj._id}`}

@@ -28,7 +28,6 @@ const CreateEntry = () => {
         try {
           const response = await fetch(URL, requestOptions);
           const title = await response.json();
-          console.log(title)
           setTitle(title.name);
         } catch (error) {
           console.error(error);

@@ -19,6 +19,7 @@ const repOptions = [
   { value: 10, label: 10 },
 ];
 
+
 const CreateEntryForm = (props) => {
   const URL = `http://localhost:4000/entry`;
   const token = getUserToken();
@@ -26,9 +27,6 @@ const CreateEntryForm = (props) => {
   const { register, handleSubmit } = useForm();
   const onError = (errors, e) => console.log(errors, e);
   const [startDate, setStartDate] = useState(new Date());
-  console.log("startDate: ", startDate);
-  console.log("new Date(): ", new Date(startDate));
-  console.log("new Date() to mil;li: ", new Date(startDate).getTime());
 
   const onSubmit = async (data, e) => {
     let formattedDate = startDate.$M + 1 + "/" + startDate.$D + "/" + startDate.$y;
@@ -40,7 +38,6 @@ const CreateEntryForm = (props) => {
       date: formattedDate,
       milliseconds: new Date(startDate).getTime()
     });
-    console.log("raw: ", raw)
 
     const requestOptions = {
       method: "POST",
@@ -97,7 +94,7 @@ const CreateEntryForm = (props) => {
             label="Weight"
             id="standard-basic"
             variant="standard"
-            {...register("weight")}
+            {...register("weight", {valueAsNumber: true})}
             helperText="Please input weight"
           />
         </div>

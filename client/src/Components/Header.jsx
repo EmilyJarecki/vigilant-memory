@@ -2,6 +2,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserToken, clearUserToken } from "../utils/authToken";
 import {Button} from "reactstrap";
+
+// get user profile here
+
 const Header = () => {
   const token = getUserToken();
   const navigate = useNavigate();

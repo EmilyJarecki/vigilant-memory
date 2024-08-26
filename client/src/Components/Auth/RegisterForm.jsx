@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import "./Auth.css"
 
 const RegisterForm = ({ signUp }) => {
-  const initialState = { username: "", password: "", name: "" };
+  const initialState = { username: "", password: "", name: "", avatar: "" };
   const [input, setInput] = useState(initialState);
   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ const RegisterForm = ({ signUp }) => {
     if (createdUserToken) {
       console.log("Created user token:)");
     } else {
-      navigate("/");
+      navigate("/dashboard");
     }
     // FORM EMPTIES OUT
     setInput(initialState);
@@ -28,15 +28,6 @@ const RegisterForm = ({ signUp }) => {
   return (
     <div class="">
       <form onSubmit={handleSubmit}>
-        {/* <label htmlFor="username">Username: </label>
-        <input
-          className="auth-input"
-          autoComplete="off"
-          id="username"
-          name="username"
-          value={input.username}
-          onChange={handleChange}
-        /> */}
         <div>
           <TextField
             autoComplete="off"
@@ -50,17 +41,6 @@ const RegisterForm = ({ signUp }) => {
             onChange={handleChange}
           />
         </div>
-
-        {/* <label htmlFor="password">Password: </label>
-        <input
-          autoComplete="off"
-          className="auth-input"
-          id="password"
-          name="password"
-          type="password"
-          value={input.password}
-          onChange={handleChange}
-        /> */}
         <div>
           <TextField
             autoComplete="off"
@@ -74,15 +54,6 @@ const RegisterForm = ({ signUp }) => {
             onChange={handleChange}
           />
         </div>
-        {/* <label htmlFor="name">Name: </label>
-        <input
-          autoComplete="off"
-          className="auth-input"
-          id="name"
-          name="name"
-          value={input.name}
-          onChange={handleChange}
-        /> */}
         <div>
           <TextField
             autoComplete="off"
@@ -96,8 +67,6 @@ const RegisterForm = ({ signUp }) => {
             onChange={handleChange}
           />
         </div>
-        {/* <input className="auth-sub" type="submit" value="Sign Up" /> */}
-
         <div class="flex justify-center mb-4">
           <button type="submit" className="create-account-button auth-sub">
             Create Account
