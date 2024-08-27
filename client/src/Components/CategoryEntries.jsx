@@ -43,9 +43,6 @@ const CatEntries = (props) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-
-
   // get all entries relevant to reps chosen 
   const filteredEntries = (props.allEntries || []).filter((p) => p.reps === selectedCategory);
 
@@ -56,9 +53,6 @@ const CatEntries = (props) => {
   // sorts the date from descending
   
   if (filteredEntries && filteredEntries.length > 0) {
-
-
-
     for (let i = 0; i < filteredEntries.length; i++) {
       if (filteredEntries[i].weight > maxWeight) {
         maxWeight = filteredEntries[i].weight;
@@ -67,15 +61,15 @@ const CatEntries = (props) => {
     }
     filteredEntries.sort((a, b)=>b.milliseconds - a.milliseconds)
   }
-  console.log(filteredEntries)
 
   return (
     <div class="mt-12">
       <ButtonGroup variant="contained" aria-label="Basic button group">
         {repOptions.map((repOpt) => (
           <a
+            
             className="link view-by"
-            href="#"
+            // href="#"
             onClick={() => setSelectedCategory(repOpt)}
           >
             <Button>{repOpt} rep</Button>
@@ -83,7 +77,7 @@ const CatEntries = (props) => {
         ))}
       </ButtonGroup>
       <div class="me-24 ms-24 mt-8">
-        {selectedCategory && filteredEntries.length != 0 ? (
+        {selectedCategory && filteredEntries.length !== 0 ? (
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <Link
               to={`/single-entry/${maxObj._id}`}

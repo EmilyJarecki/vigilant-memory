@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Main from "./Components/Main";
 import Header from "./Components/Header";
 import { UserContext } from "./data";
-import { useState } from "react";
-import "./Styles/base.css"
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import "./Styles/base.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
+// services
 
 function App() {
   const { Provider: UserInfo } = UserContext;
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
 
   return (
     <div className="App">
@@ -27,7 +27,7 @@ function App() {
           setUser: setCurrentUser,
         }}
       >
-      <Header />
+        <Header />
         <Main />
       </UserInfo>
     </div>

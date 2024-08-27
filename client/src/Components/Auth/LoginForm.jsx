@@ -29,15 +29,6 @@ const LoginForm = ({ signIn }) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {/* <label htmlFor="username">Username: </label>
-        <input
-          autoComplete="off"
-          className="auth-input"
-          id="username"
-          name="username"
-          value={input.username}
-          onChange={handleChange}
-        /> */}
         <div>
           <TextField
             label="Username"
@@ -51,18 +42,6 @@ const LoginForm = ({ signIn }) => {
             onChange={handleChange}
           />
         </div>
-        {/* <br />
-        <br />
-        <label htmlFor="password">Password: </label>
-        <input
-          autoComplete="off"
-          className="auth-input"
-          id="password"
-          name="password"
-          type="password"
-          value={input.password}
-          onChange={handleChange}
-        /> */}
 
         <div>
           <TextField
@@ -78,7 +57,6 @@ const LoginForm = ({ signIn }) => {
             onChange={handleChange}
           />
         </div>
-        {/* <input className="auth-log" type="submit" value="Login User" /> */}
         <div class="flex justify-center mb-4">
           <button type="submit" className="login-button auth-log">
             Log In
