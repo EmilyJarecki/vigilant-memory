@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import "./Auth.css"
 
 const RegisterForm = ({ signUp }) => {
-  const initialState = { username: "", password: "", name: "", avatar: "" };
+  const initialState = { username: "", password: "", firstName: "", lastName: "" };
   const [input, setInput] = useState(initialState);
   const navigate = useNavigate();
 
@@ -59,12 +59,25 @@ const RegisterForm = ({ signUp }) => {
           <TextField
             autoComplete="off"
             className="auth-input"
-            label="Full Name"
+            label="First name"
             id="standard-basic"
             variant="standard"
-            helperText="Please input your full name"
-            name="name"
-            value={input.name}
+            helperText="Please input your first name"
+            name="firstName"
+            value={input.firstName}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <TextField
+            autoComplete="off"
+            className="auth-input"
+            label="Last name"
+            id="standard-basic"
+            variant="standard"
+            helperText="Please input your last name"
+            name="lastName"
+            value={input.lastName}
             onChange={handleChange}
           />
         </div>

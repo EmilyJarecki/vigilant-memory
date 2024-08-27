@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+
 import CategoryEntries from "../Components/CategoryEntries";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getCategoryTitleById } from "../Services/categoryService";
 import {entriesByCategory } from "../Services/entryService"
+
+import {Fab, CircularProgress} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 
 const AllEntriesFromCategory = () => {
   const [allEntries, setEntries] = useState(null);
@@ -39,7 +42,7 @@ const AllEntriesFromCategory = () => {
   }
 
   if (!entryTitle || !allEntries) {
-    return <div>Loading...</div>;
+    return <div><CircularProgress color="secondary" /></div>;
   }
 
   return (

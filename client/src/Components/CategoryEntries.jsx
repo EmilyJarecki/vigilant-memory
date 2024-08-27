@@ -1,16 +1,7 @@
 // THIS IS WORKING
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
+import {Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, CircularProgress} from "@mui/material";
 
 const CatEntries = (props) => {
   const repOptions = [1, 2, 3, 4, 5, 10];
@@ -25,7 +16,9 @@ const CatEntries = (props) => {
   useEffect(() => {
     function loading() {
       if (!props.allEntries || !props.title) {
-        return <div>Loading...</div>; // Or some loading indicator
+        return <div>
+        <CircularProgress color="secondary" />
+</div>; 
       }
     }
     loading();

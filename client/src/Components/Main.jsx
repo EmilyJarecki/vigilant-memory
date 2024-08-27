@@ -16,6 +16,7 @@ const Main = () => {
   const [user, setUser] = useState(authService.getUser());
   const [userProfile, setUserProfile] = useState(profileService.show());
   const [allProfiles, setAllProfiles] = useState([]);
+  const [allExceptSelf, setAllExceptSelf] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -26,10 +27,26 @@ const Main = () => {
     displayAllProfiles();
   }, [user]);
 
+
+  useEffect(() => {
+    const exceptSelf = async () => {
+    try {
+      const others = await profileService.allProfilesExceptSelf(user);
+      console.log(others)
+      setAllExceptSelf(others);
+    } catch (error) {
+      console.error(error)
+    }
+  };
+  exceptSelf();
+}, [user])
+
   useEffect(() => {
     const fetchProfile = async () => {
       if (user) {
-        const profileData = await profileService.show(user.profile);
+        console.log(user)
+        const profileData = await profileService.show(user);
+        console.log(profileData)
         setUserProfile(profileData);
       }
     };
@@ -39,7 +56,6 @@ const Main = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const category = await categoryService.getCategories();
-      console.log(category)
       setCategories(category);
     };
     fetchCategories();
@@ -56,7 +72,7 @@ const Main = () => {
         <Route
           path="/profile"
           element={
-            <ProfilePage userInfo={userProfile} allProfiles={allProfiles} />
+            <ProfilePage userInfo={userProfile} allExceptSelf={allExceptSelf} />
           }
         />
       </Routes>

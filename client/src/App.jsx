@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Main from "./Components/Main";
 import Header from "./Components/Header";
@@ -9,7 +9,6 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-// services
 
 function App() {
   const { Provider: UserInfo } = UserContext;

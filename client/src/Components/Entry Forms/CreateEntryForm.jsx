@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+
 import "./CreateEntryForm.css";
 import "react-datepicker/dist/react-datepicker.css";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+import {TextField, MenuItem} from "@mui/material";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 import { createEntry } from "../../Services/entryService"
 
 const repOptions = [
@@ -18,7 +20,6 @@ const repOptions = [
   { value: 5, label: 5 },
   { value: 10, label: 10 },
 ];
-
 
 const CreateEntryForm = (props) => {
   console.log(props)

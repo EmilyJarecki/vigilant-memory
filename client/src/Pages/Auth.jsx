@@ -3,10 +3,7 @@ import {setUserToken, clearUserToken } from "../utils/authToken";
 import { UserContext } from "../data";
 import RegisterForm from "../Components/Auth/RegisterForm";
 import LoginForm from "../Components/Auth/LoginForm";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
+import {Accordion, AccordionSummary, AccordionDetails, Typography} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Auth = () => {

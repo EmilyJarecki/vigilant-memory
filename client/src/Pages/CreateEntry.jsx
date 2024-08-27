@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CreateEntryForm from "../Components/Entry Forms/CreateEntryForm";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Fab } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
+import { Fab, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getCategoryTitleById } from "../Services/categoryService";
 
@@ -23,7 +22,7 @@ const CreateEntry = () => {
   }, [id]);
 
   if (!title) {
-    return <div>Loading...</div>;
+    return <div><CircularProgress color="secondary" /></div>;
   }
 
   return (

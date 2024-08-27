@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import "./UpdateForm.css";
 import "react-datepicker/dist/react-datepicker.css";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+
+import {TextField, MenuItem} from "@mui/material";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";

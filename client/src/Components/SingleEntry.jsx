@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import UpdateForm from "./Entry Forms/UpdateForm";
-import { useNavigate } from "react-router-dom";
 import "./Entry Forms/UpdateForm.css";
-import { Fab } from "@mui/material";
+
+import { Fab, CircularProgress } from "@mui/material";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+
 import { deleteEntry } from "../Services/entryService";
 import { getCategoryTitleById } from "../Services/categoryService";
 
@@ -20,25 +23,29 @@ const SingleEntry = (props) => {
 
   useEffect(() => {
     const loadTitle = async () => {
-    try {
-      const title = await getCategoryTitleById(category_id);
-      setEntryTitle(title);
-    } catch (error) {
-      console.error(error)
-    }
-  };
-  loadTitle();
-}, [category_id])
+      try {
+        const title = await getCategoryTitleById(category_id);
+        setEntryTitle(title);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadTitle();
+  }, [category_id]);
 
   if (!props.individualLift || !entryTitle) {
-    return <div>Loading...</div>; // Or some loading indicator
+    return (
+      <div>
+        <CircularProgress color="secondary" />
+      </div>
+    ); // Or some loading indicator
   }
 
   const deleteLiftEntry = async () => {
     try {
-      const response = await deleteEntry(_id)
+      const response = await deleteEntry(_id);
       navigate(`/entry/${category_id}`);
-      return response
+      return response;
     } catch (error) {
       console.error(error);
     }
@@ -52,9 +59,8 @@ const SingleEntry = (props) => {
     notes: notes,
     date: date,
     weight: weight,
-    milliseconds: milliseconds
+    milliseconds: milliseconds,
   };
-
 
   return (
     <div>
