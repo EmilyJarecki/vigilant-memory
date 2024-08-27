@@ -1,69 +1,51 @@
-import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { getUserToken } from "../utils/authToken";
+import { useParams, Link } from "react-router-dom";
 import CategoryEntries from "../Components/CategoryEntries";
-import { Link } from "react-router-dom";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getCategoryTitleById } from "../Services/categoryService";
+import {entriesByCategory } from "../Services/entryService"
+
 const AllEntriesFromCategory = () => {
-  const token = getUserToken();
-  const [allEntries, setEntry] = useState(null);
-  const [title, setTitle] = useState(null);
+  const [allEntries, setEntries] = useState(null);
   const { id } = useParams();
-  const URL = `http://localhost:4000/entry/${id}`;
-  const TITLE_URL = `http://localhost:4000/category/${id}`;
   const catId = { id };
+  const [entryTitle, setEntryTitle] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // get all entries from this category
-    const entries = async () => {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        redirect: "follow",
-      };
+    const fetchEntries = async () => {
+      const entry = await entriesByCategory(id);
+      setEntries(entry);
+    };
+    fetchEntries();
+  }, [id]);
 
+  useEffect(() => {
+      const loadTitle = async () => {
       try {
-        const response = await fetch(URL, requestOptions);
-        const allEntries = await response.json();
-        setEntry(allEntries);
+        const entryTitle = await getCategoryTitleById(id);
+        setEntryTitle(entryTitle);
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     };
-    entries();
+    loadTitle();
+  }, [id])
+  
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-    // get category title
-    const categoryTitle = async () => {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        redirect: "follow",
-      };
-
-      try {
-        const response = await fetch(TITLE_URL, requestOptions);
-        const title = await response.json();
-        console.log(title);
-        setTitle(title.name);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    categoryTitle();
-  }, [URL, TITLE_URL, token]);
+  if (!entryTitle || !allEntries) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
-        {title}
+        {entryTitle.name}
       </h1>
       <Link to={"/dashboard"} class="me-4">
         <Fab variant="extended" size="medium">
@@ -77,7 +59,7 @@ const AllEntriesFromCategory = () => {
           Add Entry
         </Fab>
       </Link>
-      <CategoryEntries allEntries={allEntries} title={title} />
+      <CategoryEntries allEntries={allEntries} title={entryTitle.name} />
     </div>
   );
 };

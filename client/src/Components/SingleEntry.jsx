@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getUserToken } from "../utils/authToken";
 import { Link } from "react-router-dom";
 import UpdateForm from "./Entry Forms/UpdateForm";
 import { useNavigate } from "react-router-dom";
@@ -8,59 +7,38 @@ import { Fab } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { deleteEntry } from "../Services/entryService";
+import { getCategoryTitleById } from "../Services/categoryService";
 
 const SingleEntry = (props) => {
   const { _id, category_id, reps, notes, date, weight, milliseconds } =
     props.individualLift || {};
+  const [entryTitle, setEntryTitle] = useState(null);
 
-  const ENTRY_URL = `http://localhost:4000/entry/${_id}`;
-  const TITLE_URL = `http://localhost:4000/category/${category_id}`;
-  const [title, setTitle] = useState(null);
-  const token = getUserToken();
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const categoryTitle = async () => {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        redirect: "follow",
-      };
+    const loadTitle = async () => {
+    try {
+      const title = await getCategoryTitleById(category_id);
+      setEntryTitle(title);
+    } catch (error) {
+      console.error(error)
+    }
+  };
+  loadTitle();
+}, [category_id])
 
-      try {
-        const response = await fetch(TITLE_URL, requestOptions);
-        const title = await response.json();
-        setTitle(title.name);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    categoryTitle();
-  }, [TITLE_URL, props.title]);
-
-  if (!props.individualLift || !title) {
+  if (!props.individualLift || !entryTitle) {
     return <div>Loading...</div>; // Or some loading indicator
   }
 
-  const deleteEntry = async () => {
-    const requestOptions = {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      redirect: "follow",
-    };
-
+  const deleteLiftEntry = async () => {
     try {
-      const response = await fetch(ENTRY_URL, requestOptions);
-      const result = await response.json();
-      console.log(result);
+      const response = await deleteEntry(_id)
       navigate(`/entry/${category_id}`);
-      // navigate(`/entry/${category_id}`)
+      return response
     } catch (error) {
       console.error(error);
     }
@@ -76,12 +54,12 @@ const SingleEntry = (props) => {
     weight: weight,
     milliseconds: milliseconds
   };
-  console.log("propsObj: ", propsObj)
+
 
   return (
     <div>
       <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
-        {title}
+        {entryTitle.name}
       </h1>
       <div class="mb-4">
         <Link to={`/entry/${props.individualLift.category_id}`}>
@@ -103,7 +81,7 @@ const SingleEntry = (props) => {
                 color="error"
                 variant="extended"
                 size="medium"
-                onClick={() => deleteEntry()}
+                onClick={() => deleteLiftEntry()}
               >
                 <RemoveCircleIcon sx={{ mr: 1 }} />
                 Delete
@@ -125,7 +103,7 @@ const SingleEntry = (props) => {
       ) : (
         <div>
           <h1 class="text-indigo-500/50 update-title">
-            Update<span> {title}</span>
+            Update<span> {entryTitle.name}</span>
           </h1>
           <UpdateForm {...propsObj} />
         </div>

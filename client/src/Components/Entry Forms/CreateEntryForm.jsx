@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { getUserToken } from "../../utils/authToken";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./CreateEntryForm.css";
@@ -9,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { createEntry } from "../../Services/entryService"
 
 const repOptions = [
   { value: 1, label: 1 },
@@ -21,43 +21,32 @@ const repOptions = [
 
 
 const CreateEntryForm = (props) => {
-  const URL = `http://localhost:4000/entry`;
-  const token = getUserToken();
+  console.log(props)
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const onError = (errors, e) => console.log(errors, e);
   const [startDate, setStartDate] = useState(new Date());
 
-  const onSubmit = async (data, e) => {
+  const onSubmit = async (data) => {
     let formattedDate = startDate.$M + 1 + "/" + startDate.$D + "/" + startDate.$y;
-    const raw = JSON.stringify({
+    const raw = {
       category_id: props.categoryId,
       reps: data.reps,
       weight: data.weight,
       notes: data.notes,
       date: formattedDate,
       milliseconds: new Date(startDate).getTime()
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: raw,
-      redirect: "follow",
-    };
+    }
 
     try {
-      const response = await fetch(URL, requestOptions);
-      const result = await response.json();
-      console.log(result);
+      const response = await createEntry(raw)
+      console.log(response);
       navigate("/entry/" + props.categoryId);
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <div class="flex justify-center">
       <form

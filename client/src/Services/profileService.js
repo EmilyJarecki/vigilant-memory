@@ -1,6 +1,7 @@
 import * as tokenService from "./tokenService";
 const BASE_URL = "http://localhost:4000/auth";
 
+// being used:)
 const show = async (id) => {
   const requestOptions = {
     method: "GET",

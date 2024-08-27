@@ -46,6 +46,7 @@ const RegisterForm = ({ signUp }) => {
             autoComplete="off"
             className="auth-input"
             label="Password"
+            type="password"
             id="standard-basic"
             variant="standard"
             helperText="Please create a password"

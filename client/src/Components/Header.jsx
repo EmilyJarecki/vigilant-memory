@@ -22,7 +22,11 @@ const Header = () => {
         class="navbar bg-dark border-bottom border-body ps-4 pe-4"
         data-bs-theme="dark"
       >
-        <Link to="/dashboard" className="text-white text-decoration-none">Dashboard</Link>
+      <div className="">
+        <Link to="/dashboard" className="text-white text-decoration-none pe-4">Dashboard</Link>
+        <Link to="/profile" className="text-white text-decoration-none">Profile</Link>
+
+      </div>
           <div>
             <Button outline onClick={logoutUser}>Log Out</Button>
           </div>
