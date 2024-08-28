@@ -110,19 +110,18 @@ router.get("/filtered/:userId", requireToken, async (req, res, next) => {
   }
 });
 
-// get other user
-router.get("/stranger/:userId", async (req, res, next) => {
+router.put("/update", requireToken, async (req, res, next) => {
   try {
-        const { userId } = req.params;
+    const userId = req.user._id;
 
-        // Find all users
-        const allUsers = await User.find({});
-    
-        // Filter out the user with the specified userId
-        const filteredUsers = allUsers.filter(user => user._id.toString() !== userId);
-    
-        // Send the filtered list of users
-        res.status(200).json(filteredUsers);
+        const updatedProfile = await User.findByIdAndUpdate(
+          userId,
+          req.body,
+          { new: true }
+        )
+        res.status(200).json(updatedProfile)
+        
+        res.status(200).json();
   } catch (err) {
     res.status(400).json({ error: "error" });
     return next(err);

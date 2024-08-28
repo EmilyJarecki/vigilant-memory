@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    avatar: {
-      type: String,
+    friend: {
+      type: Boolean,
     },
     username: {
       type: String,
