@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/lib");
+const { User, Entry } = require("../models/lib");
 const { requireToken } = require("../middleware/auth");
 const { createUserToken } = require("../middleware/auth");
 const bcrypt = require("bcrypt");
@@ -74,19 +74,18 @@ router.get("/profiles", async (req, res, next) => {
   }
 });
 
-// Route to get the name of the authenticated user
+// Route to get authenticated user
 // requires authorization
-router.get("/:userId", requireToken, async (req, res, next) => {
+router.get("/self", requireToken, async (req, res, next) => {
   try {
-    const foundUser = await User.findOne({ username: loggingUser });
     const userId = req.user._id;
-    const user = await User.findById(userId).select("name");
+    const user = await User.findById(userId)
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ name: user.name });
+    res.status(200).json({ user: user });
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -111,31 +110,52 @@ router.get("/filtered/:userId", requireToken, async (req, res, next) => {
   }
 });
 
-// get all users except oneself
-router.get("/stranger/:userId", async (req, res, next) => {
+// filters users' lifts by categories and reps
+router.get("/filtered-category/:categoryId/:filterNum", requireToken, async (req, res) => {
   try {
-        const { userId } = req.params;
+    const userId = req.user._id;
+    const { categoryId, filterNum} = req.params;
 
-        // Find all users
-        const allUsers = await User.find({});
+    console.log("filterNum", filterNum)
+
+    const entries = await Entry.find({
+      owner: userId,
+      category_id: categoryId,
+    })
+      .populate("owner", "username -_id")
+      .exec();
+
+    const filteredEntries = entries.filter(entry => parseInt(entry.reps) == filterNum);
     
-        // Filter out the user with the specified userId
-        const filteredUsers = allUsers.filter(user => user._id.toString() !== userId);
+    console.log("filtered entries: ", filteredEntries)
     
-        // Send the filtered list of users
-        res.status(200).json(filteredUsers);
+    res.status(200).json(filteredEntries);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while filtering the entries." });
+  }
+});
+
+
+router.put("/update", requireToken, async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+
+        const updatedProfile = await User.findByIdAndUpdate(
+          userId,
+          req.body,
+          { new: true }
+        )
+        res.status(200).json(updatedProfile)
+        
+        res.status(200).json();
   } catch (err) {
     res.status(400).json({ error: "error" });
     return next(err);
   }
 });
-
-
-
-
-
-
-
 
 
 module.exports = router;

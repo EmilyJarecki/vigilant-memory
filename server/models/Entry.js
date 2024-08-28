@@ -17,7 +17,10 @@ const EntrySchema = new mongoose.Schema(
   reps:{ type: Number, required: true },
   weight: { type: Number, required: true },
   date: { type: String, required: true },
+  milliseconds: { type: String },
   notes: { type: String },
+  likes: { type: [mongoose.Schema.Types.ObjectId], ref: 'User', default: [] },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 }, {timestamps: true})
 
 const Entry = mongoose.model("Entry", EntrySchema)
