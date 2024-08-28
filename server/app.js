@@ -17,6 +17,7 @@ const authController = require('./controllers/auth-controller')
 const categoryController = require('./controllers/category-controller')
 const entryController = require('./controllers/entry-controller')
 const profileController = require('./controllers/profile-controller')
+const commentController = require('./controllers/comment-controller')
 
 
 //MIDDLEWARE
@@ -27,6 +28,7 @@ app.use('/auth', authController)
 app.use('/category', categoryController)
 app.use('/entry', entryController)
 app.use('/profile', profileController)
+app.use('/comment', commentController)
 
 // LISTENER
 app.listen(process.env.PORT || 4000, () => console.log(`listening on PORT ${PORT}`));
