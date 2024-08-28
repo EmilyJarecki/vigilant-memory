@@ -74,19 +74,18 @@ router.get("/profiles", async (req, res, next) => {
   }
 });
 
-// Route to get the name of the authenticated user
+// Route to get authenticated user
 // requires authorization
-router.get("/:userId", requireToken, async (req, res, next) => {
+router.get("/self", requireToken, async (req, res, next) => {
   try {
-    const foundUser = await User.findOne({ username: loggingUser });
     const userId = req.user._id;
-    const user = await User.findById(userId).select("name");
+    const user = await User.findById(userId)
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ name: user.name });
+    res.status(200).json({ user: user });
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -111,7 +110,7 @@ router.get("/filtered/:userId", requireToken, async (req, res, next) => {
   }
 });
 
-// get all users except oneself
+// get other user
 router.get("/stranger/:userId", async (req, res, next) => {
   try {
         const { userId } = req.params;
@@ -129,13 +128,6 @@ router.get("/stranger/:userId", async (req, res, next) => {
     return next(err);
   }
 });
-
-
-
-
-
-
-
 
 
 module.exports = router;
