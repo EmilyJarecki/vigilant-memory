@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/lib");
+const { User, Entry } = require("../models/lib");
 const { requireToken } = require("../middleware/auth");
 const { createUserToken } = require("../middleware/auth");
 const bcrypt = require("bcrypt");
@@ -109,6 +109,35 @@ router.get("/filtered/:userId", requireToken, async (req, res, next) => {
     return next(err);
   }
 });
+
+// filters users' lifts by categories and reps
+router.get("/filtered-category/:categoryId/:filterNum", requireToken, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { categoryId, filterNum} = req.params;
+
+    console.log("filterNum", filterNum)
+
+    const entries = await Entry.find({
+      owner: userId,
+      category_id: categoryId,
+    })
+      .populate("owner", "username -_id")
+      .exec();
+
+    const filteredEntries = entries.filter(entry => parseInt(entry.reps) == filterNum);
+    
+    console.log("filtered entries: ", filteredEntries)
+    
+    res.status(200).json(filteredEntries);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while filtering the entries." });
+  }
+});
+
 
 router.put("/update", requireToken, async (req, res, next) => {
   try {

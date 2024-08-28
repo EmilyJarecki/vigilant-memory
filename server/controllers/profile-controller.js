@@ -16,10 +16,10 @@ router.get("/other/:id", requireToken, async (req, res, next) => {
 });
 
 // adds friends
-router.post("/add-friend", requireToken, async (req, res, next) => {
+router.post("/add-friend/:friendId", requireToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const friendId = req.body.friendId;
+    const friendId = req.params.friendId;
 
     const user = await User.findById(userId);
     const friend = await User.findById(friendId);
@@ -71,10 +71,10 @@ router.get("/friends", requireToken, async (req, res, next) => {
 });
 
 // deletes friends
-router.delete("/remove-friend", requireToken, async (req, res, next) => {
+router.delete("/remove-friend/:friendId", requireToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const friendId = req.body.friendId;
+    const friendId = req.params.friendId;
     const user = await User.findById(userId);
 
     // Check if the friend exists in the user's friends list
@@ -98,9 +98,9 @@ router.delete("/remove-friend", requireToken, async (req, res, next) => {
 });
 
 // get all entries from other user
-router.get("/all-posts", async (req, res) => {
+router.get("/all-posts/:friendId", async (req, res) => {
   try {
-    const friendId = req.body.friendId;
+    const friendId = req.params.friendId;
     console.log(friendId);
     const post = await Entry.find({ owner: friendId })
       .populate("owner", "username -_id")
@@ -114,4 +114,50 @@ router.get("/all-posts", async (req, res) => {
   }
 });
 
+// get the individual friends' entry can be found at URL/entry/individual/:id
+
+// get all user posts from a single category // working
+router.get("/entry-by-category/:friendId/:categoryId", requireToken, async (req, res) => {
+  try {
+    const {friendId, categoryId} = req.params;
+    const entry = await Entry.find({
+      owner: friendId,
+      category_id: categoryId,
+    })
+      .populate("owner", "username -_id")
+      .exec();
+    console.log(entry);
+    res.status(200).json(entry);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the entries." });
+  }
+});
+
+// filters friends' lifts by categories and reps
+router.get("/entry-by-category/:friendId/:categoryId/:filterNum", requireToken, async (req, res) => {
+  try {
+    const {friendId, categoryId, filterNum} = req.params;
+    console.log("filterNum", filterNum)
+    const entries = await Entry.find({
+      owner: friendId,
+      category_id: categoryId,
+    })
+      .populate("owner", "username -_id")
+      .exec();
+
+    const filteredEntries = entries.filter(entry => parseInt(entry.reps) == filterNum);
+    console.log("filtered entries: ", filteredEntries)
+    res.status(200).json(filteredEntries);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while filtering the entries." });
+  }
+});
+
 module.exports = router;
+
