@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    friend: {
-      type: Boolean,
-    },
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     username: {
       type: String,
       required: true,
@@ -21,7 +19,7 @@ const userSchema = new mongoose.Schema(
     lastName: {
       type: String,
       required: true,
-    }
+    },
   },
   {
     timestamps: true,
