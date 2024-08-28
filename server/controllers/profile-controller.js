@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/lib");
+const { User, Entry } = require("../models/lib");
 const { requireToken } = require("../middleware/auth");
 
 // gets exterior user
@@ -67,6 +67,50 @@ router.get("/friends", requireToken, async (req, res, next) => {
   } catch (err) {
     res.status(400).json({ error: "error" });
     return next(err);
+  }
+});
+
+// deletes friends
+router.delete("/remove-friend", requireToken, async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const friendId = req.body.friendId;
+    const user = await User.findById(userId);
+
+    // Check if the friend exists in the user's friends list
+    const friendIndex = user.friends.indexOf(friendId);
+    if (friendIndex === -1) {
+      return res
+        .status(400)
+        .json({ message: "Friend not found in the friends list" });
+    }
+
+    // Remove the friend from the friends list
+    user.friends.splice(friendIndex, 1);
+
+    // Save the updated user document
+    await user.save();
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ error: "error" });
+    return next(err);
+  }
+});
+
+// get all entries from other user
+router.get("/all-posts", async (req, res) => {
+  try {
+    const friendId = req.body.friendId;
+    console.log(friendId);
+    const post = await Entry.find({ owner: friendId })
+      .populate("owner", "username -_id")
+      .exec();
+    res.status(200).json(post);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the entries." });
   }
 });
 

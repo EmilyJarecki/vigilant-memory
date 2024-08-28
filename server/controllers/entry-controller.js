@@ -30,7 +30,6 @@ router.post("/", requireToken, async (req, res, next) => {
   }
 });
 
-// working
 router.put("/:id", requireToken, async (req, res) => {
   try {
     handleValidateOwnership(req, await Entry.findById(req.params.id));
@@ -46,7 +45,6 @@ router.put("/:id", requireToken, async (req, res) => {
 });
 
 // get all posts relative towards user
-// working
 router.get("/all", requireToken, async (req, res) => {
   try {
     const userId = req.user._id;
@@ -94,6 +92,7 @@ router.get("/:categoryId", requireToken, async (req, res) => {
   }
 });
 
+// individual entry
 router.get("/individual/:id", requireToken, async (req, res, next) => {
     try {
         const entry = await Entry.findById(req.params.id).populate("owner", "username -_id").exec()
