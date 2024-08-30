@@ -1,5 +1,5 @@
-// THIS IS WORKING
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Table,
@@ -16,25 +16,23 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const CatEntries = ({ organizedEntries, chosenRep }) => {
-
   const [openRow, setOpenRow] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
   const open = Boolean(anchorEl);
+  const ITEM_HEIGHT = 48;
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const ITEM_HEIGHT = 48;
 
   const handleRowClick = (rowIndex) => {
     setOpenRow(openRow === rowIndex ? null : rowIndex);
@@ -86,7 +84,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
                     {row.date}
                   </TableCell>
                   <TableCell align="right">{row.weight}</TableCell>
-                  <TableCell>
+                  <TableCell align="right">
                     <IconButton
                       aria-label="more"
                       id="long-button"
@@ -115,7 +113,9 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
                       }}
                     >
                       <MenuItem onClick={handleClose}>
-                        <Link to={`/single-entry/${row._id}`}>View Details</Link>
+                        <Link to={`/single-entry/${row._id}`}>
+                          View Details
+                        </Link>
                       </MenuItem>
                     </Menu>
                   </TableCell>

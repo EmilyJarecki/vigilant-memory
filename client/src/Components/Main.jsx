@@ -11,7 +11,6 @@ import * as authService from "../Services/authService";
 import * as profileService from "../Services/profileService";
 import * as entryService from "../Services/categoryService";
 import * as categoryService from "../Services/categoryService";
-import UpdateForm from "./Entry Forms/UpdateForm";
 
 const Main = () => {
   const [user, setUser] = useState(authService.getUser());

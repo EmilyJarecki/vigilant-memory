@@ -9,9 +9,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LiftByReps from "../Components/CategoryEntries/LiftByReps";
 
 const AllEntriesFromCategory = () => {
+  const [entryTitle, setEntryTitle] = useState(null);
   const { id } = useParams();
   const catId = { id };
-  const [entryTitle, setEntryTitle] = useState(null);
 
   useEffect(() => {
     const loadTitle = async () => {

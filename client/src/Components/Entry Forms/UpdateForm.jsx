@@ -3,9 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import "./UpdateForm.css";
 import "react-datepicker/dist/react-datepicker.css";
-
 import {TextField, MenuItem} from "@mui/material";
-
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -25,6 +23,7 @@ const UpdateForm = (props) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
+  
   const onError = (errors, e) => console.log(errors, e);
 
   const onSubmit = async (data) => {
@@ -51,7 +50,7 @@ const UpdateForm = (props) => {
     <div class="flex justify-center">
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        class="w-1/2 shadow-2xl shadow-indigo-500/100"
+        class="shadow-2xl shadow-indigo-500/100"
       >
         <div class="m-4">
           <LocalizationProvider

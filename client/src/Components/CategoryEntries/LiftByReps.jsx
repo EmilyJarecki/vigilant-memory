@@ -57,7 +57,6 @@ const LiftByReps = (props) => {
       }
     }
   }
-  console.log("MaxObj", maxObj);
 
   return (
     <div>
@@ -77,47 +76,49 @@ const LiftByReps = (props) => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={isLineSwitchChecked}
-                  onChange={handleLineSwitchChange}
-                />
-              }
-              label="View Linear Graph"
-            />
-            <FormControlLabel
-              control={
-                <Switch
                   checked={isTableSwitchChecked}
                   onChange={handleTableSwitchChange}
                 />
               }
               label="View Table"
             />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isLineSwitchChecked}
+                  onChange={handleLineSwitchChange}
+                />
+              }
+              label="View Linear Graph"
+            />
           </FormGroup>
         )}
       </div>
 
-      <div className="flex justify-center flex-wrap gap-[50px] mt-4">
-        {/* SHOWING TABLE */}
+      <div>
         <div className="">
           {filteredEntries.length > 0 ? (
-            <div className="w-[300px]">
-              {isTableSwitchChecked && filteredEntries.length > 0 && (
-                <CatEntries
-                  organizedEntries={organized}
-                  chosenRep={chosenRep}
-                />
-              )}
+            <div className="flex justify-center flex-wrap gap-[50px] mt-4">
+              <div className="w-[500px]">
+        {/* SHOWING TABLE */}
+                {isTableSwitchChecked && filteredEntries.length > 0 && (
+                  <CatEntries
+                    organizedEntries={organized}
+                    chosenRep={chosenRep}
+                  />
+                )}
+              </div>
+        {/* SHOWING LINE GRAPH */}
+              <div className="w-[500px]">
+                {isLineSwitchChecked && filteredEntries.length > 0 && (
+                  <div className="">
+                    <LineChart organizedEntries={organized} />
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <p className="text-indigo-500">No entries found</p>
-          )}
-        </div>
-        {/* SHOWING LINE CHART */}
-        <div className="w-[500px]">
-          {isLineSwitchChecked && filteredEntries.length > 0 && (
-            <div className="">
-              <LineChart organizedEntries={organized} />
-            </div>
           )}
         </div>
       </div>
