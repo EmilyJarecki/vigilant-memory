@@ -42,6 +42,7 @@ const CreateEntryForm = (props) => {
     try {
       const response = await createEntry(raw)
       console.log(response);
+      // this isn't navigating correctly
       navigate("/entry/" + props.categoryId);
     } catch (error) {
       console.error(error);

@@ -1,48 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import CategoryEntries from "../Components/CategoryEntries";
 import { getCategoryTitleById } from "../Services/categoryService";
-import {entriesByCategory } from "../Services/entryService"
 
-import {Fab, CircularProgress} from "@mui/material";
+import { Fab, CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import LiftByReps from "../Components/CategoryEntries/LiftByReps";
 
 const AllEntriesFromCategory = () => {
-  const [allEntries, setEntries] = useState(null);
   const { id } = useParams();
   const catId = { id };
   const [entryTitle, setEntryTitle] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchEntries = async () => {
-      const entry = await entriesByCategory(id);
-      setEntries(entry);
-    };
-    fetchEntries();
-  }, [id]);
-
-  useEffect(() => {
-      const loadTitle = async () => {
+    const loadTitle = async () => {
       try {
         const entryTitle = await getCategoryTitleById(id);
         setEntryTitle(entryTitle);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     };
     loadTitle();
-  }, [id])
-  
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  }, [id]);
 
-  if (!entryTitle || !allEntries) {
-    return <div><CircularProgress color="secondary" /></div>;
+  if (!entryTitle) {
+    return (
+      <div>
+        <CircularProgress color="secondary" />
+      </div>
+    );
   }
 
   return (
@@ -62,7 +50,7 @@ const AllEntriesFromCategory = () => {
           Add Entry
         </Fab>
       </Link>
-      <CategoryEntries allEntries={allEntries} title={entryTitle.name} />
+      <LiftByReps categoryId={catId.id}/>
     </div>
   );
 };

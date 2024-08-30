@@ -83,7 +83,6 @@ const getIndividualEntryById = async (id) => {
   };
 
   const entriesByCategory = async (id) => {
-    console.log(id)
     const requestOptions = {
       method: "GET",
       headers: {
@@ -96,7 +95,6 @@ const getIndividualEntryById = async (id) => {
     try {
       const response = await fetch(`http://localhost:4000/entry/${id}`, requestOptions);
       const entries = await response.json();
-      console.log(entries);
       return entries
     } catch (error) {
       console.error(error);
