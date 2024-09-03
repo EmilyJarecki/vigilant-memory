@@ -8,7 +8,7 @@ import { Fab, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const SingleEntry = (props) => {
-  const { _id, category_id, reps, notes, date, weight, milliseconds } =
+  const { _id, category_id, reps, notes, date, weight } =
     props.individualLift || {};
 
   useEffect(() => {

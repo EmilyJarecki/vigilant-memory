@@ -17,13 +17,22 @@ const repOptions = [1, 2, 3, 4, 5, 10];
 const LiftByReps = (props) => {
   const categoryId = props.categoryId;
   const [chosenRep, setChosenRep] = useState(1);
-  const [filteredEntries, setFilteredEntries] = useState([]); // this needs to be organized by milliseconds
+  const [filteredEntries, setFilteredEntries] = useState([]);
   const [isLineSwitchChecked, setIsLineSwitchChecked] = useState(true); // State for Switch
   const [isTableSwitchChecked, setIsTableSwitchChecked] = useState(true); // State for Switch
 
-  const organized = filteredEntries.sort(
-    (a, b) => a.milliseconds - b.milliseconds
-  );
+
+  console.log("filtered Entries: ", filteredEntries)
+
+  filteredEntries.sort((a, b) => {
+    // Convert the date strings to Date objects
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    
+    // Compare the Date objects
+    return dateA - dateB;
+  });
+
   const handleLineSwitchChange = (event) => {
     setIsLineSwitchChecked(event.target.checked);
   };
@@ -49,11 +58,11 @@ const LiftByReps = (props) => {
   let maxObj;
   let maxWeight = 0;
 
-  if (organized && organized.length > 0) {
-    for (let i = 0; i < organized.length; i++) {
-      if (organized[i].weight > maxWeight) {
-        maxWeight = organized[i].weight;
-        maxObj = organized[i];
+  if (filteredEntries && filteredEntries.length > 0) {
+    for (let i = 0; i < filteredEntries.length; i++) {
+      if (filteredEntries[i].weight > maxWeight) {
+        maxWeight = filteredEntries[i].weight;
+        maxObj = filteredEntries[i];
       }
     }
   }
@@ -103,7 +112,7 @@ const LiftByReps = (props) => {
         {/* SHOWING TABLE */}
                 {isTableSwitchChecked && filteredEntries.length > 0 && (
                   <CatEntries
-                    organizedEntries={organized}
+                    organizedEntries={filteredEntries}
                     chosenRep={chosenRep}
                   />
                 )}
@@ -112,7 +121,7 @@ const LiftByReps = (props) => {
               <div className="w-[500px]">
                 {isLineSwitchChecked && filteredEntries.length > 0 && (
                   <div className="">
-                    <LineChart organizedEntries={organized} />
+                    <LineChart organizedEntries={filteredEntries} />
                   </div>
                 )}
               </div>

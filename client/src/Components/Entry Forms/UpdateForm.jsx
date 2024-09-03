@@ -33,8 +33,7 @@ const UpdateForm = (props) => {
       reps: data.reps,
       weight: data.weight,
       notes: data.notes,
-      date: formattedDate,
-      milliseconds: new Date(startDate).getTime(),
+      date: formattedDate
     };
 
     try {

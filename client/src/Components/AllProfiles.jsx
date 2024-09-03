@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {List, ListItemButton, ListItemIcon, ListItemText, Collapse, Avatar} from "@mui/material";
-import {ExpandLess, ExpandMore} from "@mui/icons-material";
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  Avatar,
+} from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const AllProfiles = ({ allExceptSelf }) => {
   const [profiles, setProfiles] = useState([]);
@@ -32,7 +39,7 @@ const AllProfiles = ({ allExceptSelf }) => {
             {profiles.map((elem) => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
-                <Avatar>{elem.firstName.slice(0,1)} </Avatar>
+                  <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
                 </ListItemIcon>
                 <ListItemText primary={elem.firstName} />
               </ListItemButton>

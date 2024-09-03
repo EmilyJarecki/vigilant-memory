@@ -25,7 +25,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
-  const ITEM_HEIGHT = 48;
+  const ITEM_HEIGHT = 48; // is this necessary?
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

@@ -63,7 +63,6 @@ const IndividualEntry = () => {
       notes,
       date,
       weight,
-      milliseconds,
     } = individualLift;
 
     propsObj = {
@@ -72,8 +71,7 @@ const IndividualEntry = () => {
       reps,
       notes,
       date,
-      weight,
-      milliseconds,
+      weight
     };
   }
 

@@ -1,6 +1,5 @@
 import * as tokenService from "./tokenService";
 
-// being used :)
 const getCategories = async () => {
     const requestOptions = {
       method: "GET",
@@ -19,7 +18,6 @@ const getCategories = async () => {
     }
   };
 
-  // being used :)
   const getCategoryTitleById = async (id) => {
     const requestOptions = {
       method: "GET",
