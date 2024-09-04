@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import SingleEntry from "../Components/SingleEntry";
 import UpdateForm from "../Components/Entry Forms/UpdateForm";
@@ -7,17 +7,19 @@ import UpdateForm from "../Components/Entry Forms/UpdateForm";
 import { getIndividualEntryById, deleteEntry } from "../Services/entryService";
 import { getCategoryTitleById } from "../Services/categoryService";
 
-import { Fab } from "@mui/material";
-import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Box, Fade, Button } from "@mui/material";
 
 const IndividualEntry = () => {
   const [individualLift, setLiftEntry] = useState(null);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
   const [entryTitle, setEntryTitle] = useState(null);
-  
+
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const handleChange = () => {
+    setUserWantsToUpdate((prev) => !prev);
+  };
 
   useEffect(() => {
     const lift = async () => {
@@ -34,7 +36,7 @@ const IndividualEntry = () => {
   useEffect(() => {
     const loadTitle = async () => {
       try {
-        const title = await getCategoryTitleById(individualLift.category_id);
+        const title = await getCategoryTitleById(individualLift?.category_id);
         setEntryTitle(title);
       } catch (error) {
         console.error(error);
@@ -71,52 +73,35 @@ const IndividualEntry = () => {
       reps,
       notes,
       date,
-      weight
+      weight,
     };
   }
 
+  console.log("propsobj, ", propsObj);
+
+  const form = (
+    <div>{propsObj != undefined ? <UpdateForm {...propsObj} /> : null}</div>
+  );
   return (
     <div>
       <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
         {entryTitle?.name}
       </h1>
       <div className="flex justify-center gap-[80px]">
-
-        <div className="">
         <SingleEntry individualLift={individualLift} />
-          <div class="">
-            <div class="">
-              <Fab
-                color="error"
-                variant="extended"
-                size="medium"
-                onClick={() => deleteLiftEntry()}
-              >
-                <RemoveCircleIcon sx={{ mr: 1 }} />
-                Delete
-              </Fab>
-            </div>
-            <div class="">
-              <Fab
-                color="primary"
-                variant="extended"
-                size="medium"
-                onClick={() => setUserWantsToUpdate(true)}
-              >
-                <UpdateTwoToneIcon sx={{ mr: 1 }} />
-                Update
-              </Fab>
-            </div>
-          </div>
+        <div>
+          <Button variant="contained" onClick={() => deleteLiftEntry()}>
+            Delete
+          </Button>
         </div>
-          <div>
-            {userWantsToUpdate === true ? (
-              <div>
-                <UpdateForm {...propsObj} />
-                <p onClick={() => setUserWantsToUpdate(false)}>Cancel</p>
-              </div>
-            ) : null}
-          </div>
+        <div>
+          <Button variant="contained" onClick={handleChange}>
+            {userWantsToUpdate ? "Hide" : "Update"}
+          </Button>
+          <Box sx={{ display: "flex" }}>
+            <Fade in={userWantsToUpdate}>{form}</Fade>
+          </Box>
+        </div>
       </div>
     </div>
   );

@@ -20,23 +20,29 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
+const ITEM_HEIGHT = 48; // Adjust based on your MenuItem height
+
 const CatEntries = ({ organizedEntries, chosenRep }) => {
   const [openRow, setOpenRow] = useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [currentRowId, setCurrentRowId] = useState(null);
 
-  const open = Boolean(anchorEl);
-  const ITEM_HEIGHT = 48; // is this necessary?
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleRowClick = (index) => {
+    setOpenRow(openRow === index ? null : index);
   };
+
+  const handleClick = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setCurrentRowId(id);
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
+    setCurrentRowId(null);
   };
 
-  const handleRowClick = (rowIndex) => {
-    setOpenRow(openRow === rowIndex ? null : rowIndex);
-  };
+  const open = Boolean(anchorEl);
+  const id = open ? 'long-menu' : undefined;
 
   useEffect(() => {
     function loading() {
@@ -63,9 +69,10 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
               <TableCell />
             </TableRow>
           </TableHead>
+
           <TableBody>
             {organizedEntries.map((row, index) => (
-              <React.Fragment key={index}>
+              <React.Fragment key={row._id}>
                 <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                   <TableCell>
                     <IconButton
@@ -91,7 +98,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
                       aria-controls={open ? "long-menu" : undefined}
                       aria-expanded={open ? "true" : undefined}
                       aria-haspopup="true"
-                      onClick={handleClick}
+                      onClick={(event) => handleClick(event, row._id)}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -101,7 +108,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
                         "aria-labelledby": "long-button",
                       }}
                       anchorEl={anchorEl}
-                      open={open}
+                      open={open && currentRowId === row._id}
                       onClose={handleClose}
                       slotProps={{
                         paper: {
