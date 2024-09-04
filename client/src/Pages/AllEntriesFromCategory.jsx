@@ -38,19 +38,15 @@ const AllEntriesFromCategory = () => {
       <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
         {entryTitle.name}
       </h1>
-      <Link to={"/dashboard"} class="me-4">
-        <Fab variant="extended" size="medium">
-          <ArrowBackIcon sx={{ mr: 1 }} />
+
+      <div class="flex justify-center flex-wrap">
+        <Link to={"/dashboard"} class="me-4">
+          <ArrowBackIcon />
           Back
-        </Fab>
-      </Link>
-      <Link to={"/create-entry/" + catId.id} class="ms-4">
-        <Fab variant="extended" size="medium" color="primary">
-          <AddIcon sx={{ mr: 1 }} />
-          Add Entry
-        </Fab>
-      </Link>
-      <LiftByReps categoryId={catId.id}/>
+        </Link>
+      </div>
+
+      <LiftByReps categoryId={catId.id} />
     </div>
   );
 };

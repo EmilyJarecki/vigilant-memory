@@ -20,6 +20,7 @@ const repOptions = [
 ];
 
 const UpdateForm = (props) => {
+  console.log("PROPS: ", props)
   const [startDate, setStartDate] = useState(dayjs()); // Initialize with the current date
   const { id } = useParams();
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const UpdateForm = (props) => {
 
   const onError = (errors, e) => console.log(errors, e);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
     // Format the date using Dayjs
     const formattedDate = startDate.format('M/D/YYYY');
     const raw = {
@@ -49,17 +50,17 @@ const UpdateForm = (props) => {
     try {
       const response = await updateEntry(raw, id);
       console.log(response);
-      navigate("/entry/" + props.category_id);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mb-8">
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="shadow-2xl shadow-indigo-500/100"
+        className="shadow-2xl shadow-indigo-500/100 w-96 mt-4"
       >
         <div className="m-4">
           <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -58,7 +58,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
   }, [organizedEntries, chosenRep]);
 
   return (
-    <div class="mt-12">
+    <div class="mt-4">
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -141,7 +141,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
                         <Typography variant="h6" gutterBottom component="div">
                           Notes
                         </Typography>
-                        {row.notes}
+                        {row.notes=== "" ? <p>No notes avaliable</p> : <p>{row.notes}</p>}
                       </Box>
                     </Collapse>
                   </TableCell>

@@ -77,8 +77,6 @@ const IndividualEntry = () => {
     };
   }
 
-  console.log("propsobj, ", propsObj);
-
   const form = (
     <div>{propsObj != undefined ? <UpdateForm {...propsObj} /> : null}</div>
   );
@@ -87,8 +85,8 @@ const IndividualEntry = () => {
       <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
         {entryTitle?.name}
       </h1>
-      <div className="flex justify-center gap-[80px]">
         <SingleEntry individualLift={individualLift} />
+      <div className="flex justify-center gap-[80px]">
         <div>
           <Button variant="contained" onClick={() => deleteLiftEntry()}>
             Delete
@@ -96,13 +94,15 @@ const IndividualEntry = () => {
         </div>
         <div>
           <Button variant="contained" onClick={handleChange}>
-            {userWantsToUpdate ? "Hide" : "Update"}
+            {userWantsToUpdate ? "Cancel" : "Update"}
           </Button>
+        </div>
+      </div>
+      <div className="flex justify-center">
           <Box sx={{ display: "flex" }}>
             <Fade in={userWantsToUpdate}>{form}</Fade>
           </Box>
-        </div>
-      </div>
+          </div>
     </div>
   );
 };
