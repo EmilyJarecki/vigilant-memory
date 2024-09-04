@@ -36,12 +36,12 @@ const CreateEntryForm = (props) => {
       weight: data.weight,
       notes: data.notes,
       date: formattedDate,
-      milliseconds: new Date(startDate).getTime()
     }
 
     try {
       const response = await createEntry(raw)
       console.log(response);
+      // this isn't navigating correctly
       navigate("/entry/" + props.categoryId);
     } catch (error) {
       console.error(error);

@@ -1,120 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import UpdateForm from "./Entry Forms/UpdateForm";
 import "./Entry Forms/UpdateForm.css";
 
-import { Fab, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-import { deleteEntry } from "../Services/entryService";
-import { getCategoryTitleById } from "../Services/categoryService";
+// Reusable component for the shadowed boxes to prevent repitition
+const ShadowBox = ({ children, width = 'w-48', textSize = 'text-2xl' }) => (
+  <div className={`shadow-md shadow-indigo-300/100 ${width}`}>
+    <div className={`${textSize} p-2`}>{children}</div>
+  </div>
+);
 
 const SingleEntry = (props) => {
-  const { _id, category_id, reps, notes, date, weight, milliseconds } =
+  const { _id, category_id, reps, notes, date, weight } =
     props.individualLift || {};
-  const [entryTitle, setEntryTitle] = useState(null);
 
-  const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
-  const navigate = useNavigate();
+  useEffect(() => {}, [props]);
 
-  useEffect(() => {
-    const loadTitle = async () => {
-      try {
-        const title = await getCategoryTitleById(category_id);
-        setEntryTitle(title);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadTitle();
-  }, [category_id]);
-
-  if (!props.individualLift || !entryTitle) {
+  if (!props.individualLift) {
     return (
       <div>
         <CircularProgress color="secondary" />
       </div>
-    ); // Or some loading indicator
+    );
   }
 
-  const deleteLiftEntry = async () => {
-    try {
-      const response = await deleteEntry(_id);
-      navigate(`/entry/${category_id}`);
-      return response;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // category_id, notes, date, weight
-  const propsObj = {
-    entry_id: _id,
-    category_id: category_id,
-    reps: reps,
-    notes: notes,
-    date: date,
-    weight: weight,
-    milliseconds: milliseconds,
-  };
-
   return (
-    <div>
-      <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
-        {entryTitle.name}
-      </h1>
-      <div class="mb-4">
-        <Link to={`/entry/${props.individualLift.category_id}`}>
-          <Fab variant="extended" size="medium">
-            <ArrowBackIcon sx={{ mr: 1 }} />
-            Back
-          </Fab>
-        </Link>
+    <>
+    <div className="text-start ms-24" >
+      <Link to={`/entry/${props.individualLift.category_id}`}>
+        <ArrowBackIcon />
+        Back
+      </Link>
       </div>
-      {userWantsToUpdate === false ? (
+    <div className="flex items-center flex-col">
+      <div className="flex flex-col content-center w-96 p-4 gap-4">
+        <div className="flex flex-row justify-between">
         <div>
-          <div class="flex justify-center">
-            <div class=" w-[500px]shadow-lg shadow-indigo-500/50">{weight}</div>
+            <p className="text-start">Date: </p>
+            <ShadowBox width="w-48">{date}</ShadowBox>
           </div>
+          <div>
+            <p className="text-start">Weight: </p>
+            <ShadowBox width="w-32">{weight}</ShadowBox>
+          </div>
+        </div>
 
-          <div class="flex flex-row justify-center mt-4">
-            <div class="me-4">
-              <Fab
-                color="error"
-                variant="extended"
-                size="medium"
-                onClick={() => deleteLiftEntry()}
-              >
-                <RemoveCircleIcon sx={{ mr: 1 }} />
-                Delete
-              </Fab>
-            </div>
-            <div class="ms-4">
-              <Fab
-                color="primary"
-                variant="extended"
-                size="medium"
-                onClick={() => setUserWantsToUpdate(true)}
-              >
-                <UpdateTwoToneIcon sx={{ mr: 1 }} />
-                Update
-              </Fab>
-            </div>
-          </div>
-        </div>
-      ) : (
         <div>
-          <h1 class="text-indigo-500/50 update-title">
-            Update<span> {entryTitle.name}</span>
-          </h1>
-          <UpdateForm {...propsObj} />
+          <p className="text-start">Notes: </p>
+
+          <ShadowBox width="w-full" textSize="text-md">
+            {notes ? <p>{notes}</p> : <p>No notes available</p>}
+          </ShadowBox>
         </div>
-      )}
-    </div>
+      </div>
+    </div></>
   );
 };
 

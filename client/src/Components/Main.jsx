@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Auth from "../Pages/Auth";
 import Dashboard from "../Pages/Dashboard";
-import AllEntriesFromCategory from "../Pages/AllEntriesFromCategory";
+import CategoryEntries from "../Pages/AllEntriesFromCategory";
 import IndividualEntry from "../Pages/IndividualEntry";
 import CreateEntry from "../Pages/CreateEntry";
 import ProfilePage from "../Pages/ProfilePage";
@@ -18,7 +18,7 @@ const Main = () => {
   const [allProfiles, setAllProfiles] = useState([]);
   const [allExceptSelf, setAllExceptSelf] = useState([]);
   const [categories, setCategories] = useState([]);
-
+  
   useEffect(() => {
     async function displayAllProfiles() {
       const profiles = await profileService.getAllProfiles();
@@ -27,12 +27,11 @@ const Main = () => {
     displayAllProfiles();
   }, [user]);
 
-
+// this needs to be moved elsewhere
   useEffect(() => {
     const exceptSelf = async () => {
     try {
       const others = await profileService.allProfilesExceptSelf(user);
-      console.log(others)
       setAllExceptSelf(others);
     } catch (error) {
       console.error(error)
@@ -44,9 +43,7 @@ const Main = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       if (user) {
-        console.log(user)
         const profileData = await profileService.show(user);
-        console.log(profileData)
         setUserProfile(profileData);
       }
     };
@@ -62,11 +59,11 @@ const Main = () => {
   }, []);
 
   return (
-    <main>
+    <main className="">
       <Routes>
         <Route path="/dashboard" element={<Dashboard categoryList={categories}/>} />
         <Route path="/" element={<Auth />} />
-        <Route path="/entry/:id" element={<AllEntriesFromCategory />} />
+        <Route path="/entry/:id" element={<CategoryEntries />} />
         <Route path="/create-entry/:id" element={<CreateEntry />} />
         <Route path="/single-entry/:id" element={<IndividualEntry />} />
         <Route

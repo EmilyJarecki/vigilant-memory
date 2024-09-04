@@ -38,7 +38,6 @@ async function getAllProfiles() {
 }
 
 const allProfilesExceptSelf = async (id) => {
-  console.log("Id: ", id)
   const requestOptions = {
     method: "GET",
     headers: {
