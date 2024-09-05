@@ -51,7 +51,7 @@ const getPersonalEntryByCategoryAndReps= async (categoryId, reps)=>{
   try {
     const response = await fetch(`http://localhost:4000/auth/filtered-category/${categoryId}/${reps}`, requestOptions);
     const filteredEntries = await response.json();
-    console.log("filteredEntries", filteredEntries)
+    // console.log("filteredEntries", filteredEntries)
     return filteredEntries
   } catch (error) {
     console.error(error);

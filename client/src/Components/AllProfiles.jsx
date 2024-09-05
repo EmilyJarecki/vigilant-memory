@@ -31,13 +31,13 @@ const AllProfiles = ({ allExceptSelf }) => {
         aria-labelledby="nested-list-subheader"
       >
         <ListItemButton onClick={handleClick}>
-          <ListItemText primary="Friends" />
+          <ListItemText primary="All Profiles" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {profiles.map((elem) => (
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton key={elem._id} sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
                 </ListItemIcon>

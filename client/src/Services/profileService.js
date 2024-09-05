@@ -56,4 +56,22 @@ const allProfilesExceptSelf = async (id) => {
   }
 }
 
-export { show, getAllProfiles, allProfilesExceptSelf };
+const getUserFriends = async (id) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tokenService.getToken()}`,
+    },
+    redirect: "follow",
+  };
+
+  try {
+    const res = await fetch(`${BASE_URL}/friends`, requestOptions); 
+    console.log("friends res", res)
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+export { show, getAllProfiles, allProfilesExceptSelf, getUserFriends };
