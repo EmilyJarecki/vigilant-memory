@@ -75,7 +75,6 @@ router.get("/profiles", async (req, res, next) => {
 });
 
 // Route to get authenticated user
-// requires authorization
 router.get("/self", requireToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -138,7 +137,6 @@ router.get("/filtered-category/:categoryId/:filterNum", requireToken, async (req
   }
 });
 
-
 router.put("/update", requireToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -157,5 +155,64 @@ router.put("/update", requireToken, async (req, res, next) => {
   }
 });
 
+// get list of users friends
+router.get("/friends", requireToken, async (req, res, next) => {
+  try {
+    // Extract user ID from the token
+    const userId = req.user._id;
+
+    // Find the user and populate their friends
+    const user = await User.findById(userId).populate(
+      {
+        path: 'friends',
+        select: 'username firstName lastName' // Adjust fields as needed
+      }
+    );
+
+    // Check if the user exists
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return the friends' profiles
+    return res.status(200).json({
+      message: "Friends retrieved successfully",
+      friends: user.friends
+    });
+  } catch (err) {
+    console.error('Error:', err); // Log the error for debugging
+    res.status(400).json({ error: "Error retrieving friends" });
+    return next(err);
+  }
+});
+
+// remove a friend
+router.delete("/remove-friend/:friendId", requireToken, async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const friendId = req.params.friendId;
+
+    // Find the user
+    const user = await User.findById(userId);
+
+    // Check if the friend exists in the user's friends list
+    const friendIndex = user.friends.findIndex(f => f._id.toString() === friendId);
+    if (friendIndex === -1) {
+      return res.status(400).json({ message: "Friend not found in user's friends list" });
+    }
+
+    // Remove the friend from the user's friends list
+    user.friends.splice(friendIndex, 1);
+
+    // Save the updated user document
+    await user.save();
+
+    return res.status(200).json({ message: "Friend removed successfully", user });
+  } catch (err) {
+    console.error('Error:', err); // Log the error for debugging
+    res.status(400).json({ error: "Error removing friend" });
+    return next(err);
+  }
+});
 
 module.exports = router;
