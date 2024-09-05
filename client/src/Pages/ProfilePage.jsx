@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import IndividualInfo from "../Components/IndividualInfo";
-import AllProfiles from "../Components/AllProfiles";
+import IndividualInfo from "../Components/Profile/IndividualInfo";
+import AllProfiles from "../Components/Profile/AllProfiles";
 import { getUserFriends } from "../Services/profileService";
+import UserFriends from "../Components/Profile/UserFriends";
 
 const ProfilePage = ({ userInfo, allExceptSelf }) => {
   const [friends, setFriends] = useState([]);
@@ -11,7 +12,7 @@ const ProfilePage = ({ userInfo, allExceptSelf }) => {
       try {
         const userFriend = await getUserFriends();
         console.log(userFriend);
-        setFriends(userFriend.friends)
+        setFriends(userFriend.friends);
       } catch (error) {
         console.error(error);
       }
@@ -21,7 +22,7 @@ const ProfilePage = ({ userInfo, allExceptSelf }) => {
 
   return (
     <div>
-    {friends?.map((elem)=><p key={elem._id}>{elem.firstName}</p>)}
+      <UserFriends userFriends={friends} />
       <IndividualInfo userInfo={userInfo.user} />
       <AllProfiles allExceptSelf={allExceptSelf} userInfo={userInfo.user} />
     </div>

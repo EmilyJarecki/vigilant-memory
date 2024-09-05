@@ -9,8 +9,8 @@ import ProfilePage from "../Pages/ProfilePage";
 
 import * as authService from "../Services/authService";
 import * as profileService from "../Services/profileService";
-import * as entryService from "../Services/categoryService";
 import * as categoryService from "../Services/categoryService";
+import ExternalUser from "../Pages/ExternalUser";
 
 const Main = () => {
   const [user, setUser] = useState(authService.getUser());
@@ -72,6 +72,7 @@ const Main = () => {
             <ProfilePage userInfo={userProfile} allExceptSelf={allExceptSelf} />
           }
         />
+        <Route path="/external-user/:id" element={<ExternalUser />} />
       </Routes>
     </main>
   );
