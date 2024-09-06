@@ -49,14 +49,22 @@ const ProfilePage = (props) => {
     );
   }
 
+  const isFriend = (id) => {
+    return userFriendArr.some(friend => friend._id === id);
+  };
+
   return (
     <div>
       <h1>Hello from Profile Page</h1>
       <div>
         {props.allExceptSelf.map((elem) => (
           <div key={elem._id} className="border-4 p-2 mb-2">
-            <h2>User {elem.firstName}</h2>
-            <button onClick={() => addAsFriend(elem._id)}>Add Friend</button>
+            <h2>Hello {elem.firstName}</h2>
+            {isFriend(elem._id) ? (
+              <button onClick={() => unfriend(elem._id)}>Remove Friend</button>
+            ) : (
+              <button onClick={() => addAsFriend(elem._id)}>Add Friend</button>
+            )}
           </div>
         ))}
       </div>
