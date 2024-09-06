@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { removeFriend } from "../../Services/profileService";
 
 const UserFriends = ({ userFriends }) => {
+  console.log(userFriends)
   const [friends, setFriends] = useState(userFriends);
 
   useEffect(() => {}, [userFriends]);
@@ -28,7 +29,7 @@ const UserFriends = ({ userFriends }) => {
           userFriends.map((friend) => (
             <div key={friend._id}>
               <p>{friend.firstName}</p>
-              <button onClick={() => unfriend(friend._id)}>Unfriend</button>
+              {/* <button onClick={() => unfriend(friend._id)}>Unfriend</button> */}
             </div>
           ))
         ) : (

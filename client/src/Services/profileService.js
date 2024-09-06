@@ -49,7 +49,6 @@ const allProfilesExceptSelf = async (id) => {
 
   try {
     const res = await fetch(`${BASE_URL}/filtered/${id}`, requestOptions); 
-    console.log(res)
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -68,8 +67,8 @@ const getUserFriends = async (id) => {
 
   try {
     const res = await fetch(`${BASE_URL}/friends`, requestOptions); 
-    console.log("friends res", res)
-    return await res.json();
+    const result = await res.json();
+    return result
   } catch (error) {
     console.log(error);
   }
@@ -83,13 +82,10 @@ const addFriend = async (id) => {
       Authorization: `Bearer ${tokenService.getToken()}`,
     }
   };
-  console.log("requestOptions", requestOptions)
 
   try {
     const response = await fetch(`http://localhost:4000/profile/add-friend/${id}`, requestOptions);
-    console.log("RES", response)
     const result = await response.json();
-    console.log(result)
     return result
   } catch (error) {
     console.error(error);
@@ -97,7 +93,6 @@ const addFriend = async (id) => {
 };
 
 const removeFriend = async (id) => {
-  console.log(id)
   const requestOptions = {
     method: "DELETE",
     headers: {
@@ -109,8 +104,7 @@ const removeFriend = async (id) => {
 
   try {
     const response = await fetch(`${BASE_URL}/remove-friend/${id}`, requestOptions);
-    const deleted = await response.json();
-    return deleted
+    return await response.json();
   } catch (error) {
     console.error(error);
   }

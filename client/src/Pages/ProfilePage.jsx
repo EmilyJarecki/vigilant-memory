@@ -1,56 +1,79 @@
 import React, { useState, useEffect } from "react";
-import IndividualInfo from "../Components/Profile/IndividualInfo";
-import AllProfiles from "../Components/Profile/AllProfiles";
-import UserFriends from "../Components/Profile/UserFriends";
 import * as authService from "../Services/authService";
 import * as profileService from "../Services/profileService";
+import { CircularProgress } from "@mui/material";
+import UserFriends from "../Components/Profile/UserFriends";
 
-const ProfilePage = () => {
-  const [friends, setFriends] = useState([]);
+const ProfilePage = (props) => {
+  const [userFriendArr, setFriends] = useState([]);
   const [user, setUser] = useState(authService.getUser());
-  const [allExceptSelf, setAllExceptSelf] = useState([]);
-  const [userProfile, setUserProfile] = useState(profileService.show());
 
   useEffect(() => {
-    const userFriends = async () => {
+    const fetchUserFriends = async () => {
       try {
         const userFriend = await profileService.getUserFriends();
-        console.log(userFriend);
         setFriends(userFriend.friends);
       } catch (error) {
         console.error(error);
       }
     };
-    userFriends();
+    fetchUserFriends();
   }, [user]);
-  
-  useEffect(() => {
-    const exceptSelf = async () => {
+
+  // friending
+  const addAsFriend = async (id) => {
     try {
-      const others = await profileService.allProfilesExceptSelf(user);
-      setAllExceptSelf(others);
+      const res = await profileService.addFriend(id);
+      // Update the friends state to include the new friend
+      setFriends(res.user.friends);
     } catch (error) {
-      console.error(error)
+      console.error("Error adding friend:", error);
     }
   };
-  exceptSelf();
-}, [user])
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (user) {
-        const profileData = await profileService.show(user);
-        setUserProfile(profileData);
-      }
-    };
-    fetchProfile();
-  }, [user]);
+  const unfriend = async (id) => {
+    try {
+      await profileService.removeFriend(id);
+      // Remove the friend from the list if successfully removed
+      setFriends(userFriendArr.filter((friend) => friend._id !== id));
+    } catch (error) {
+      console.error("Error removing friend:", error);
+    }
+  };
+
+  if (!props) {
+    return (
+      <div>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
 
   return (
     <div>
-      <UserFriends userFriends={friends} />
-      <IndividualInfo userInfo={userProfile} />
-      <AllProfiles allExceptSelf={allExceptSelf} userInfo={user} />
+      <h1>Hello from Profile Page</h1>
+      <div>
+        {props.allExceptSelf.map((elem) => (
+          <div key={elem._id} className="border-4 p-2 mb-2">
+            <h2>User {elem.firstName}</h2>
+            <button onClick={() => addAsFriend(elem._id)}>Add Friend</button>
+          </div>
+        ))}
+      </div>
+      <div>
+        FRIENDS!
+        {userFriendArr.map((elem) => (
+          <div key={elem._id} className="border-2">
+            <p>{elem.firstName}</p>
+            <button onClick={() => unfriend(elem._id)}>Remove Friend</button>
+          </div>
+        ))}
+      </div>
+
+      {/* Add your components here */}
+      {/* <UserFriends userFriends={userFriendArr} /> */}
+      {/* <IndividualInfo userInfo={userProfile} />
+      <AllProfiles allExceptSelf={allExceptSelf} userInfo={user} /> */}
     </div>
   );
 };
