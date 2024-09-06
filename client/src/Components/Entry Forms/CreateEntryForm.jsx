@@ -49,12 +49,12 @@ const CreateEntryForm = (props) => {
   };
 
   return (
-    <div class="flex justify-center">
+    <div className="flex justify-center">
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        class="w-1/2 shadow-2xl shadow-indigo-500/100"
+        className="w-1/2 shadow-2xl shadow-indigo-500/100"
       >
-        <div class="m-4">
+        <div className="m-4">
           <LocalizationProvider
             {...register("date")}
             dateAdapter={AdapterDayjs}
@@ -79,7 +79,7 @@ const CreateEntryForm = (props) => {
             ))}
           </TextField>
         </div>
-        <div class="m-4">
+        <div className="m-4">
           <TextField
             label="Weight"
             id="standard-basic"
@@ -99,7 +99,7 @@ const CreateEntryForm = (props) => {
             className="notes-textbox"
           />
         </div>
-        <div class="flex justify-center mb-4">
+        <div className="flex justify-center mb-4">
           <button type="submit" className="create-entry-button">
             Submit
           </button>

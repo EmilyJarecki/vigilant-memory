@@ -10,7 +10,7 @@ const IndividualInfo = ({ userInfo }) => {
     }
   }, [userInfo]);
 
-  if (!profile) {
+  if (!profile.user) {
     return (
       <div>
         <CircularProgress color="secondary" />
@@ -21,8 +21,8 @@ const IndividualInfo = ({ userInfo }) => {
   return (
       <div className="flex justify-center m-8">
         <Paper className="w-1/2 p-8" variant="elevation">
-          <p>name: {profile.firstName}</p>
-          <p>username: {profile.username}</p>
+          <p>name: {profile.user.firstName}</p>
+          <p>username: {profile.user.username}</p>
         </Paper>
       </div>
   );

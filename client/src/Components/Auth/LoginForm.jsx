@@ -57,7 +57,7 @@ const LoginForm = ({ signIn }) => {
             onChange={handleChange}
           />
         </div>
-        <div class="flex justify-center mb-4">
+        <div className="flex justify-center mb-4">
           <button type="submit" className="login-button auth-log">
             Log In
           </button>

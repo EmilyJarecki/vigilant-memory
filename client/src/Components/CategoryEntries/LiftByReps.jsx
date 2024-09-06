@@ -125,7 +125,7 @@ const LiftByReps = (props) => {
         <div>
           <div>{filteredEntries.length > 0 && <Pr maxObj={maxObj} />}</div>
           <div className="mt-4">
-            <Link to={"/create-entry/" + categoryId} class="">
+            <Link to={"/create-entry/" + categoryId} className="">
               <Fab variant="extended" size="medium" color="primary">
                 <AddIcon sx={{ mr: 1 }} />
                 Add Entry

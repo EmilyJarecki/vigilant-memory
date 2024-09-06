@@ -88,8 +88,8 @@ const Auth = () => {
   return (
     <div>
       {!token ? (
-        <div class="flex justify-center bg-gray-200 min-h-screen">
-          <div class="flex flex-col w-[50%] pt-20">
+        <div className="flex justify-center bg-gray-200 min-h-screen">
+          <div className="flex flex-col w-[50%] pt-20">
             <Accordion defaultExpanded>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}

@@ -27,29 +27,6 @@ const Main = () => {
     displayAllProfiles();
   }, [user]);
 
-// this needs to be moved elsewhere
-  useEffect(() => {
-    const exceptSelf = async () => {
-    try {
-      const others = await profileService.allProfilesExceptSelf(user);
-      setAllExceptSelf(others);
-    } catch (error) {
-      console.error(error)
-    }
-  };
-  exceptSelf();
-}, [user])
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (user) {
-        const profileData = await profileService.show(user);
-        setUserProfile(profileData);
-      }
-    };
-    fetchProfile();
-  }, [user]);
-
   useEffect(() => {
     const fetchCategories = async () => {
       const category = await categoryService.getCategories();
@@ -57,6 +34,8 @@ const Main = () => {
     };
     fetchCategories();
   }, []);
+
+  console.log("userInfo", userProfile)
 
   return (
     <main className="">
@@ -72,7 +51,7 @@ const Main = () => {
             <ProfilePage userInfo={userProfile} allExceptSelf={allExceptSelf} />
           }
         />
-        <Route path="/external-user/:id" element={<ExternalUser />} />
+        <Route path="/external-user/:id" element={<ExternalUser categoryList={categories} />} />
       </Routes>
     </main>
   );

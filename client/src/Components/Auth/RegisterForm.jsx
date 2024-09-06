@@ -26,7 +26,7 @@ const RegisterForm = ({ signUp }) => {
   };
 
   return (
-    <div class="">
+    <div className="">
       <form onSubmit={handleSubmit}>
         <div>
           <TextField
@@ -81,7 +81,7 @@ const RegisterForm = ({ signUp }) => {
             onChange={handleChange}
           />
         </div>
-        <div class="flex justify-center mb-4">
+        <div className="flex justify-center mb-4">
           <button type="submit" className="create-account-button auth-sub">
             Create Account
           </button>

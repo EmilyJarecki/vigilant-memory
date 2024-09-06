@@ -61,7 +61,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
   }, [organizedEntries, chosenRep]);
 
   return (
-    <div class="mt-4">
+    <div className="mt-4">
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
