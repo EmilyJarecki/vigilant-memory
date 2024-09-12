@@ -1,8 +1,36 @@
 # SugarLifts
 In Development 
 <br>
-<br>
-<br>
+
+
+## Sneak Peak
+<table>
+<tr>
+<td align="center" width="25%">
+<h3>Login/Register Page</h3>
+   <img width="" src="https://github.com/user-attachments/assets/b82f3481-77b7-46de-9c2e-4863c4b183eb" />
+</td>
+
+            
+ <td align="center" width="25%">
+  <h3>Entry Dashboard</h3>
+  <img width="" src="https://github.com/user-attachments/assets/475338dc-70b2-4cec-a392-e3dbeb794f5b" />
+</td>
+
+ <td align="center" width="25%">
+  <h3>Create Entry</h3>
+  <img width="" src="https://github.com/user-attachments/assets/c98671e3-bccd-4754-bcfc-81caff7c928f" />
+ </td>
+
+ <td align="center" width="25%">
+  <h3>Detailed Entry/Update</h3>
+<img src="https://github.com/user-attachments/assets/51269161-50b1-4f93-a460-aa25f0bebf8d" /> 
+ </td>
+
+ 
+</tr>
+</table>
+
 #### Technologies Used: 
 <div>
             <img src="https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white"/>       
@@ -14,6 +42,5 @@ In Development
             <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white"/>
             <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB"/>
             <img src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white"/>
-              <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
+            <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
 </div>
-
