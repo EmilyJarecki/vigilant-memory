@@ -1,7 +1,5 @@
 # SugarLifts
-In Development 
-<br>
-
+Sugarlifts is designated for independent weightlifters where they can record their stats relative by type and rep scheme. Because the only way to get better is by tracking progress and staying consistent.   
 
 ## Sneak Peak
 <table>
