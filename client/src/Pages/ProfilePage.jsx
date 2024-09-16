@@ -3,10 +3,28 @@ import * as authService from "../Services/authService";
 import * as profileService from "../Services/profileService";
 import { CircularProgress } from "@mui/material";
 import UserFriends from "../Components/Profile/UserFriends";
+import IndividualInfo from "../Components/Profile/IndividualInfo";
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  Avatar,
+} from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
+// this page always needs to refresh in order to see the new user which is PROBLEMATIC 
 const ProfilePage = (props) => {
+  const { userInfo } = props;
   const [userFriendArr, setFriends] = useState([]);
   const [user, setUser] = useState(authService.getUser());
+  const [open, setOpen] = useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
     const fetchUserFriends = async () => {
@@ -41,7 +59,7 @@ const ProfilePage = (props) => {
     }
   };
 
-  if (!props) {
+  if (!props.allExceptSelf) {
     return (
       <div>
         <CircularProgress color="secondary" />
@@ -50,38 +68,50 @@ const ProfilePage = (props) => {
   }
 
   const isFriend = (id) => {
-    return userFriendArr.some(friend => friend._id === id);
+    return userFriendArr.some((friend) => friend._id === id);
   };
 
   return (
     <div>
       <h1>Hello from Profile Page</h1>
-      <div>
-        {props.allExceptSelf.map((elem) => (
-          <div key={elem._id} className="border-4 p-2 mb-2">
-            <h2>Hello {elem.firstName}</h2>
-            {isFriend(elem._id) ? (
-              <button onClick={() => unfriend(elem._id)}>Remove Friend</button>
-            ) : (
-              <button onClick={() => addAsFriend(elem._id)}>Add Friend</button>
-            )}
-          </div>
-        ))}
-      </div>
-      <div>
-        FRIENDS!
-        {userFriendArr.map((elem) => (
-          <div key={elem._id} className="border-2">
-            <p>{elem.firstName}</p>
-            <button onClick={() => unfriend(elem._id)}>Remove Friend</button>
-          </div>
-        ))}
-      </div>
-
+      <List
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        <ListItemButton onClick={handleClick}>
+          <ListItemText primary="All Profiles" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {props.allExceptSelf.map((elem) => (
+              <div key={elem._id}>
+                <Link to={`/external-user/${elem._id}`}>
+                  <ListItemButton key={elem._id} sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
+                    </ListItemIcon>
+                    <ListItemText primary={elem.firstName} />
+                  </ListItemButton>
+                </Link>
+                {isFriend(elem._id) ? (
+                  <button onClick={() => unfriend(elem._id)}>
+                    Remove Friend
+                  </button>
+                ) : (
+                  <button onClick={() => addAsFriend(elem._id)}>
+                    Add Friend
+                  </button>
+                )}
+              </div>
+            ))}
+          </List>
+        </Collapse>
+      </List>
       {/* Add your components here */}
-      {/* <UserFriends userFriends={userFriendArr} /> */}
-      {/* <IndividualInfo userInfo={userProfile} />
-      <AllProfiles allExceptSelf={allExceptSelf} userInfo={user} /> */}
+      <UserFriends userFriends={userFriendArr} />
+      <IndividualInfo userInfo={userInfo} />
     </div>
   );
 };

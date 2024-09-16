@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   CircularProgress,
   InputLabel,
@@ -9,8 +10,9 @@ import {
 import {
   getSpecificProfile,
   getSpecificProfileCategoryReps,
+  addFriend,
+  removeFriend,
 } from "../Services/profileService";
-import { useParams } from "react-router-dom";
 import ExternalUserEntries from "../Components/ExternalUserEntries";
 
 const reps = [1, 2, 3, 4, 5, 10];
@@ -28,6 +30,22 @@ const ExternalUser = (props) => {
 
   const handleRepChange = (event) => {
     setRepChoice(event.target.value);
+  };
+
+  const addAsFriend = async (id) => {
+    try {
+      await addFriend(id);
+    } catch (error) {
+      console.error("Error adding friend:", error);
+    }
+  };
+
+  const unfriend = async (id) => {
+    try {
+      await removeFriend(id);
+    } catch (error) {
+      console.error("Error removing friend:", error);
+    }
   };
 
   useEffect(() => {
@@ -75,6 +93,15 @@ const ExternalUser = (props) => {
 
   return (
     <div>
+      {/* <div>
+        {isFriend(id)  ? (
+          <button onClick={() => unfriend(id)}>Remove Friend</button>
+        ) : (
+          <button onClick={() => addAsFriend(id)}>Add Friend</button>
+        )}
+      </div> */}
+      {/* <button onClick={() => unfriend(id)}>Remove Friend</button>
+      <button onClick={() => addAsFriend(id)}>Add Friend</button> */}
       <h1>Lifts for: </h1>
       <div>
         {user.firstName} {user.lastName}
@@ -90,7 +117,9 @@ const ExternalUser = (props) => {
             label="Lift"
           >
             {props.categoryList.map((elem) => (
-              <MenuItem value={elem._id}>{elem.name}</MenuItem>
+              <MenuItem key={elem._id} value={elem._id}>
+                {elem.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -106,7 +135,7 @@ const ExternalUser = (props) => {
           label="Lift"
         >
           {reps.map((elem) => (
-            <MenuItem value={elem}>{elem}</MenuItem>
+            <MenuItem key={elem} value={elem}>{elem}</MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -120,7 +149,7 @@ const ExternalUser = (props) => {
               <p>No Entries Recorded</p>
             ) : (
               <div>
-                <ExternalUserEntries entries={entries}/>
+                <ExternalUserEntries entries={entries} />
               </div>
             )}
           </div>

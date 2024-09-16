@@ -12,7 +12,7 @@ const show = async () => {
   };
 
   try {
-    const res = await fetch(`${BASE_URL}/self`, requestOptions); 
+    const res = await fetch(`${BASE_URL}/myself`, requestOptions); 
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -143,7 +143,6 @@ async function getSpecificProfileCategoryReps(userId, categoryId, filterNum) {
 
   try {
     const res = await fetch(`http://localhost:4000/profile/entry-by-category/${userId}/${categoryId}/${filterNum}`, requestOptions);
-    console.log(res)
     return await res.json();
   } catch (error) {
     console.log(error);

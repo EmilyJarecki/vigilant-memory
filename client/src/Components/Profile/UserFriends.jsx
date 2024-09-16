@@ -1,41 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { removeFriend } from "../../Services/profileService";
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  Avatar,
+} from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const UserFriends = ({ userFriends }) => {
-  console.log(userFriends)
-  const [friends, setFriends] = useState(userFriends);
+  console.log(userFriends);
+  const [open, setOpen] = useState(true);
 
-  useEffect(() => {}, [userFriends]);
-
-  const unfriend = async (id) => {
-    try {
-      const response = await removeFriend(id);
-      if (response?.success) {
-        // Remove the friend from the list if successfully removed
-        setFriends((prevFriends) =>
-          prevFriends.filter((friend) => friend._id !== id)
-        );
-      }
-    } catch (error) {
-      console.error("Error removing friend:", error);
-    }
+  const handleClick = () => {
+    setOpen(!open);
   };
 
   return (
     <div>
-      <h1>Friends</h1>
-      <div>
-        {userFriends?.length > 0 ? (
-          userFriends.map((friend) => (
-            <div key={friend._id}>
-              <p>{friend.firstName}</p>
-              {/* <button onClick={() => unfriend(friend._id)}>Unfriend</button> */}
-            </div>
-          ))
-        ) : (
-          <p>No friends to display.</p>
-        )}
-      </div>
+      {userFriends?.length > 0 ? (
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+        >
+          <ListItemButton onClick={handleClick}>
+            <ListItemText primary="Friends" />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {userFriends.map((elem) => (
+                <div key={elem._id}>
+                  <Link to={`/external-user/${elem._id}`}>
+                    <ListItemButton key={elem._id} sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
+                      </ListItemIcon>
+                      <ListItemText primary={elem.firstName} />
+                    </ListItemButton>
+                  </Link>
+                </div>
+              ))}
+            </List>
+          </Collapse>
+        </List>
+      ) : (
+        <p>No friends to display.</p>
+      )}
     </div>
   );
 };

@@ -62,10 +62,10 @@ const Main = () => {
         <Route
           path="/profile"
           element={
-            <ProfilePage userInfo={userProfile.user} allExceptSelf={allExceptSelf} />
+            <ProfilePage userInfo={userProfile?.user} allExceptSelf={allExceptSelf} />
           }
         />
-        <Route path="/external-user/:id" element={<ExternalUser categoryList={categories} />} />
+        <Route path="/external-user/:id" element={<ExternalUser categoryList={categories} userInfo={userProfile?.user}/>} />
       </Routes>
     </main>
   );
