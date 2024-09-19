@@ -14,6 +14,7 @@ import {
   removeFriend,
 } from "../Services/profileService";
 import ExternalUserEntries from "../Components/ExternalUserEntries";
+import ExternalUserFriendshipCheck from "../Components/ExternalUserFriendshipCheck";
 
 const reps = [1, 2, 3, 4, 5, 10];
 
@@ -23,6 +24,7 @@ const ExternalUser = (props) => {
   const [entries, setEntries] = useState([]);
   const [categoryChoice, setCategoryChoice] = useState("");
   const [repChoice, setRepChoice] = useState("");
+  const [userFriendArr, setFriends] = useState([]);
 
   const handleChange = (event) => {
     setCategoryChoice(event.target.value);
@@ -30,6 +32,10 @@ const ExternalUser = (props) => {
 
   const handleRepChange = (event) => {
     setRepChoice(event.target.value);
+  };
+
+  const isFriend = (id) => {
+    return userFriendArr.some((friend) => friend._id === id);
   };
 
   const addAsFriend = async (id) => {
@@ -91,17 +97,12 @@ const ExternalUser = (props) => {
       getEntrySpecifics(id, categoryChoice, repChoice);
   }, [id, categoryChoice, repChoice]);
 
+  console.log(props.userInfo)
   return (
     <div>
-      {/* <div>
-        {isFriend(id)  ? (
-          <button onClick={() => unfriend(id)}>Remove Friend</button>
-        ) : (
-          <button onClick={() => addAsFriend(id)}>Add Friend</button>
-        )}
-      </div> */}
-      {/* <button onClick={() => unfriend(id)}>Remove Friend</button>
-      <button onClick={() => addAsFriend(id)}>Add Friend</button> */}
+      <div>
+        <ExternalUserFriendshipCheck id={id} userInfo={props?.userInfo}/>
+      </div>
       <h1>Lifts for: </h1>
       <div>
         {user.firstName} {user.lastName}

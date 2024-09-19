@@ -4,6 +4,9 @@ import * as profileService from "../Services/profileService";
 import { CircularProgress } from "@mui/material";
 import UserFriends from "../Components/Profile/UserFriends";
 import IndividualInfo from "../Components/Profile/IndividualInfo";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import {
   List,
   ListItemButton,
@@ -15,8 +18,9 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-// this page always needs to refresh in order to see the new user which is PROBLEMATIC 
+// this page always needs to refresh in order to see the new user which is PROBLEMATIC
 const ProfilePage = (props) => {
+  console.log(props)
   const { userInfo } = props;
   const [userFriendArr, setFriends] = useState([]);
   const [user, setUser] = useState(authService.getUser());
@@ -83,11 +87,11 @@ const ProfilePage = (props) => {
           <ListItemText primary="All Profiles" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={!open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {props.allExceptSelf.map((elem) => (
-              <div key={elem._id}>
-                <Link to={`/external-user/${elem._id}`}>
+              <div key={elem._id} className="flex">
+                <Link to={`/external-user/${elem._id}`} className="flex">
                   <ListItemButton key={elem._id} sx={{ pl: 4 }}>
                     <ListItemIcon>
                       <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
@@ -97,11 +101,11 @@ const ProfilePage = (props) => {
                 </Link>
                 {isFriend(elem._id) ? (
                   <button onClick={() => unfriend(elem._id)}>
-                    Remove Friend
-                  </button>
+                    Remove   <RemoveCircleOutlineIcon />
+                  </button>               
                 ) : (
                   <button onClick={() => addAsFriend(elem._id)}>
-                    Add Friend
+                    Add  <AddCircleOutlineIcon /> 
                   </button>
                 )}
               </div>
