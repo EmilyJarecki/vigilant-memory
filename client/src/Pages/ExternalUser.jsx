@@ -5,7 +5,7 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  Select,
+  Select
 } from "@mui/material";
 import {
   getSpecificProfile,

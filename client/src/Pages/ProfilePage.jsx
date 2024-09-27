@@ -14,6 +14,7 @@ import {
   ListItemText,
   Collapse,
   Avatar,
+  Paper,
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -75,61 +76,57 @@ const ProfilePage = (props) => {
     }
   };
 
-  if (!props.allExceptSelf) {
-    return (
-      <div>
-        Nobody here
-        <CircularProgress color="secondary" />
-      </div>
-    );
-  }
-
   const isFriend = (id) => {
     return userFriendArr.some((friend) => friend._id === id);
   };
 
   return (
-    <div>
-      <h1>Hello from Profile Page</h1>
-      {userProfile?.username}
-      <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-      >
-        <ListItemButton onClick={handleClick}>
-          <ListItemText primary="All Profiles" />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={!open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {props.allExceptSelf.map((elem) => (
-              <div key={elem._id} className="flex">
-                <Link to={`/external-user/${elem._id}`} className="flex">
-                  <ListItemButton key={elem._id} sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
-                    </ListItemIcon>
-                    <ListItemText primary={elem.firstName} />
-                  </ListItemButton>
-                </Link>
-                {isFriend(elem._id) ? (
-                  <button onClick={() => unfriend(elem._id)}>
-                    Remove <RemoveCircleOutlineIcon />
-                  </button>
-                ) : (
-                  <button onClick={() => addAsFriend(elem._id)}>
-                    Add <AddCircleOutlineIcon />
-                  </button>
-                )}
-              </div>
-            ))}
-          </List>
-        </Collapse>
-      </List>
-      {/* Add your components here */}
+    <div class="flex justify-center flex-wrap">
+      <IndividualInfo userInfo={userProfile} />
+
+      <div class="m-8">
+      <Paper className="w-[336px] mb-8" variant="elevation">
       <UserFriends userFriends={userFriendArr} />
-      {/* <IndividualInfo userInfo={userInfo} /> */}
+      </Paper>
+
+        <Paper className="w-[336px]" variant="elevation">
+          <List
+            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+          >
+            <ListItemButton onClick={handleClick}>
+              <ListItemText primary="All Profiles" />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={!open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {props?.allExceptSelf.map((elem) => (
+                  <div key={elem._id} className="flex">
+                    <Link to={`/external-user/${elem._id}`} className="flex">
+                      <ListItemButton key={elem._id} sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <Avatar>{elem.firstName.slice(0, 1)} </Avatar>
+                        </ListItemIcon>
+                        <ListItemText primary={elem.firstName} />
+                      </ListItemButton>
+                    </Link>
+                    {isFriend(elem._id) ? (
+                      <button onClick={() => unfriend(elem._id)}>
+                        Remove <RemoveCircleOutlineIcon />
+                      </button>
+                    ) : (
+                      <button onClick={() => addAsFriend(elem._id)}>
+                        Add <AddCircleOutlineIcon />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </List>
+            </Collapse>
+          </List>
+        </Paper>
+      </div>
     </div>
   );
 };
