@@ -149,7 +149,7 @@ const ExternalUser = (props) => {
               <p>No Entries Recorded</p>
             ) : (
               <div>
-                <ExternalUserEntries entries={entries} />
+                <ExternalUserEntries entries={entries} categoryChoice={categoryChoice} repChoice={repChoice} />
               </div>
             )}
           </div>

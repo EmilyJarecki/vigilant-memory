@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { giveEntryLike, removeEntryLike } from "../Services/entryService";
+import SpareTable from "./SpareTable";
 
-const ExternalUserEntries = ({ entries: initialEntries }) => {
+const ExternalUserEntries = ({ entries: initialEntries, categoryChoice, repChoice }) => {
   const [entries, setEntries] = useState(initialEntries);
-
+console.log("choice", categoryChoice)
+console.log("repChoice", repChoice)
+console.log("hello world")
   // Function to handle liking an entry
   const giveLike = async (id) => {
     try {
@@ -38,9 +41,7 @@ const ExternalUserEntries = ({ entries: initialEntries }) => {
   // Show loading spinner if entries are not yet loaded
   if (!entries) {
     return (
-      <div>
-        <CircularProgress color="secondary" />
-      </div>
+      <h1>No Entries</h1>
     );
   }
 
@@ -55,6 +56,7 @@ const ExternalUserEntries = ({ entries: initialEntries }) => {
           <button onClick={() => removeLike(ent._id)}>Unlike</button>
         </div>
       ))}
+      <SpareTable entries={entries} chosenRep={repChoice}/>
     </div>
   );
 };

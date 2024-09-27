@@ -14,7 +14,7 @@ import Pr from "./Pr";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { Fab } from "@mui/material";
-
+import SpareTable from "../SpareTable";
 const repOptions = [1, 2, 3, 4, 5, 10];
 
 const LiftByReps = (props) => {
@@ -23,15 +23,6 @@ const LiftByReps = (props) => {
   const [filteredEntries, setFilteredEntries] = useState([]);
   const [isLineSwitchChecked, setIsLineSwitchChecked] = useState(true); // State for Switch
   const [isTableSwitchChecked, setIsTableSwitchChecked] = useState(true); // State for Switch
-
-  filteredEntries.sort((a, b) => {
-    // Convert the date strings to Date objects
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-
-    // Compare the Date objects
-    return dateA - dateB;
-  });
 
   const handleLineSwitchChange = (event) => {
     setIsLineSwitchChecked(event.target.checked);
@@ -55,6 +46,7 @@ const LiftByReps = (props) => {
     filterReps();
   }, [categoryId, chosenRep]);
 
+  // finding pr
   let maxObj;
   let maxWeight = 0;
 
@@ -141,10 +133,9 @@ const LiftByReps = (props) => {
             <div className="w-[500px]">
               {/* SHOWING TABLE */}
               {isTableSwitchChecked && filteredEntries.length > 0 && (
-                <CatEntries
-                  organizedEntries={filteredEntries}
-                  chosenRep={chosenRep}
-                />
+                <div>
+                  <SpareTable entries={filteredEntries} chosenRep={chosenRep} />
+                </div>
               )}
             </div>
             {/* SHOWING LINE GRAPH */}
