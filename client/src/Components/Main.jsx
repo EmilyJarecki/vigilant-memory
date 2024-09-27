@@ -30,6 +30,7 @@ const Main = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        console.log(user)
         const profileData = await profileService.show(user);
         console.log(profileData)
         setUserProfile(profileData.user);
@@ -52,7 +53,6 @@ const Main = () => {
     fetchAllExceptSelf();
   }, [user]);
 
-  console.log(userProfile)
   return (
     <main className="">
       <Routes>
@@ -64,7 +64,7 @@ const Main = () => {
         <Route
           path="/profile"
           element={
-            <ProfilePage userInfo={userProfile} allExceptSelf={allExceptSelf} />
+            <ProfilePage allExceptSelf={allExceptSelf} />
           }
         />
         <Route path="/external-user/:id" element={<ExternalUser categoryList={categories} userInfo={userProfile}/>} />

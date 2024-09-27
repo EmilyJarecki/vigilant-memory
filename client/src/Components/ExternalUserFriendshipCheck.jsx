@@ -5,10 +5,7 @@ import * as profileService from "../Services/profileService";
 
 // nothing is working here
 const ExternalUserFriendshipCheck = ({ id, userInfo }) => {
-  console.log("id", id);
-  console.log("user", userInfo)
   const [userFriends, setFriends] = useState(userInfo.friends);
-console.log(userFriends)
   // friending
   const addAsFriend = async (id) => {
     try {

@@ -6,7 +6,7 @@ import UserFriends from "../Components/Profile/UserFriends";
 import IndividualInfo from "../Components/Profile/IndividualInfo";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import {
   List,
   ListItemButton,
@@ -20,11 +20,10 @@ import { Link } from "react-router-dom";
 
 // this page always needs to refresh in order to see the new user which is PROBLEMATIC
 const ProfilePage = (props) => {
-  console.log(props)
-  const { userInfo } = props;
   const [userFriendArr, setFriends] = useState([]);
   const [user, setUser] = useState(authService.getUser());
   const [open, setOpen] = useState(true);
+  const [userProfile, setUserProfile] = useState(profileService.show());
 
   const handleClick = () => {
     setOpen(!open);
@@ -40,8 +39,21 @@ const ProfilePage = (props) => {
       }
     };
     fetchUserFriends();
+
+    const fetchProfile = async () => {
+      try {
+        console.log(user);
+        const profileData = await profileService.show(user);
+        console.log(profileData);
+        setUserProfile(profileData.user);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProfile();
   }, [user]);
 
+  console.log(userProfile);
   // friending
   const addAsFriend = async (id) => {
     try {
@@ -66,6 +78,7 @@ const ProfilePage = (props) => {
   if (!props.allExceptSelf) {
     return (
       <div>
+        Nobody here
         <CircularProgress color="secondary" />
       </div>
     );
@@ -78,6 +91,7 @@ const ProfilePage = (props) => {
   return (
     <div>
       <h1>Hello from Profile Page</h1>
+      {userProfile?.username}
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         component="nav"
@@ -101,11 +115,11 @@ const ProfilePage = (props) => {
                 </Link>
                 {isFriend(elem._id) ? (
                   <button onClick={() => unfriend(elem._id)}>
-                    Remove   <RemoveCircleOutlineIcon />
-                  </button>               
+                    Remove <RemoveCircleOutlineIcon />
+                  </button>
                 ) : (
                   <button onClick={() => addAsFriend(elem._id)}>
-                    Add  <AddCircleOutlineIcon /> 
+                    Add <AddCircleOutlineIcon />
                   </button>
                 )}
               </div>
@@ -115,7 +129,7 @@ const ProfilePage = (props) => {
       </List>
       {/* Add your components here */}
       <UserFriends userFriends={userFriendArr} />
-      <IndividualInfo userInfo={userInfo} />
+      {/* <IndividualInfo userInfo={userInfo} /> */}
     </div>
   );
 };

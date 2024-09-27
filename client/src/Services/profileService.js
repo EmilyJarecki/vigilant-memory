@@ -12,7 +12,8 @@ const show = async () => {
   };
 
   try {
-    const res = await fetch(`${BASE_URL}/myself`, requestOptions); 
+    const res = await fetch(`${BASE_URL}/self`, requestOptions); 
+    console.log(res)
     return await res.json();
   } catch (error) {
     console.log(error);

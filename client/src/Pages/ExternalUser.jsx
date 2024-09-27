@@ -97,7 +97,6 @@ const ExternalUser = (props) => {
       getEntrySpecifics(id, categoryChoice, repChoice);
   }, [id, categoryChoice, repChoice]);
 
-  console.log(props.userInfo)
   return (
     <div>
       <div>
