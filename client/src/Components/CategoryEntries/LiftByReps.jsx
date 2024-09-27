@@ -24,8 +24,6 @@ const LiftByReps = (props) => {
   const [isLineSwitchChecked, setIsLineSwitchChecked] = useState(true); // State for Switch
   const [isTableSwitchChecked, setIsTableSwitchChecked] = useState(true); // State for Switch
 
-  console.log("filtered Entries: ", filteredEntries);
-
   filteredEntries.sort((a, b) => {
     // Convert the date strings to Date objects
     const dateA = new Date(a.date);
@@ -78,7 +76,20 @@ const LiftByReps = (props) => {
             <p className="mb-2">Choose Reps</p>
             <ButtonGroup variant="contained" aria-label="Basic button group">
               {repOptions.map((repOpt) => (
-                <Button onClick={() => setChosenRep(repOpt)}>{repOpt}</Button>
+                <Button
+                  key={repOpt}
+                  onClick={() => setChosenRep(repOpt)}
+                  sx={{
+                    backgroundColor: chosenRep === repOpt ? "primary" : "white",
+                    color: chosenRep === repOpt ? "white" : "black",
+                    "&:hover": {
+                      backgroundColor:
+                        chosenRep === repOpt ? "primary" : "lightgray",
+                    },
+                  }}
+                >
+                  {repOpt}
+                </Button>
               ))}
             </ButtonGroup>
           </div>
@@ -112,11 +123,9 @@ const LiftByReps = (props) => {
 
         {/* PR */}
         <div>
-          <div>
-            {filteredEntries.length > 0 && <Pr maxObj={maxObj} />}
-          </div>
+          <div>{filteredEntries.length > 0 && <Pr maxObj={maxObj} />}</div>
           <div className="mt-4">
-            <Link to={"/create-entry/" + categoryId} class="">
+            <Link to={"/create-entry/" + categoryId} className="">
               <Fab variant="extended" size="medium" color="primary">
                 <AddIcon sx={{ mr: 1 }} />
                 Add Entry

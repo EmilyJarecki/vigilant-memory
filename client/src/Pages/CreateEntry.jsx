@@ -26,15 +26,15 @@ const CreateEntry = () => {
   }
 
   return (
-    <div class="mt-8">
+    <div className="mt-8">
       <Link to={`/entry/${id}`}>
         <Fab variant="extended" size="medium">
           <ArrowBackIcon sx={{ mr: 1 }} />
           Back
         </Fab>
       </Link>
-      <h1 class="text-xl font-bold mb-4 update-title-min">Create Entry for </h1>
-      <p class="update-title">{title.name}</p>
+      <h1 className="text-xl font-bold mb-4 update-title-min">Create Entry for </h1>
+      <p className="update-title">{title.name}</p>
       <CreateEntryForm categoryId={`${id}`} />
     </div>
   );

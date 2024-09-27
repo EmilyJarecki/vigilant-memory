@@ -100,4 +100,42 @@ const getIndividualEntryById = async (id) => {
       console.error(error);
     }
   }
-export { getIndividualEntryById, createEntry, updateEntry, deleteEntry, entriesByCategory };
+
+  const giveEntryLike = async (id) => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(`http://localhost:4000/entry/like/${id}`, requestOptions);
+       console.log(response)
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const removeEntryLike = async (id) => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(`http://localhost:4000/entry/unlike/${id}`, requestOptions);
+       console.log(response)
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+export { getIndividualEntryById, createEntry, updateEntry, deleteEntry, entriesByCategory, giveEntryLike, removeEntryLike };

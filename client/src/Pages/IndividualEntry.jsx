@@ -78,11 +78,11 @@ const IndividualEntry = () => {
   }
 
   const form = (
-    <div>{propsObj != undefined ? <UpdateForm {...propsObj} /> : null}</div>
+    <div>{propsObj !== undefined ? <UpdateForm {...propsObj} /> : null}</div>
   );
   return (
     <div>
-      <h1 class="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
+      <h1 className="text-3xl font-black p-4 uppercase font-bold text-[#3f1abb] tracking-[5px]">
         {entryTitle?.name}
       </h1>
         <SingleEntry individualLift={individualLift} />

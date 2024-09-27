@@ -4,5 +4,9 @@ function getUser() {
     return tokenService.getUserFromToken()
   }
 
+  function logout() {
+    tokenService.removeToken()
+  }
 
-export {getUser }
+
+export {getUser, logout }

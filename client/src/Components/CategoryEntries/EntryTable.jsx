@@ -41,6 +41,9 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
     setCurrentRowId(null);
   };
 
+    // Reverse the organizedEntries array
+    const reversedEntries = [...organizedEntries].reverse();
+
   const open = Boolean(anchorEl);
   const id = open ? 'long-menu' : undefined;
 
@@ -58,7 +61,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
   }, [organizedEntries, chosenRep]);
 
   return (
-    <div class="mt-4">
+    <div className="mt-4">
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -71,7 +74,7 @@ const CatEntries = ({ organizedEntries, chosenRep }) => {
           </TableHead>
 
           <TableBody>
-            {organizedEntries.map((row, index) => (
+            {reversedEntries.map((row, index) => (
               <React.Fragment key={row._id}>
                 <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                   <TableCell>

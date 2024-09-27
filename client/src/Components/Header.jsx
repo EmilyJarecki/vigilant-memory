@@ -17,8 +17,7 @@ const Header = () => {
     <div>
       {token ? (
         <nav
-          className="navigation"
-          class="navbar bg-dark border-bottom border-body ps-4 pe-4"
+          className="navigation navbar bg-dark border-bottom border-body ps-4 pe-4"
           data-bs-theme="dark"
         >
           <div className="">
@@ -40,8 +39,7 @@ const Header = () => {
         </nav>
       ) : (
         <nav
-          className="navigation"
-          class="navbar bg-dark border-bottom border-body p-4"
+          className="navigation navbar bg-dark border-bottom border-body p-4"
           data-bs-theme="dark"
         >
           <h1 className="text-white text-decoration-none">SugarLift</h1>

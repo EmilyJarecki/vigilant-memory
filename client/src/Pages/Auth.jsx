@@ -1,13 +1,22 @@
 import React, { useContext, useState } from "react";
-import {setUserToken, clearUserToken } from "../utils/authToken";
+import { setUserToken, clearUserToken } from "../utils/authToken";
 import { UserContext } from "../data";
 import RegisterForm from "../Components/Auth/RegisterForm";
 import LoginForm from "../Components/Auth/LoginForm";
-import {Accordion, AccordionSummary, AccordionDetails, Typography} from "@mui/material";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { getUserToken } from "../utils/authToken";
+import { Link } from "react-router-dom";
+
 
 const Auth = () => {
   const { setAuth, setUser } = useContext(UserContext);
+  const token = getUserToken();
 
   // import the pieces of context we want
   // invoke useContext hook and provide a context object as an argument
@@ -77,33 +86,46 @@ const Auth = () => {
   };
 
   return (
-    <div class="flex justify-center bg-gray-200 min-h-screen">
-      <div class="flex flex-col w-[50%] pt-20">
-        <Accordion defaultExpanded>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Typography>Login</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <LoginForm signIn={loginUser} />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-          >
-            <Typography>Create an Account</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <RegisterForm signUp={registerUser} />
-          </AccordionDetails>
-        </Accordion>
-      </div>
+    <div>
+      {!token ? (
+        <div className="flex justify-center bg-gray-200 min-h-screen">
+          <div className="flex flex-col w-[50%] pt-20">
+            <Accordion defaultExpanded>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                <Typography>Login</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <LoginForm signIn={loginUser} />
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2-content"
+                id="panel2-header"
+              >
+                <Typography>Create an Account</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <RegisterForm signUp={registerUser} />
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </div>
+      ) : (
+        <div>
+        <Link
+              to="/dashboard"
+              className=""
+            >
+              Go to Dashboard
+            </Link>
+        </div>
+      )}
     </div>
   );
 };
