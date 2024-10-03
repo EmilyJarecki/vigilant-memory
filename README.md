@@ -42,6 +42,49 @@ Sugarlifts is designated for independent weightlifters where they can record the
             <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
 </div>
 
+## Installation Steps: 
+<ol>
+<li>For and clone this repository.
+
+
+
+```
+cd vigilant-memory
+code . (to open in your preferred code editor)
+```
+
+
+
+
+</li>
+<li>In your terminal, 
+</li>
+
+
+```
+$ cd client
+$ npm install (to install client-side dependencies)
+$ npm start (to start the client)
+```
+
+
+
+<li>
+In a new terminal, 
+</li>
+
+```
+$ cd server
+$ npm install (to install server-side dependencies)
+$ npm i nodemon
+$ nodemon app.js
+```
+
+
+
+
+</ol>
+
 ### Future Enhancements
 - [ ] Modularize OAuth to reduce API calls and improve website performance 
 - [ ] Optimize UX by having API load specific part of UI rather than on refresh
