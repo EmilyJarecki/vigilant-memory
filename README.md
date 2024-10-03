@@ -45,3 +45,4 @@ Sugarlifts is designated for independent weightlifters where they can record the
 ### Future Enhancements
 - [ ] Modularize OAuth to reduce API calls and improve website performance 
 - [ ] Optimize UX by having API load specific part of UI rather than on refresh
+- [ ] Use Tailwind's classnames to reduce repetition
