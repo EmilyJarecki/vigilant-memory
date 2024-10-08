@@ -5,7 +5,8 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  Select
+  Select,
+  Paper,
 } from "@mui/material";
 import {
   getSpecificProfile,
@@ -34,26 +35,6 @@ const ExternalUser = (props) => {
     setRepChoice(event.target.value);
   };
 
-  const isFriend = (id) => {
-    return userFriendArr.some((friend) => friend._id === id);
-  };
-
-  const addAsFriend = async (id) => {
-    try {
-      await addFriend(id);
-    } catch (error) {
-      console.error("Error adding friend:", error);
-    }
-  };
-
-  const unfriend = async (id) => {
-    try {
-      await removeFriend(id);
-    } catch (error) {
-      console.error("Error removing friend:", error);
-    }
-  };
-
   useEffect(() => {
     function loading() {
       if (!props.categoryList) {
@@ -65,7 +46,7 @@ const ExternalUser = (props) => {
       }
     }
     loading();
-  }, [props.maxObj]);
+  }, [props.maxObj, props.userInfo]);
 
   useEffect(() => {
     const getExternalUser = async () => {
@@ -99,13 +80,21 @@ const ExternalUser = (props) => {
 
   return (
     <div>
-      <div>
-        <ExternalUserFriendshipCheck id={id} userInfo={props?.userInfo}/>
+      <div className="m-8 flex justify-center">
+        <Paper className="w-[336px] p-8" variant="elevation">
+          <div class="text-start">
+            <div class="flex justify-between">
+              <h1 class="font-bold">Profile</h1>
+              <ExternalUserFriendshipCheck id={id} userInfo={props.userInfo} />
+            </div>
+            <p class="pb-4 pt-4 flex justify-between">
+              {" "}
+              {user.firstName} {user.lastName}
+            </p>
+          </div>
+        </Paper>
       </div>
-      <h1>Lifts for: </h1>
-      <div>
-        {user.firstName} {user.lastName}
-      </div>
+
       <div>
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
           <InputLabel id="demo-simple-select-standard-label">Lift</InputLabel>
@@ -135,7 +124,9 @@ const ExternalUser = (props) => {
           label="Lift"
         >
           {reps.map((elem) => (
-            <MenuItem key={elem} value={elem}>{elem}</MenuItem>
+            <MenuItem key={elem} value={elem}>
+              {elem}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -149,7 +140,11 @@ const ExternalUser = (props) => {
               <p>No Entries Recorded</p>
             ) : (
               <div>
-                <ExternalUserEntries entries={entries} categoryChoice={categoryChoice} repChoice={repChoice} />
+                <ExternalUserEntries
+                  entries={entries}
+                  categoryChoice={categoryChoice}
+                  repChoice={repChoice}
+                />
               </div>
             )}
           </div>

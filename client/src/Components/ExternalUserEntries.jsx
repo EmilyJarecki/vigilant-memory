@@ -5,7 +5,6 @@ import SpareTable from "./SpareTable";
 import * as authService from "../Services/authService";
 
 const ExternalUserEntries = ({ entries: initialEntries, categoryChoice, repChoice }) => {
-  const externalUser = true
   const [entries, setEntries] = useState(initialEntries);
 console.log("Entries: ", entries)
   

@@ -47,6 +47,8 @@ const ProfilePage = (props) => {
         const profileData = await profileService.show(user);
         console.log(profileData);
         setUserProfile(profileData.user);
+        console.log("userPrfoile", userProfile)
+      console.log(userProfile)
       } catch (error) {
         console.error(error);
       }
@@ -101,7 +103,7 @@ const ProfilePage = (props) => {
             </ListItemButton>
             <Collapse in={!open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {props?.allExceptSelf?.map((elem) => (
+                {props.allExceptSelf.map((elem) => (
                   <div key={elem._id} className="flex">
                     <Link to={`/external-user/${elem._id}`} className="flex">
                       <ListItemButton key={elem._id} sx={{ pl: 4 }}>
