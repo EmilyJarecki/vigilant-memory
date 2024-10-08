@@ -113,8 +113,11 @@ const getIndividualEntryById = async (id) => {
 
     try {
       const response = await fetch(`http://localhost:4000/entry/like/${id}`, requestOptions);
+      console.log("give entry like")
        console.log(response)
-      return await response.json();
+       const liked = await response.json();
+       console.log("liked entry: ", liked)
+      return liked
     } catch (error) {
       console.error(error);
     }
@@ -132,8 +135,11 @@ const getIndividualEntryById = async (id) => {
 
     try {
       const response = await fetch(`http://localhost:4000/entry/unlike/${id}`, requestOptions);
+      console.log("remove entry like")
        console.log(response)
-      return await response.json();
+       const removed = await response.json();
+       console.log("unliked entry: ", removed)
+      return removed
     } catch (error) {
       console.error(error);
     }

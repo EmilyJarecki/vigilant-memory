@@ -1,22 +1,36 @@
 import React, { useState } from "react";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Paper } from "@mui/material";
 import { giveEntryLike, removeEntryLike } from "../Services/entryService";
 import SpareTable from "./SpareTable";
+import * as authService from "../Services/authService";
 
 const ExternalUserEntries = ({ entries: initialEntries, categoryChoice, repChoice }) => {
+  const externalUser = true
   const [entries, setEntries] = useState(initialEntries);
-console.log("choice", categoryChoice)
-console.log("repChoice", repChoice)
-console.log("hello world")
+console.log("Entries: ", entries)
+  
+  const [user, setUser] = useState(authService.getUser());
+console.log("USER: ", user)
+
   // Function to handle liking an entry
   const giveLike = async (id) => {
     try {
+      // Get the current entry based on the id
+      const entry = entries.find((ent) => ent._id === id);
+  
+      // Check if the user has already liked the entry
+      const userId = "newLikeUserId"; // Replace this with the actual user ID
+      if (entry.likes.includes(userId)) {
+        console.log("User has already liked this entry");
+        return; // Exit the function if the user has already liked it
+      }
+  
       // Call the service to like the entry
       await giveEntryLike(id);
-
-      // Update the entries state to reflect the like
+  
+      // Update the entries state to reflect the new like
       setEntries(entries.map((ent) =>
-        ent._id === id ? { ...ent, likes: [...ent.likes, "newLikeUserId"] } : ent
+        ent._id === id ? { ...ent, likes: [...ent.likes, userId] } : ent
       ));
     } catch (error) {
       console.error(error);
@@ -47,6 +61,8 @@ console.log("hello world")
 
   return (
     <div>
+      
+
       {entries.map((ent) => (
         <div key={ent._id} className="border-2 w-[100px]">
           <p>Date: {ent.date}</p>

@@ -101,7 +101,7 @@ const ProfilePage = (props) => {
             </ListItemButton>
             <Collapse in={!open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {props?.allExceptSelf.map((elem) => (
+                {props?.allExceptSelf?.map((elem) => (
                   <div key={elem._id} className="flex">
                     <Link to={`/external-user/${elem._id}`} className="flex">
                       <ListItemButton key={elem._id} sx={{ pl: 4 }}>
