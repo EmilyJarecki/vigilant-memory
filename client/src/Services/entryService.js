@@ -113,8 +113,11 @@ const getIndividualEntryById = async (id) => {
 
     try {
       const response = await fetch(`http://localhost:4000/entry/like/${id}`, requestOptions);
+      console.log("give entry like")
        console.log(response)
-      return await response.json();
+       const liked = await response.json();
+       console.log("liked entry: ", liked)
+      return liked
     } catch (error) {
       console.error(error);
     }
@@ -132,10 +135,34 @@ const getIndividualEntryById = async (id) => {
 
     try {
       const response = await fetch(`http://localhost:4000/entry/unlike/${id}`, requestOptions);
+      console.log("remove entry like")
        console.log(response)
-      return await response.json();
+       const removed = await response.json();
+       console.log("unliked entry: ", removed)
+      return removed
     } catch (error) {
       console.error(error);
     }
   }
-export { getIndividualEntryById, createEntry, updateEntry, deleteEntry, entriesByCategory, giveEntryLike, removeEntryLike };
+
+  const getCommentsForEachEntry = async (entryid) => {
+    console.log(entryid)
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(`http://localhost:4000/comment/${entryid}/all`, requestOptions);
+      const entry = await response.json();
+      console.log(entry);
+      return entry
+    } catch (error) {
+      console.error(error);
+    }
+  };
+export { getIndividualEntryById, createEntry, updateEntry, deleteEntry, entriesByCategory, giveEntryLike, removeEntryLike, getCommentsForEachEntry };
