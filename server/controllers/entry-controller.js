@@ -170,19 +170,6 @@ router.post("/unlike/:entryId", requireToken, async (req, res, next) => {
   }
 });
 
-// CSV import
-router.post('/add', async ( req, res) => {
-  csvtojson()
-    .fromFile("./uploads/sugarentry.csv")
-    .then(csvData => {
-      console.log(csvData);
-      Entry.insertMany(csvData).then(function (){
-        console.log("Data inserted")
-        res.json({success: "success"})
-      }).catch(function(error){
-        console.log(error)
-      })
-    })
-})
+
 
 module.exports = router;

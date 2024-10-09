@@ -22,7 +22,7 @@ router.post("/:entryId", requireToken, async (req, res, next) => {
     entry.comments.push(comment);
     await entry.save();
 
-    console.log(comment)
+    console.log(comment);
     return res
       .status(200)
       .json({ message: "Comment added successfully", comment });
@@ -31,7 +31,10 @@ router.post("/:entryId", requireToken, async (req, res, next) => {
   }
 });
 
-router.delete("/:entryId/:commentId/delete", requireToken, async (req, res, next) => {
+router.delete(
+  "/:entryId/:commentId/delete",
+  requireToken,
+  async (req, res, next) => {
     try {
       const entry = await Entry.findByIdAndUpdate(
         req.params.entryId,
@@ -41,9 +44,18 @@ router.delete("/:entryId/:commentId/delete", requireToken, async (req, res, next
         { new: true }
       );
       if (!entry) {
-        return res.status(400).send("entry not found");
+        return res.status(400).send("Entry not found");
       }
-      const deletedComment = await Comment.findByIdAndDelete(req.params.commentId);
+      const commentOwner = await Comment.findById(req.params.commentId);
+      if (commentOwner.user.toString() !== req.user._id.toString()) {
+        return res
+          .status(403)
+          .json({ error: "You are not authorized to delete this comment" });
+      }
+      const deletedComment = await Comment.findByIdAndDelete(
+        req.params.commentId
+      );
+      console.log("DELETED COMMENT", deletedComment)
       res.status(200).json(deletedComment);
     } catch (err) {
       res.status(400).json({ error: err.message });
@@ -53,8 +65,10 @@ router.delete("/:entryId/:commentId/delete", requireToken, async (req, res, next
 
 router.get("/:entryId/all", requireToken, async (req, res) => {
   try {
-    const entry = await Entry.findById(req.params.entryId).populate("comments").exec();
-    console.log(entry)
+    const entry = await Entry.findById(req.params.entryId)
+      .populate("comments")
+      .exec();
+    console.log(entry);
     if (!entry) {
       return res.status(404).json({ message: "Entry not found" });
     }
