@@ -9,21 +9,20 @@ router.post("/:entryId", requireToken, async (req, res, next) => {
     const comment = new Comment({
       text: req.body.text,
       user: req.user._id,
-      entry: req.params.entryId
+      entry: req.params.entryId,
     });
 
-    // Save the comment
     await comment.save();
 
-    // Add the comment to the entry
     const entry = await Entry.findById(req.params.entryId);
     if (!entry) {
       return res.status(404).json({ message: "Entry not found" });
     }
 
-    entry.comments.push(comment._id);
+    entry.comments.push(comment);
     await entry.save();
 
+    console.log(comment)
     return res
       .status(200)
       .json({ message: "Comment added successfully", comment });
@@ -32,50 +31,38 @@ router.post("/:entryId", requireToken, async (req, res, next) => {
   }
 });
 
-// cant get this to work :(
-// router.delete("/all", requireToken, async (req, res, next) => {
-//     try {
-//         handleValidateOwnership(req, await Comment.findById(req.params.id));
-//         const deletedComment = await Comment.findByIdAndDelete(req.params.id);
-//         console.log("deleted comment: ", deletedComment)
-//         res.status(200).json(deletedComment);
-//     } catch (err) {
-//       res.status(400).json({ error: err.message });
-//     }
-//   });
+router.delete("/:entryId/:commentId/delete", requireToken, async (req, res, next) => {
+    try {
+      const entry = await Entry.findByIdAndUpdate(
+        req.params.entryId,
+        {
+          $pull: { comments: req.params.commentId },
+        },
+        { new: true }
+      );
+      if (!entry) {
+        return res.status(400).send("entry not found");
+      }
+      const deletedComment = await Comment.findByIdAndDelete(req.params.commentId);
+      res.status(200).json(deletedComment);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+);
 
-router.delete("/:entryId/comments/:commentId", requireToken, async (req, res, next) => {
+router.get("/:entryId/all", requireToken, async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.commentId);
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
+    const entry = await Entry.findById(req.params.entryId).populate("comments").exec();
+    console.log(entry)
+    if (!entry) {
+      return res.status(404).json({ message: "Entry not found" });
     }
 
-    if (comment.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized to delete this comment" });
-    }
-    const deletedComment = await Comment.findByIdAndDelete(req.params.commentId);
-    console.log("deleted comment: ", comment)
-    res.status(200).json(deletedComment);
-
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(200).json({ comments: entry.comments });
+  } catch (error) {
+    return next(error);
   }
 });
-
-  router.get("/:entryId/all", requireToken, async (req, res) => {
-    try {
-      const entry = await Entry.findById(req.params.entryId).populate("comments");
-  
-      if (!entry) {
-        return res.status(404).json({ message: "Entry not found" });
-      }
-  
-      return res.status(200).json({ comments: entry.comments });
-    } catch (error) {
-      return next(error);
-    }
-  });
-
 
 module.exports = router;
